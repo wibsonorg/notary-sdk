@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "localstart": "NODE_ENV=development DEPLOY_ENVIRONMENT=local FCM_SERVER_KEY=notarealkey babel-node src/index.js",
+    "local": "NODE_ENV=development DEPLOY_ENVIRONMENT=local FCM_SERVER_KEY=notarealkey babel-node src/index.js",
     "start": "NODE_ENV=development DEPLOY_ENVIRONMENT=development babel-node src/index.js",
     "build": "babel src -d dist",
     "serve": "NODE_ENV=development DEPLOY_ENVIRONMENT=development node dist/index.js"
