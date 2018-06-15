@@ -2,12 +2,12 @@ import express from "express";
 import logger from "./logger";
 import { addInstrumentation } from "./instrumentation";
 
-import sdk from "./sdk";
+import api from "./sdk";
 
 var app = express();
 addInstrumentation(app);
 
-app.use("/sdk", sdk);
+app.use("/api", api);
 
 const httpPort = 9000;
 app.listen(httpPort, () =>
