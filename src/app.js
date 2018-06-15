@@ -1,21 +1,57 @@
 import express from "express";
-import logger from "./logger";
-import { addInstrumentation } from "./instrumentation";
+import morgan from "morgan";
+import cors from "cors";
 import bodyParser from "body-parser";
+import http from "http";
 import api from "./api";
 
 var app = express();
-addInstrumentation(app);
+
+http.globalAgent.maxSockets = 100;
+
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+
+function accessLog(err, req, res, next) {
+  const msg = req.ip + " " + req.method + " " + req.originalUrl;
+  logger.info(msg);
+  next();
+}
+
+function requestTime(err, req, res, next) {
+  var start = Date.now();
+  res.on("header", function() {
+    Date.now() - start;
+  });
+  next();
+}
+
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ error: "Internal server error!" });
+  } else {
+    next(err);
+  }
+}
+
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.send({ error: "Internal server error!" });
+}
+
+app.disable("etag");
+app.disable("x-powered-by");
+app.use(bodyParser.json());
+app.use(requestTime);
+app.use(morgan("combined"));
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+app.use(accessLog);
+app.use(cors());
 
 app.use("/api", api);
-
-const httpPort = 9000;
-app.listen(httpPort, () =>
-  logger.info(
-    `App listening on port ${httpPort} :: ` +
-      `NODE_ENV - ${process.env.NODE_ENV} :: ` +
-      `DEPLOY_ENVIRONMENT - ${process.env.DEPLOY_ENVIRONMENT}`
-  )
-);
 
 export default app;
