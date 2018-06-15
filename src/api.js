@@ -7,10 +7,12 @@ var router = express.Router();
 
 // --- ( Endpoint ) ------------------------------------------------------------
 router.get("/", async function(req, res) {
-  let resp;
-  let httpStatus = 200;
+  const resp = {
+    message: "Wibson Notary SDK Official"
+  };
 
-  res.status(httpStatus).send(resp);
+  const httpStatus = 200;
+  res.status(httpStatus).json(resp);
 });
 
 export default router;

@@ -1,8 +1,8 @@
 import express from "express";
 import logger from "./logger";
 import { addInstrumentation } from "./instrumentation";
-
-import api from "./sdk";
+import bodyParser from "body-parser";
+import api from "./api";
 
 var app = express();
 addInstrumentation(app);
@@ -18,4 +18,4 @@ app.listen(httpPort, () =>
   )
 );
 
-export { app };
+export default app;
