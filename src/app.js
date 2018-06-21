@@ -3,7 +3,10 @@ import morgan from "morgan";
 import cors from "cors";
 import bodyParser from "body-parser";
 import http from "http";
+
+// My modules
 import api from "./api";
+import key from "./key";
 
 var app = express();
 
@@ -52,6 +55,9 @@ app.use(errorHandler);
 app.use(accessLog);
 app.use(cors());
 
-app.use("/api", api);
+// Routes
+
+app.use("/sdk/api", api);
+app.use("/key/api", key);
 
 export default app;
