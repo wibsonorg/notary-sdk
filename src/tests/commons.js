@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../app";
 
-function shouldRespondWith200(uri, done) {
+function shouldRespondWithCode200(uri, done) {
   request(app)
     .get(uri)
     .set("Accept", "application/json")
@@ -15,4 +15,4 @@ function shouldRespondWithAJSON(uri, done) {
     .expect("Content-Type", /json/, done);
 }
 
-export { shouldRespondWith200, shouldRespondWithAJSON };
+export { shouldRespondWithCode200, shouldRespondWithAJSON };

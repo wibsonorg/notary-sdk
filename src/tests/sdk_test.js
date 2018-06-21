@@ -1,15 +1,23 @@
 import request from "supertest";
 import assert from "assert";
 import app from "../app";
-import { shouldRespondWith200, shouldRespondWithAJSON } from "./commons";
+import { shouldRespondWithCode200, shouldRespondWithAJSON } from "./commons";
 import Config from "../config";
 
 describe("/sdk/api", function() {
-  it("GET /sdk/api should respond with 200", function(done) {
-    shouldRespondWith200("/sdk/api", done);
-  });
+  const baseURI = "/sdk/api";
 
-  it("GET /sdk/api should respond with a JSON", function(done) {
-    shouldRespondWithAJSON("/sdk/api", done);
+  describe("#", function() {
+    it("GET / should respond with 200", function(done) {
+      shouldRespondWithCode200(baseURI, done);
+    });
+
+    it("GET / should respond with a JSON", function(done) {
+      shouldRespondWithAJSON(baseURI, done);
+    });
+
+    it("GET / should respond with the welcome text", function(done) {
+      shouldRespondWithAJSON(baseURI, done);
+    });
   });
 });

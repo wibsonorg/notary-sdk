@@ -5,8 +5,8 @@ import bodyParser from "body-parser";
 import http from "http";
 
 // My modules
-import api from "./api";
-import key from "./key";
+import api from "./sdk_api";
+import key from "./key_api";
 
 var app = express();
 
