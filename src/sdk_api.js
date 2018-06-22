@@ -5,14 +5,14 @@ import { errorResponse } from "./validations";
 
 var router = express.Router();
 
-// --- ( Endpoint ) ------------------------------------------------------------
 router.get("/", async function(req, res) {
-  const resp = {
+  res.status(200).json({
     message: "Wibson Notary SDK Official"
-  };
+  });
+});
 
-  const httpStatus = 200;
-  res.status(httpStatus).json(resp);
+router.post("/sellers/auth", async function(req, res) {
+  res.sendStatus(400);
 });
 
 export default router;
