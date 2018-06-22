@@ -21,11 +21,10 @@ describe("/sdk/api", function() {
     it("should responds with a JSON", function(done) {
       request(app)
         .get(baseURI)
-        .expect("Content-Type", /json/)
         .end(function(err, res) {
+          res.type.should.be.equal("application/json");
           done();
         });
-      //.expect("Content-Type", /json/, done);
     });
   });
 });
