@@ -49,4 +49,20 @@ describe("/sdk/buyers-api", function() {
       });
     });
   });
+
+  describe("#POST /audit-request", function() {
+    context("when the parameters are empty", function() {
+      it("should responds with status 400", function(done) {
+        request(app)
+          .post(baseURI + "/audit-request")
+          .send({})
+          .set("Accept", "application/json")
+          .end(function(err, res) {
+            if (err) return done(err);
+            res.status.should.be.equal(400);
+            done();
+          });
+      });
+    });
+  });
 });
