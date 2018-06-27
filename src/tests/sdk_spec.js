@@ -5,41 +5,40 @@ import Config from "../config";
 
 chai.should();
 
-function get(uri, end) {
-  request(app)
-    .get(uri)
-    .set("Accept", "application/json")
-    .end(end);
-}
-
-describe("/sdk/api", function() {
-  const baseURI = "/sdk/api";
+describe("/sdk/buyers-api", function() {
+  const baseURI = "/sdk/buyers-api";
 
   describe("#GET /", function() {
     it("should responds with status 200", function(done) {
-      get(baseURI, function(err, res) {
-        res.status.should.be.equal(200);
-        done();
-      });
+      request(app)
+        .get(baseURI)
+        .set("Accept", "application/json")
+        .end(function(err, res) {
+          res.status.should.be.equal(200);
+          done();
+        });
     });
 
     it("should responds with JSON", function(done) {
-      get(baseURI, function(err, res) {
-        res.type.should.be.equal("application/json");
-        done();
-      });
+      request(app)
+        .get(baseURI)
+        .set("Accept", "application/json")
+        .end(function(err, res) {
+          res.type.should.be.equal("application/json");
+          done();
+        });
     });
   });
 });
 
-describe("/sdk/api/sellers", function() {
-  const baseURI = "/sdk/api/sellers";
+describe("/sdk/buyers-api", function() {
+  const baseURI = "/sdk/buyers-api";
 
-  describe("#POST /auth", function() {
+  describe("#POST /audit-request", function() {
     context("when the parameters are empty", function() {
       it("should responds with status 400", function(done) {
         request(app)
-          .post(baseURI + "/auth")
+          .post(baseURI + "/audit-request")
           .send({})
           .set("Accept", "application/json")
           .end(function(err, res) {

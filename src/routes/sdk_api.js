@@ -5,13 +5,13 @@ import { errorResponse } from "../validations";
 
 var router = express.Router();
 
-router.get("/", async function(req, res) {
+router.get("/buyers-api/", async function(req, res) {
   res.status(200).json({
-    message: "Wibson Notary SDK Official"
+    message: "Wibson Notary SDK Official - Buyers API"
   });
 });
 
-router.post("/sellers/auth", async function(req, res) {
+router.post("/buyers-api/audit-request", async function(req, res) {
   res.sendStatus(400);
 });
 
