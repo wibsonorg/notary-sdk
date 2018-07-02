@@ -12,7 +12,7 @@ router.get("/buyers-api/", async function(req, res) {
 });
 
 router.post("/buyers-api/audit-request/:dataOrder", async function(req, res) {
-  console.log(req.params("dataOrder"));
+  console.log(req.params.dataOrder);
   res.sendStatus(400);
 });
 
