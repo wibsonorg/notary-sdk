@@ -43,6 +43,8 @@
     "chai-http": "^4.0.0",
     "eslint": "^4.16.0",
     "mocha": "^5.0.0",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^3.0.10"
   }
 }
