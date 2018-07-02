@@ -5,6 +5,14 @@ import Config from "../config";
 
 chai.should();
 
+function requestPost(uri, objectParam = {}, handler) {
+  request(app)
+    .post(uri)
+    .send(objectParam)
+    .set("Accept", "application/json")
+    .end(handler);
+}
+
 describe("/sdk/buyers-api", function() {
   const baseURI = "/sdk/buyers-api";
 
@@ -32,36 +40,33 @@ describe("/sdk/buyers-api", function() {
 });
 
 describe("/sdk/buyers-api", function() {
+  const dataOrder = "this-is-a-data-order";
   const baseURI = "/sdk/buyers-api";
+  const auditRequestUri = baseURI + "/audit-request";
+  const auditRequestUriWithDataOrder = auditRequestUri + "/:" + dataOrder;
 
-  describe("#POST /audit-request", function() {
-    context("when the parameters are empty", function() {
-      it("should responds with status 400", function(done) {
-        request(app)
-          .post(baseURI + "/audit-request")
-          .send({})
-          .set("Accept", "application/json")
-          .end(function(err, res) {
+  describe("/sdk/buyers-api/audit-request", function() {
+    describe("#POST /audit-request", function() {
+      context("when there is no dataOrder on the URI", function() {
+        it("should responds with status 404", function(done) {
+          requestPost(baseURI + "/audit-request", {}, function(err, res) {
             if (err) return done(err);
-            res.status.should.be.equal(400);
+            res.status.should.be.equal(404);
             done();
           });
+        });
       });
     });
-  });
 
-  describe("#POST /audit-request", function() {
-    context("when the parameters are empty", function() {
-      it("should responds with status 400", function(done) {
-        request(app)
-          .post(baseURI + "/audit-request")
-          .send({})
-          .set("Accept", "application/json")
-          .end(function(err, res) {
+    describe("#POST /audit-request/:aDataOrder", function() {
+      context("when the objecr params are empty", function() {
+        it("should responds with status 400", function(done) {
+          requestPost(auditRequestUriWithDataOrder, {}, function(err, res) {
             if (err) return done(err);
             res.status.should.be.equal(400);
             done();
           });
+        });
       });
     });
   });
