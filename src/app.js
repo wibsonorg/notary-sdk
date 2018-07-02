@@ -5,8 +5,7 @@ import bodyParser from "body-parser";
 import http from "http";
 
 // My modules
-import sdk from "./routes/sdk_api";
-import key from "./routes/key_api";
+import api from "./routes/api";
 
 var app = express();
 
@@ -57,8 +56,6 @@ app.use(cors());
 
 // Routes
 
-app.use("/sdk", sdk);
-
-app.use("/key/api", key);
+app.use("/sdk", api);
 
 export default app;
