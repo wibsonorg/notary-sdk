@@ -37,11 +37,8 @@ describe("/sdk/buyers-api", function() {
         });
     });
   });
-});
 
-describe("/sdk/buyers-api", function() {
   const dataOrder = "this-is-a-data-order";
-  const baseURI = "/sdk/buyers-api";
   const auditRequestUri = baseURI + "/audit-request";
   const auditRequestUriWithDataOrder = auditRequestUri + "/:" + dataOrder;
 
@@ -59,7 +56,7 @@ describe("/sdk/buyers-api", function() {
     });
 
     describe("#POST /audit-request/:aDataOrder", function() {
-      context("when the objecr params are empty", function() {
+      context("when the object params are empty", function() {
         it("should responds with status 400", function(done) {
           requestPost(auditRequestUriWithDataOrder, {}, function(err, res) {
             if (err) return done(err);
