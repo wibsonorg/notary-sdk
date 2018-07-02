@@ -11,7 +11,7 @@
     "local": "NODE_ENV=development DEPLOY_ENVIRONMENT=local FCM_SERVER_KEY=notarealkey babel-node src/index.js",
     "start": "NODE_ENV=development DEPLOY_ENVIRONMENT=development babel-node src/index.js",
     "build": "babel src -d dist",
-    "test": "NODE_ENV=test FCM_SERVER_KEY=notarealkey FCM_TESTING_TOKEN=notarealtoken node_modules/.bin/babel-node node_modules/mocha/bin/_mocha --require babel-polyfill --require babel-register --recursive src/tests/ --exit",
+    "test": "NODE_ENV=test FCM_SERVER_KEY=notarealkey FCM_TESTING_TOKEN=notarealtoken node_modules/.bin/babel-node node_modules/mocha/bin/_mocha --require babel-polyfill --require babel-register --recursive tests/ --exit",
     "serve": "NODE_ENV=development DEPLOY_ENVIRONMENT=development node dist/index.js"
   },
   "dependencies": {
