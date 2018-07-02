@@ -48,7 +48,7 @@ describe("/sdk/buyers-api", function() {
     describe("#POST /audit-request", function() {
       context("when there is no dataOrder on the URI", function() {
         it("responds with status 404", function(done) {
-          requestPost(baseURI + "/audit-request", {}, function(err, res) {
+          requestPost(auditRequestUri, {}, function(err, res) {
             if (err) return done(err);
             expect(res.status).to.be.equal(404);
             done();
@@ -57,7 +57,7 @@ describe("/sdk/buyers-api", function() {
       });
     });
 
-    describe("#POST /audit-request/:aDataOrder", function() {
+    describe("#POST /audit-request/:dataOrder", function() {
       context("when the object params is empty", function() {
         it("responds with status 400", function(done) {
           requestPost(auditRequestUriWithDataOrder, {}, function(err, res) {
