@@ -1,2 +1,2 @@
-# wibson-api
-Wibson Services
+# notwwry-sdk
+Wibson Notary SDK
