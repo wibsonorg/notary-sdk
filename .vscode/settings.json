@@ -20,7 +20,7 @@
       ]
     }
   },
-  "eslint.run": "onSave",
+  "eslint.run": "onType",
   "eslint.autoFixOnSave": true,
 
   "files.exclude": {

@@ -21,16 +21,19 @@ app.use('/health', health);
 
 const ls = dir =>
   fs.readdirSync(dir)
-    .reduce((accumulator, file) => [...accumulator, `src/routes/${file}`], []);
+    .reduce((accumulator, file) => [...accumulator, `${dir}/${file}`], []);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc({
+const swaggerSpec = swaggerJSDoc({
   swaggerDefinition: {
     info: {
-      title: 'Wibson Notary Official SDK',
+      title: 'Notary SDK',
       version: '1.0.0',
     },
   },
   apis: ls('src/routes'),
-})));
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
 
 export default app;
