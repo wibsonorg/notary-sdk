@@ -3,7 +3,9 @@
   "editor.tabCompletion": true,
   "editor.tabSize": 2,
   "editor.trimAutoWhitespace": true,
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": "on",
 
   "files.exclude": {
     "**/.DS_Store": true,

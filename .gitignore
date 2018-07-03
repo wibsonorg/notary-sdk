@@ -75,5 +75,5 @@ typings/
 # Serverless directories
 .serverless
 
-# IDEs configuratio
-.vscode/
+# IDEs configuration
+# .vscode/
