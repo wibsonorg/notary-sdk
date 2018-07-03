@@ -12,11 +12,15 @@ describe('/health', () => {
   it('GET /client_error should respond with a 400 error', (done) => {
     request(app)
       .get('/health/client_error')
-      .expect(400, {
-        statusCode: 400,
-        error: 'Bad Request',
-        message: 'this should fail',
-      }, done);
+      .expect(
+        400,
+        {
+          statusCode: 400,
+          error: 'Bad Request',
+          message: 'this should fail',
+        },
+        done,
+      );
   });
 
   it('GET /server_error should respond with a 500 error', (done) => {
