@@ -1,2 +1,2 @@
-# notary-sdk
-Wibson Notary Official SDK
+# notwwry-sdk
+Wibson Notary SDK

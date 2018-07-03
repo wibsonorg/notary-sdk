@@ -1,12 +1,7 @@
-import app from "./app";
-import logger from "./logger";
+import app from './app';
+import config from '../config';
 
-const httpPort = 9000;
+const { port, env } = config;
 
-app.listen(httpPort, () =>
-  logger.info(
-    `App listening on port ${httpPort} :: ` +
-      `NODE_ENV = ${process.env.NODE_ENV} :: ` +
-      `DEPLOY_ENVIRONMENT = ${process.env.DEPLOY_ENVIRONMENT}`
-  )
-);
+app.listen(port, () =>
+  console.log(`Wibson SDK listening on port ${port} in ${env} mode`));
