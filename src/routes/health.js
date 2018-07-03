@@ -10,7 +10,7 @@ router.get('/client_error', (req, res) => {
   res.boom.badRequest('this should fail');
 });
 
-router.get('/server_error', (req, res) => {
+router.get('/server_error', () => {
   throw new Error('this should fail');
 });
 
@@ -30,7 +30,7 @@ router.get('/async_ok', async (req, res) => {
 router.get('/async_error', async (req, res) => {
   try {
     await resolveAfter10ms(42);
-    throw new Error('this should fail');
+    throw new Error('This should fail');
   } catch (err) {
     res.status(500).end();
   }
