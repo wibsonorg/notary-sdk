@@ -1,3 +1,4 @@
 import health from './health';
+import buyers from './buyers';
 
-export { health }; // eslint-disable-line import/prefer-default-export
+export { health, buyers };
