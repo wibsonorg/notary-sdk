@@ -9,11 +9,9 @@ router.get('/', async (req, res) => {
   });
 });
 
-export default router;
-
-/*
-router.post('/buyers-api/audit-request/:dataOrder', async (req, res) => {
+router.post('/buyers/audit/:dataOrder', async (req, res) => {
   logger.log(req.params.dataOrder);
   res.sendStatus(400);
 });
-*/
+
+export default router;
