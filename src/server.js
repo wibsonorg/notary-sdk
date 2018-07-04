@@ -1,7 +1,8 @@
 import app from './app';
 import config from '../config';
+import logger from './utils/logger';
 
 const { port, env } = config;
 
 app.listen(port, () =>
-  console.log(`Wibson SDK listening on port ${port} in ${env} mode`));
+  logger.info(`Wibson API listening on port ${port} in ${env} mode`));

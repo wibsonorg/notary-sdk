@@ -7,13 +7,18 @@ import boom from 'express-boom';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
+import config from '../config';
+import logger from './utils/logger';
 import { health } from './routes';
 
 const app = express();
 
 app.use(helmet());
 app.use(bodyParser.json());
-app.use(morgan('combined'));
+app.use(morgan('combined', {
+  stream: logger.stream,
+  skip: () => config.env === 'test',
+}));
 app.use(cors());
 app.use(boom());
 
