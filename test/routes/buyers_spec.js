@@ -34,7 +34,7 @@ describe('/buyers', () => {
 
   const dataOrder = 'this-is-a-data-order';
   const auditUri = `${baseURI}/audit`;
-  const auditUriWithDataOrder = `${auditUri}/:${dataOrder}`;
+  const auditUriWithDataOrder = `${auditUri}/${dataOrder}`;
 
   describe('/buyers/audit', () => {
     describe('#POST /audit', () => {
@@ -52,10 +52,11 @@ describe('/buyers', () => {
     describe('#POST /audit/:dataOrder', () => {
       context('when the object params is empty', () => {
         it('responds with status 400', (done) => {
-          requestPost(auditUri, {}, (err, res) => {
+          requestPost(auditUriWithDataOrder, {}, (err, res) => {
             if (err) return done(err);
             expect(res.status).to.be.equal(400);
-            return done();
+            done();
+            return true;
           });
         });
       });

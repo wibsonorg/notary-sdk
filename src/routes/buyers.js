@@ -1,5 +1,5 @@
 import express from 'express';
-import logger from '../utils/logger';
+// import logger from '../utils/logger';
 
 const router = express.Router();
 
@@ -9,8 +9,7 @@ router.get('/', async (req, res) => {
   });
 });
 
-router.post('/buyers/audit/:dataOrder', async (req, res) => {
-  logger.log(req.params.dataOrder);
+router.post('/audit/:dataOrder', async (req, res) => {
   res.sendStatus(400);
 });
 
