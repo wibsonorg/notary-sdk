@@ -9,7 +9,7 @@ import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
 import config from '../config';
 import logger from './utils/logger';
-import { health } from './routes';
+import { health, buyers } from './routes';
 
 const app = express();
 
@@ -23,6 +23,8 @@ app.use(cors());
 app.use(boom());
 
 app.use('/health', health);
+app.use('/buyers', buyers);
+
 
 const ls = dir =>
   fs.readdirSync(dir)
