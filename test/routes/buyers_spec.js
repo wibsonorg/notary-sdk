@@ -145,7 +145,7 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
       },
     );
 
-    it('responds with an object with an signature property', (done) => {
+    it('responds with an object with a signature property', (done) => {
       requestPost(`/buyers/audit/consent/${realDataOrder}`, {}, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.haveOwnProperty('signature');
@@ -155,23 +155,23 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
     });
 
     it('responds with a correct signature', (done) => {
+      const {
+        privateKey,
+        orderAddress,
+        responsesPercentage,
+        notarizationFee,
+        notarizationTermsOfService,
+      } = config;
+
+      const message = [
+        orderAddress,
+        responsesPercentage,
+        notarizationFee,
+        notarizationTermsOfService];
+      const messageHash = ethCrypto.hash.keccak256(message);
+      const signature = ethCrypto.sign(privateKey, messageHash);
+
       requestPost(`/buyers/audit/consent/${realDataOrder}`, {}, (err, res) => {
-        const {
-          privateKey,
-          orderAddress,
-          responsesPercentage,
-          notarizationFee,
-          notarizationTermsOfService,
-        } = config;
-
-        const message = [
-          orderAddress,
-          responsesPercentage,
-          notarizationFee,
-          notarizationTermsOfService];
-        const messageHash = ethCrypto.hash.keccak256(message);
-        const signature = ethCrypto.sign(privateKey, messageHash);
-
         if (err) return done(err);
         expect(res.body.signature).to.be.equal(signature);
         done();
