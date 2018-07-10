@@ -80,13 +80,6 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
 });
 
 describe('#POST /buyers/audit/consent/:dataOrder', () => {
-  it('responds with JSON', (done) => {
-    requestGet(baseURI, (err, res) => {
-      expect(res.type).to.be.equal('application/json');
-      done();
-    });
-  });
-
   context('when the dataOrder is a real dataOrder', () => {
     it('responds with status 200', (done) => {
       requestPost(`/buyers/audit/consent/${realDataOrder}`, {}, (err, res) => {
@@ -94,6 +87,13 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
         expect(res.status).to.be.equal(200);
         done();
         return true;
+      });
+    });
+
+    it('responds with JSON', (done) => {
+      requestGet(baseURI, (err, res) => {
+        expect(res.type).to.be.equal('application/json');
+        done();
       });
     });
 

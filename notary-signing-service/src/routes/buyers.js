@@ -35,7 +35,7 @@ router.post('/audit/consent/:dataOrder', async (req, res) => {
       signature,
     });
   } else {
-    res.type('application/json').sendStatus(400);
+    res.contentType('application/json').sendStatus(400);
   }
 });
 
