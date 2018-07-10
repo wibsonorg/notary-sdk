@@ -23,18 +23,9 @@ function requestGet(uri, handler) {
 const baseURI = '/buyers';
 
 describe('#GET buyers/', () => {
-  it('responds with status 200', (done) => {
+  it('responds with status 403', (done) => {
     requestGet(baseURI, (err, res) => {
-      expect(res.status).to.be.equal(200);
-      done();
-    });
-  });
-});
-
-describe('#GET buyers/', () => {
-  it('responds with JSON', (done) => {
-    requestGet(baseURI, (err, res) => {
-      expect(res.type).to.be.equal('application/json');
+      expect(res.status).to.be.equal(403);
       done();
     });
   });
@@ -42,22 +33,6 @@ describe('#GET buyers/', () => {
 
 const realDataOrder = 'this-is-a-real-data-order';
 const fakeDataOrder = 'this-is-a-fake-data-order';
-
-const auditUri = `${baseURI}/audit`;
-const auditUriWithDataOrder = `${auditUri}/${realDataOrder}`;
-
-describe('#POST buyers/audit/:dataOrder', () => {
-  context('when the object params is empty', () => {
-    it('responds with status 400', (done) => {
-      requestPost(auditUriWithDataOrder, {}, (err, res) => {
-        if (err) return done(err);
-        expect(res.status).to.be.equal(400);
-        done();
-        return true;
-      });
-    });
-  });
-});
 
 describe('#POST /buyers/audit/consent/:dataOrder', () => {
   context('when the dataOrder is a fake dataOrder', () => {

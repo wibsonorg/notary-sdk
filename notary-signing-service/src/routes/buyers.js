@@ -6,13 +6,7 @@ import config from '../../config';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  res.status(200).json({
-    message: 'Wibson Notary SDK Official - Buyers API',
-  });
-});
-
-router.post('/audit/:dataOrder', async (req, res) => {
-  res.sendStatus(400);
+  res.sendStatus(403);
 });
 
 router.post('/audit/consent/:dataOrder', async (req, res) => {
@@ -41,7 +35,7 @@ router.post('/audit/consent/:dataOrder', async (req, res) => {
       signature,
     });
   } else {
-    res.sendStatus(400);
+    res.type('application/json').sendStatus(400);
   }
 });
 
