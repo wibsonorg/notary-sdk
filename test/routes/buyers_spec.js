@@ -2,7 +2,7 @@ import request from 'supertest';
 import { expect } from 'chai';
 import ethCrypto from 'eth-crypto';
 import app from '../../src/app';
-// import Config from '../../config';
+import config from '../../config';
 
 
 function requestPost(uri, objectParam = {}, handler) {
@@ -145,7 +145,7 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
       },
     );
 
-    it('responds with an object with an signature property', (done) => {
+    it('responds with an object with a signature property', (done) => {
       requestPost(`/buyers/audit/consent/${realDataOrder}`, {}, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.haveOwnProperty('signature');
@@ -155,23 +155,23 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
     });
 
     it('responds with a correct signature', (done) => {
+      const {
+        privateKey,
+        orderAddress,
+        responsesPercentage,
+        notarizationFee,
+        notarizationTermsOfService,
+      } = config;
+
+      const message = [
+        orderAddress,
+        responsesPercentage,
+        notarizationFee,
+        notarizationTermsOfService];
+      const messageHash = ethCrypto.hash.keccak256(message);
+      const signature = ethCrypto.sign(privateKey, messageHash);
+
       requestPost(`/buyers/audit/consent/${realDataOrder}`, {}, (err, res) => {
-        const orderAddress = '0xd56359a66d8ef7329507e5dd1f40aef7cd3320e7';
-        const responsesPercentage = 30;
-        const notarizationFee = 2;
-        const notarizationTermsOfService = 'The terms of service';
-        const notaryPrivateKey
-        = '0x107be946709e41b7895eea9f2dacf998a0a9124acbb786f0fd1a826101581a07';
-
-        const message = [
-          orderAddress,
-          responsesPercentage,
-          notarizationFee,
-          notarizationTermsOfService,
-        ];
-        const messageHash = ethCrypto.hash.keccak256(message);
-        const signature = ethCrypto.sign(notaryPrivateKey, messageHash);
-
         if (err) return done(err);
         expect(res.body.signature).to.be.equal(signature);
         done();
