@@ -1,0 +1,52 @@
+{
+  "name": "notary-signing-service",
+  "version": "1.0.0",
+  "description": "Wibson Notary Signing Service",
+  "author": "Wibson Development Team",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "babel src -d dist",
+    "start": "NODE_ENV=dev babel-node src/server.js",
+    "test": "mocha -r babel-register -r babel-polyfill --recursive test/ --exit",
+    "test:coverage": "nyc mocha -r babel-register -r babel-polyfill --recursive test/ --exit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "eth-crypto": "^1.2.2",
+    "express": "^4.16.3",
+    "express-boom": "^2.0.0",
+    "helmet": "^3.12.1",
+    "level": "^4.0.0",
+    "morgan": "^1.9.0",
+    "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
+    "swagger-jsdoc": "^1.9.7",
+    "swagger-ui-express": "^3.0.10",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "mocha": "^5.2.0",
+    "nyc": "12.0.2",
+    "supertest": "^3.1.0"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "cache": false,
+    "reporter": [
+      "html",
+      "text"
+    ]
+  }
+}
