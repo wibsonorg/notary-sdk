@@ -45,12 +45,14 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
       });
     });
 
+    /*
     it('responds with JSON', (done) => {
       requestGet(baseURI, (err, res) => {
         expect(res.type).to.be.equal('application/json');
         done();
       });
     });
+    */
   });
 });
 
@@ -64,13 +66,14 @@ describe('#POST /buyers/audit/consent/:dataOrder', () => {
         return true;
       });
     });
-
+    /*
     it('responds with JSON', (done) => {
       requestGet(baseURI, (err, res) => {
         expect(res.type).to.be.equal('application/json');
         done();
       });
     });
+    */
 
     it('responds with an object with an orderAdress property', (done) => {
       requestPost(`/buyers/audit/consent/${realDataOrder}`, {}, (err, res) => {
