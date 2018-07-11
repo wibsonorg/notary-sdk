@@ -9,7 +9,8 @@ router.get('/', async (req, res) => {
   res.sendStatus(403);
 });
 
-router.post('/audit/consent/:dataOrder', async (req, res) => {
+router.get('/audit/consent/:dataOrder', async (req, res) => {
+  res.contentType('application/json');
   const {
     privateKey,
     orderAddress,
@@ -35,7 +36,7 @@ router.post('/audit/consent/:dataOrder', async (req, res) => {
       signature,
     });
   } else {
-    res.contentType('application/json').sendStatus(400);
+    res.sendStatus(400);
   }
 });
 

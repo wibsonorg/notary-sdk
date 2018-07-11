@@ -11,11 +11,7 @@ router.get('/', async (req, res) => {
   });
 });
 
-router.post('/audit/:dataOrder', async (req, res) => {
-  res.sendStatus(400);
-});
-
-router.post('/audit/consent/:dataOrder', async (req, res) => {
+router.get('/audit/consent/:dataOrder', async (req, res) => {
   const {
     privateKey,
     orderAddress,
