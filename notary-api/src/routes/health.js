@@ -1,7 +1,8 @@
 import express from 'express';
+import requestPromise from 'request-promise-native';
+import config from '../../config';
 
 const router = express.Router();
-
 
 /**
  * @swagger
@@ -18,6 +19,34 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   res.json({ status: 'OK' });
+});
+
+/**
+ * @swagger
+ * /health/deep:
+ *   get:
+ *     description: Check if the app and sub-systems are working.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: When the app and sub-systems are OK
+ *       500:
+ *         description: When the app or sub-systems are not responding
+ */
+router.get('/deep', async (req, res) => {
+  try {
+    await requestPromise.get(
+      `${config.notaryHost}:${config.notaryPort}/health`,
+      { timeout: 1000 },
+    );
+    res.status(200).json({ status: 'OK' });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Signing Service not working as expected',
+      error: err.message,
+    });
+  }
 });
 
 router.get('/client_error', (req, res) => {

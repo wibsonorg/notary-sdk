@@ -20,7 +20,9 @@ var config = {
   orderAddress: env.ORDER_ADDRESS,
   responsesPercentage: env.RESPONSES_PERCENTAGE,
   notarizationFee: env.NOTARIZATION_FEE,
-  notarizationTermsOfService: process.env.NOTARIZATION_TERMS_OF_SERVIE,
+  notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVIE,
+  notaryHost: env.NOTARY_HOST,
+  notaryPort: env.NOTARY_PORT,
   cache: {
     enabled: env.CACHE === 'enabled',
     adapter: env.CACHE_ADAPTER

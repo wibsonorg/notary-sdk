@@ -1,43 +1,88 @@
+import request from 'supertest';
+import requestPromise from 'request-promise-native';
+import sinon from 'sinon';
 import app from '../../src/app';
 
-const request = require('supertest');
+// import { mockStorage, restoreMocks } from '../helpers';
 
 describe('/health', () => {
-  it('GET / should respond with an OK status', (done) => {
-    request(app)
-      .get('/health')
-      .expect(200, { status: 'OK' }, done);
+  beforeEach(function (done) { // eslint-disable-line func-names
+    this.timeout(5000);
+    // mockStorage();
+    done();
   });
 
-  it('GET /client_error should respond with a 400 error', (done) => {
-    request(app)
-      .get('/health/client_error')
-      .expect(
-        400,
-        {
-          statusCode: 400,
-          error: 'Bad Request',
-          message: 'this should fail',
-        },
-        done,
-      );
+  afterEach(() => {
+    // restoreMocks();
   });
 
-  it('GET /server_error should respond with a 500 error', (done) => {
-    request(app)
-      .get('/health/server_error')
-      .expect(500, {}, done);
+  describe('GET /', () => {
+    it('responds with an OK status', (done) => {
+      request(app)
+        .get('/health')
+        .expect(200, { status: 'OK' }, done);
+    });
   });
 
-  it('GET /async_ok should return 200 and the result', (done) => {
-    request(app)
-      .get('/health/async_ok')
-      .expect(200, { result: 42 }, done);
+  describe('GET /deep', () => {
+    it(
+      'responds with an OK status when app and sub-systems are responding',
+      (done) => {
+        const response = { status: 'OK' };
+
+        sinon.stub(requestPromise, 'get')
+          .returns(Promise.resolve(JSON.stringify(response)));
+
+        request(app)
+          .get('/health/deep')
+          .expect(200, response, done);
+      },
+    );
+
+    it(
+      'responds with an error message when sub-system is not responding',
+      (done) => {
+        sinon.stub(requestPromise, 'get')
+          .throws('RequestError');
+
+        request(app)
+          .get('/health/deep')
+          .expect(
+            500,
+            { message: 'Signing Service not working as expected', error: '' },
+            done,
+          );
+      },
+    );
+
+    afterEach(() => {
+      requestPromise.get.restore();
+    });
   });
 
-  it('GET /async_error should respond with a 500 error', (done) => {
-    request(app)
-      .get('/health/async_error')
-      .expect(500, {}, done);
+  /*
+  describe('GET /redis', () => {
+    it('responds with an OK status', (done) => {
+      request(app)
+        .get('/health/redis')
+        .expect(200, { foo: 'bar' }, done);
+    });
   });
+
+  describe('GET /level', () => {
+    it('responds with an OK status', (done) => {
+      request(app)
+        .get('/health/level')
+        .expect(200, { foz: 'baz' }, done);
+    });
+  });
+
+  describe('GET /cache', () => {
+    it('responds with an OK status', (done) => {
+      request(app)
+        .get('/health/cache')
+        .expect(200, done);
+    });
+  });
+  */
 });
