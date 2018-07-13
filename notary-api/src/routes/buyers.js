@@ -45,7 +45,7 @@ router.get('/audit/consent/:orderAddress', async (req, res) => {
         signature,
       });
     } catch (error) {
-      console.error(error);
+      res.sendStatus(500);
     }
   }
 });

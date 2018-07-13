@@ -1,5 +1,7 @@
 import request from 'supertest';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import axios from 'axios';
 import app from '../../src/app';
 import config from '../../config';
 
@@ -72,6 +74,15 @@ describe('#GET /buyers/audit/consent/:orderAddress', () => {
     notarizationTermsOfService,
     signature,
   } = config;
+
+  beforeEach(() => {
+    sinon.stub(axios, 'post')
+      .returns(Promise.resolve({ data: { signature } }));
+  });
+
+  afterEach(() => {
+    axios.post.restore();
+  });
 
   context('when the orderAddress is a valid orderAddress', () => {
     it('responds with status 200', (done) => {
