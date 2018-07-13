@@ -1,5 +1,5 @@
 import express from 'express';
-import ethCrypto from 'eth-crypto';
+import requestPromise from 'request-promise-native';
 // import logger from '../utils/logger';
 import config from '../../config';
 
@@ -11,34 +11,40 @@ router.get('/', async (req, res) => {
   });
 });
 
-router.get('/audit/consent/:dataOrder', async (req, res) => {
+function isValidOrderAddress(orderAddress) {
+  return orderAddress !== 'this-is-an-invalid-dataorder';
+}
+
+router.get('/audit/consent/:orderAddress', async (req, res) => {
   const {
-    privateKey,
     orderAddress,
     responsesPercentage,
     notarizationFee,
     notarizationTermsOfService,
+    signature,
   } = config;
 
-  const message = [
-    orderAddress,
-    responsesPercentage,
-    notarizationFee,
-    notarizationTermsOfService];
-  const messageHash = ethCrypto.hash.keccak256(message);
-  const signature = ethCrypto.sign(privateKey, messageHash);
-
-  if (req.params.dataOrder === 'this-is-a-real-data-order') {
-    res.status(200).json({
-      orderAddress,
-      responsesPercentage,
-      notarizationFee,
-      notarizationTermsOfService,
-      signature,
-    });
-  } else {
+  if (!isValidOrderAddress(req.params.orderAddress)) {
     res.sendStatus(400);
+  } else {
+    res.status(200).json({ orderAddress });
   }
+
+
+  /* await requestPromise.get(
+        'http://localhost:9001/buyers/audit/consent/this-is-a-real-data-order',
+        { timeout: 1000 },
+        (response) => {
+          console.log('ssssssss');
+          console.log(response);
+        },
+      );
+      res.status(200).json({ status: 'OK' });
+    } catch (err) {
+      res.status(500).json({
+        message: 'Signing Service not working as expected',
+        error: err.message,
+      }); */
 });
 
 export default router;

@@ -1,19 +1,15 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import ethCrypto from 'eth-crypto';
 import app from '../../src/app';
 import config from '../../config';
 
-
-/*
-function requestPost(uri, objectParam = {}, handler) {
+function requestPost(uri, payload = {}, handler) {
   request(app)
     .post(uri)
-    .send(objectParam)
+    .send(payload)
     .set('Accept', 'application/json')
     .end(handler);
 }
-*/
 
 function requestGet(uri, handler) {
   request(app)
@@ -31,120 +27,83 @@ describe('#GET buyers/', () => {
   });
 });
 
-const realDataOrder = 'this-is-a-real-data-order';
-const fakeDataOrder = 'this-is-a-fake-data-order';
+const {
+  orderAddress,
+  responsesPercentage,
+  notarizationFee,
+  notarizationTermsOfService,
+  signature,
+} = config;
 
-describe('#GET /buyers/audit/consent/:dataOrder', () => {
-  context('when the dataOrder is a fake dataOrder', () => {
+describe('#POST /buyers/audit/consent/', () => {
+  context('when the orderAddress is missing', () => {
     it('responds with status 400', (done) => {
-      requestGet(`/buyers/audit/consent/${fakeDataOrder}`, (err, res) => {
+      requestPost('/buyers/audit/consent', {
+        responsesPercentage,
+        notarizationFee,
+        notarizationTermsOfService,
+      }, (err, res) => {
         if (err) return done(err);
         expect(res.status).to.be.equal(400);
         done();
         return true;
       });
     });
+  });
 
-    it('responds with TEXT', (done) => {
-      requestGet(`/buyers/audit/consent/${fakeDataOrder}`, (err, res) => {
+  context('when the responsesPercentage is missing', () => {
+    it('responds with status 400', (done) => {
+      requestPost('/buyers/audit/consent', {
+        orderAddress,
+        notarizationFee,
+        notarizationTermsOfService,
+      }, (err, res) => {
         if (err) return done(err);
-        expect(res.type).to.be.equal('text/plain');
+        expect(res.status).to.be.equal(400);
         done();
         return true;
       });
     });
   });
-});
 
-describe('#GET /buyers/audit/consent/:dataOrder', () => {
-  context('when the dataOrder is a real dataOrder', () => {
-    it('responds with status 200', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+  context('when the notarizationFee is missing', () => {
+    it('responds with status 400', (done) => {
+      requestPost('/buyers/audit/consent', {
+        orderAddress,
+        responsesPercentage,
+        notarizationTermsOfService,
+      }, (err, res) => {
         if (err) return done(err);
-        expect(res.status).to.be.equal(200);
+        expect(res.status).to.be.equal(400);
         done();
         return true;
       });
     });
+  });
 
-    it('responds with JSON', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+  context('when the notarizationTermsOfService is missing', () => {
+    it('responds with status 400', (done) => {
+      requestPost('/buyers/audit/consent', {
+        orderAddress,
+        responsesPercentage,
+        notarizationFee,
+      }, (err, res) => {
         if (err) return done(err);
-        expect(res.type).to.be.equal('application/json');
+        expect(res.status).to.be.equal(400);
         done();
         return true;
       });
     });
+  });
 
-    it('responds with an object with an orderAdress property', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
-        if (err) return done(err);
-        expect(res.body).to.haveOwnProperty('orderAddress');
-        done();
-        return true;
-      });
-    });
-
-    it(
-      'responds with an object with an responsesPercentage property',
-      (done) => {
-        requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
-          if (err) return done(err);
-          expect(res.body).to.haveOwnProperty('responsesPercentage');
-          done();
-          return true;
-        });
-      },
-    );
-
-    it('responds with an object with an notarizationFee property', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
-        if (err) return done(err);
-        expect(res.body).to.haveOwnProperty('notarizationFee');
-        done();
-        return true;
-      });
-    });
-
-    it(
-      'responds with an object with an notarizationTermsOfService property',
-      (done) => {
-        requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
-          if (err) return done(err);
-          expect(res.body).to.haveOwnProperty('notarizationTermsOfService');
-          done();
-          return true;
-        });
-      },
-    );
-
-    it('responds with an object with a signature property', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
-        if (err) return done(err);
-        expect(res.body).to.haveOwnProperty('signature');
-        done();
-        return true;
-      });
-    });
-
+  context('when the all the parameters are present', () => {
     it('responds with a correct signature', (done) => {
-      const {
-        privateKey,
+      requestPost('/buyers/audit/consent/', {
         orderAddress,
         responsesPercentage,
         notarizationFee,
         notarizationTermsOfService,
-      } = config;
-
-      const message = [
-        orderAddress,
-        responsesPercentage,
-        notarizationFee,
-        notarizationTermsOfService];
-      const messageHash = ethCrypto.hash.keccak256(message);
-      const signature = ethCrypto.sign(privateKey, messageHash);
-
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+      }, (err, res) => {
         if (err) return done(err);
         expect(res.body.signature).to.be.equal(signature);
         done();
@@ -153,3 +112,17 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
     });
   });
 });
+
+
+/*
+
+    it('responds with JSON', (done) => {
+      requestPost('/buyers/audit/consent', payload, (err, res) => {
+        if (err) return done(err);
+        expect(res.type).to.be.equal('application/json');
+        done();
+        return true;
+      });
+    });
+  });
+}); */

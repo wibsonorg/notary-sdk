@@ -21,6 +21,7 @@ var config = {
   responsesPercentage: env.RESPONSES_PERCENTAGE,
   notarizationFee: env.NOTARIZATION_FEE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVIE,
+  notaryUri: env.NOTARY_URI,
   notaryHost: env.NOTARY_HOST,
   notaryPort: env.NOTARY_PORT,
   cache: {

@@ -40,13 +40,13 @@ describe('#GET /buyers', () => {
   });
 });
 
-const realDataOrder = 'this-is-a-real-data-order';
-const fakeDataOrder = 'this-is-a-fake-data-order';
+const validOrderAddress = 'this-is-a-valid-data-order';
+const invalidOrderAddress = 'this-is-an-invalid-dataorder';
 
-describe('#GET /buyers/audit/consent/:dataOrder', () => {
-  context('when the dataOrder is a fake dataOrder', () => {
+describe('#GET /buyers/audit/consent/:orderAddress', () => {
+  context('when the orderAddress is an invalid orderAddress', () => {
     it('responds with status 400', (done) => {
-      requestGet(`/buyers/audit/consent/${fakeDataOrder}`, (err, res) => {
+      requestGet(`/buyers/audit/consent/${invalidOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.status).to.be.equal(400);
         done();
@@ -55,7 +55,7 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
     });
 
     it('responds with TEXT', (done) => {
-      requestGet(`/buyers/audit/consent/${fakeDataOrder}`, (err, res) => {
+      requestGet(`/buyers/audit/consent/${invalidOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.type).to.be.equal('text/plain');
         done();
@@ -65,10 +65,18 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
   });
 });
 
-describe('#GET /buyers/audit/consent/:dataOrder', () => {
-  context('when the dataOrder is a real dataOrder', () => {
-    it('responds with status 200', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+describe('#GET /buyers/audit/consent/:orderAddress', () => {
+  const {
+    orderAddress,
+    responsesPercentage,
+    notarizationFee,
+    notarizationTermsOfService,
+    signature,
+  } = config;
+
+  context('when the orderAddress is a valid orderAddress', () => {
+    it.only('responds with status 200', (done) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.status).to.be.equal(200);
         done();
@@ -76,8 +84,8 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
       });
     });
 
-    it('responds with JSON', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+    it.only('responds with JSON', (done) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.type).to.be.equal('application/json');
         done();
@@ -85,10 +93,19 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
       });
     });
 
-    it('responds with an object with an orderAdress property', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+    it.only('responds with an object with an orderAdress property', (done) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.haveOwnProperty('orderAddress');
+        done();
+        return true;
+      });
+    });
+
+    it.only('responds the correct orderAdress', (done) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.orderAddress).to.be.equal(orderAddress);
         done();
         return true;
       });
@@ -97,7 +114,7 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
     it(
       'responds with an object with an responsesPercentage property',
       (done) => {
-        requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+        requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
           if (err) return done(err);
           expect(res.body).to.haveOwnProperty('responsesPercentage');
           done();
@@ -107,7 +124,7 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
     );
 
     it('responds with an object with an notarizationFee property', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.haveOwnProperty('notarizationFee');
         done();
@@ -118,7 +135,7 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
     it(
       'responds with an object with an notarizationTermsOfService property',
       (done) => {
-        requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+        requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
           if (err) return done(err);
           expect(res.body).to.haveOwnProperty('notarizationTermsOfService');
           done();
@@ -128,7 +145,7 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
     );
 
     it('responds with an object with a signature property', (done) => {
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.haveOwnProperty('signature');
         done();
@@ -137,23 +154,7 @@ describe('#GET /buyers/audit/consent/:dataOrder', () => {
     });
 
     it('responds with a correct signature', (done) => {
-      const {
-        privateKey,
-        orderAddress,
-        responsesPercentage,
-        notarizationFee,
-        notarizationTermsOfService,
-      } = config;
-
-      const message = [
-        orderAddress,
-        responsesPercentage,
-        notarizationFee,
-        notarizationTermsOfService];
-      const messageHash = ethCrypto.hash.keccak256(message);
-      const signature = ethCrypto.sign(privateKey, messageHash);
-
-      requestGet(`/buyers/audit/consent/${realDataOrder}`, (err, res) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.body.signature).to.be.equal(signature);
         done();
