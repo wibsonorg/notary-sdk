@@ -11,11 +11,14 @@ router.get('/', async (req, res) => {
   });
 });
 
-function isValidOrderAddress(orderAddress) {
+function isValidOrderAddress(buyerAddress, orderAddress) {
+  // Para testear con ganache probar con:
+  // orderAddress: 0x3a7c35082fe02bf39a35412ad0dc295089902aa1
+  // buyerAddress: 0x393f9dddd360503fc04f543ae33c61267079dc58
   return orderAddress !== 'this-is-an-invalid-dataorder';
 }
 
-router.get('/audit/consent/:orderAddress', async (req, res) => {
+router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   const {
     orderAddress,
     responsesPercentage,
@@ -23,7 +26,7 @@ router.get('/audit/consent/:orderAddress', async (req, res) => {
     notarizationTermsOfService,
   } = config;
 
-  if (!isValidOrderAddress(req.params.orderAddress)) {
+  if (!isValidOrderAddress(req.params.buyerAddress, req.params.orderAddress)) {
     res.sendStatus(400);
   } else {
     try {
