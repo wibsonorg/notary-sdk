@@ -16,14 +16,13 @@ var config = {
   port: env.PORT,
   host: env.HOST,
   buyerSigningServiceUrl: env.BUYER_SIGNING_SERVICE_URL,
-  privateKey: env.PRIVATE_KEY,
+  notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
+  timeout: env.TIMEOUT,
   orderAddress: env.ORDER_ADDRESS,
   responsesPercentage: env.RESPONSES_PERCENTAGE,
   notarizationFee: env.NOTARIZATION_FEE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVIE,
-  notaryUri: env.NOTARY_URI,
-  notaryHost: env.NOTARY_HOST,
-  notaryPort: env.NOTARY_PORT,
+  signature: env.SIGNATURE,
   cache: {
     enabled: env.CACHE === 'enabled',
     adapter: env.CACHE_ADAPTER

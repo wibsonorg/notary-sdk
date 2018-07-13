@@ -1,6 +1,5 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import ethCrypto from 'eth-crypto';
 import app from '../../src/app';
 import config from '../../config';
 
@@ -75,7 +74,7 @@ describe('#GET /buyers/audit/consent/:orderAddress', () => {
   } = config;
 
   context('when the orderAddress is a valid orderAddress', () => {
-    it.only('responds with status 200', (done) => {
+    it('responds with status 200', (done) => {
       requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.status).to.be.equal(200);
@@ -84,7 +83,7 @@ describe('#GET /buyers/audit/consent/:orderAddress', () => {
       });
     });
 
-    it.only('responds with JSON', (done) => {
+    it('responds with JSON', (done) => {
       requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.type).to.be.equal('application/json');
@@ -93,7 +92,7 @@ describe('#GET /buyers/audit/consent/:orderAddress', () => {
       });
     });
 
-    it.only('responds with an object with an orderAdress property', (done) => {
+    it('responds with an object with an orderAdress property', (done) => {
       requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.haveOwnProperty('orderAddress');
@@ -102,7 +101,7 @@ describe('#GET /buyers/audit/consent/:orderAddress', () => {
       });
     });
 
-    it.only('responds the correct orderAdress', (done) => {
+    it('responds the correct orderAdress', (done) => {
       requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.body.orderAddress).to.be.equal(orderAddress);
@@ -123,10 +122,28 @@ describe('#GET /buyers/audit/consent/:orderAddress', () => {
       },
     );
 
+    it('responds the correct responsesPercentage', (done) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.responsesPercentage).to.be.equal(responsesPercentage);
+        done();
+        return true;
+      });
+    });
+
     it('responds with an object with an notarizationFee property', (done) => {
       requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
         if (err) return done(err);
         expect(res.body).to.haveOwnProperty('notarizationFee');
+        done();
+        return true;
+      });
+    });
+
+    it('responds the correct notarizationFee', (done) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.notarizationFee).to.be.equal(notarizationFee);
         done();
         return true;
       });
@@ -143,6 +160,16 @@ describe('#GET /buyers/audit/consent/:orderAddress', () => {
         });
       },
     );
+
+    it('responds the correct notarizationTermsOfService', (done) => {
+      requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {
+        if (err) return done(err);
+        expect(res.body.notarizationTermsOfService)
+          .to.be.equal(notarizationTermsOfService);
+        done();
+        return true;
+      });
+    });
 
     it('responds with an object with a signature property', (done) => {
       requestGet(`/buyers/audit/consent/${validOrderAddress}`, (err, res) => {

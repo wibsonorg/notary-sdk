@@ -28,7 +28,6 @@ router.post('/audit/consent/', async (req, res) => {
 
     const messageHash = ethCrypto.hash.keccak256(message);
     const signature = ethCrypto.sign(privateKey, messageHash);
-    console.log(signature);
     res.status(200).json({ signature });
   }
 });
