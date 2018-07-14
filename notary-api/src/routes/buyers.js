@@ -53,5 +53,12 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   }
 });
 
+router.post(
+  '/audit/result/:buyerAddress/:orderAddress',
+  async (req, res) => {
+    console.log('tobeeee');
+    res.sendStatus(400);
+  },
+);
 
 export default router;

@@ -5,16 +5,13 @@ import axios from 'axios';
 import app from '../../src/app';
 import config from '../../config';
 
-
-/*
-function requestPost(uri, objectParam = {}, handler) {
+function requestPost(uri, payload = {}, handler) {
   request(app)
     .post(uri)
-    .send(objectParam)
+    .send(payload)
     .set('Accept', 'application/json')
     .end(handler);
 }
-*/
 
 function requestGet(uri, handler) {
   request(app)
@@ -244,3 +241,21 @@ describe('#GET /buyers/audit/consent/:buyerAddress/:orderAddress', () => {
     });
   });
 });
+
+describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
+  context('when the payload its empty', () => {
+    it('responds with 400', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        {},
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.be.equal(400);
+          done();
+          return true;
+        },
+      );
+    });
+  });
+});
+
