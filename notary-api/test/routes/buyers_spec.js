@@ -277,17 +277,178 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
     });
   });
 
+  const sellerAddress1 = 'this-is-a-seller-address-1';
+  const sellerAddress2 = 'this-is-a-seller-address-2';
+  const sellerAddress3 = 'this-is-a-seller-address-3';
+
   context('when the list of dataResponses have a length of 1', () => {
     it('responds with a list of dataResponses with a length of 1', (done) => {
       requestPost(
         `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
-        { dataResponses: [{ seller: 'this-is-a-seller-address' }] },
+        { dataResponses: [{ seller: sellerAddress1 }] },
         (err, res) => {
           if (err) return done(err);
           expect(res.status).to.be.equal(200);
           expect(res.type).to.be.equal('application/json');
           expect(res.body).to.ownProperty('dataResponses');
           expect(res.body.dataResponses).to.have.a.lengthOf(1);
+          done();
+          return true;
+        },
+      );
+    });
+
+    it('responds with the same seller', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        { dataResponses: [{ seller: sellerAddress1 }] },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses[0]).to.have.ownProperty('seller');
+          expect(res.body.dataResponses[0].seller).to.be.equal(sellerAddress1);
+          done();
+          return true;
+        },
+      );
+    });
+
+    it('responds with the a result', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        { dataResponses: [{ seller: sellerAddress1 }] },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses[0]).to.have.ownProperty('result');
+          done();
+          return true;
+        },
+      );
+    });
+
+    it('responds with the a succes or na result', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        { dataResponses: [{ seller: sellerAddress1 }] },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses[0].result)
+            .to.satisfy(result => result === 'success' || result === 'na');
+          done();
+          return true;
+        },
+      );
+    });
+
+    it('responds with the a signature', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        { dataResponses: [{ seller: sellerAddress1 }] },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses[0]).to.have.ownProperty('signature');
+          done();
+          return true;
+        },
+      );
+    });
+
+    it('responds with the a correct signature', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        { dataResponses: [{ seller: sellerAddress1 }] },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses[0]).to.have.ownProperty('signature');
+          done();
+          return true;
+        },
+      );
+    });
+  });
+
+  context('when the list of dataResponses have a length of 2', () => {
+    it('responds with a list of dataResponses with a length of 2', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        {
+          dataResponses: [
+            { seller: sellerAddress1 },
+            { seller: sellerAddress2 }],
+        },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses).to.have.a.lengthOf(2);
+          done();
+          return true;
+        },
+      );
+    });
+
+    it('responds with the same 2 sellers', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        {
+          dataResponses: [
+            { seller: sellerAddress1 },
+            { seller: sellerAddress2 }],
+        },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses.includes({ seller: sellerAddress1 }));
+          expect(res.body.dataResponses.includes({ seller: sellerAddress3 }));
+          done();
+          return true;
+        },
+      );
+    });
+  });
+
+  context('when the list of dataResponses have a length of 3', () => {
+    it('responds with a list of dataResponses with a length of 3', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        {
+          dataResponses: [
+            { seller: sellerAddress1 },
+            { seller: sellerAddress2 },
+            { seller: sellerAddress3 },
+          ],
+        },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses).to.have.a.lengthOf(3);
+          done();
+          return true;
+        },
+      );
+    });
+
+    it('responds with the same 3 sellers', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        {
+          dataResponses: [
+            { seller: sellerAddress1 },
+            { seller: sellerAddress2 },
+            { seller: sellerAddress3 }],
+        },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.body.dataResponses.includes({ seller: sellerAddress1 }));
+          expect(res.body.dataResponses.includes({ seller: sellerAddress2 }));
+          expect(res.body.dataResponses.includes({ seller: sellerAddress3 }));
+          expect(res.body.dataResponses[0]).to.have.ownProperty('result');
+          expect(res.body.dataResponses[0]).to.have.ownProperty('signature');
+          expect(res.body.dataResponses[1]).to.have.ownProperty('result');
+          expect(res.body.dataResponses[1]).to.have.ownProperty('signature');
+          expect(res.body.dataResponses[2]).to.have.ownProperty('result');
+          expect(res.body.dataResponses[2]).to.have.ownProperty('signature');
+          expect(res.body.dataResponses[0].result)
+            .to.satisfy(result => result === 'success' || result === 'na');
+          expect(res.body.dataResponses[1].result)
+            .to.satisfy(result => result === 'success' || result === 'na');
+          expect(res.body.dataResponses[2].result)
+            .to.satisfy(result => result === 'success' || result === 'na');
           done();
           return true;
         },
