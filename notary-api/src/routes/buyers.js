@@ -27,7 +27,7 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   } = config;
 
   if (!isValidOrderAddress(req.params.buyerAddress, req.params.orderAddress)) {
-    res.sendStatus(400);
+    res.status(400).json({});
   } else {
     try {
       const { data: { signature } } = await axios.post(
@@ -56,8 +56,15 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
 router.post(
   '/audit/result/:buyerAddress/:orderAddress',
   async (req, res) => {
-    console.log('tobeeee');
-    res.sendStatus(400);
+    if (req.body.hasOwnProperty('dataResponses')) {
+      if (req.body.dataResponses.length === 0) {
+        res.status(200).json({ dataResponses: [] });
+      } else {
+        res.status(200).json({ dataResponses: [{ selle: 'a' }] });
+      }
+    } else {
+      res.status(400).json({});
+    }
   },
 );
 

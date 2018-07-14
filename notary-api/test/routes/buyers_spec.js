@@ -61,7 +61,7 @@ describe('#GET /buyers/audit/consent/:buyerAddress/:orderAddress', () => {
         `/buyers/audit/consent/${validBuyerAddress}/${invalidOrderAddress}`,
         (err, res) => {
           if (err) return done(err);
-          expect(res.type).to.be.equal('text/plain');
+          expect(res.type).to.be.equal('application/json');
           done();
           return true;
         },
@@ -250,7 +250,44 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
         {},
         (err, res) => {
           if (err) return done(err);
+          expect(res.type).to.be.equal('application/json');
           expect(res.status).to.be.equal(400);
+          done();
+          return true;
+        },
+      );
+    });
+  });
+
+  context('when the list of data-responses its empty', () => {
+    it('responds with an empty list of data-responses', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        { dataResponses: [] },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.be.equal(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.ownProperty('dataResponses');
+          expect(res.body.dataResponses).to.have.a.lengthOf(0);
+          done();
+          return true;
+        },
+      );
+    });
+  });
+
+  context('when the list of dataResponses have a length of 1', () => {
+    it('responds with a list of dataResponses with a length of 1', (done) => {
+      requestPost(
+        `/buyers/audit/result/${validBuyerAddress}/${validOrderAddress}`,
+        { dataResponses: [{ seller: 'this-is-a-seller-address' }] },
+        (err, res) => {
+          if (err) return done(err);
+          expect(res.status).to.be.equal(200);
+          expect(res.type).to.be.equal('application/json');
+          expect(res.body).to.ownProperty('dataResponses');
+          expect(res.body.dataResponses).to.have.a.lengthOf(1);
           done();
           return true;
         },
