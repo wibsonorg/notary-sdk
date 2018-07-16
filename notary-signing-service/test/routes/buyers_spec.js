@@ -3,28 +3,37 @@ import { expect } from 'chai';
 import app from '../../src/app';
 import config from '../../config';
 
-function requestPost(uri, payload = {}, handler) {
+function requestPost(done, uri, payload = {}, fn) {
   request(app)
     .post(uri)
     .send(payload)
     .set('Accept', 'application/json')
-    .end(handler);
+    .expect(fn)
+    .end((err) => {
+      if (err) return done(err);
+      return done();
+    });
 }
 
-function requestGet(uri, handler) {
+function requestGet(done, uri, fn) {
   request(app)
     .get(uri)
     .set('Accept', 'application/json')
-    .end(handler);
+    .expect(fn)
+    .end((err) => {
+      if (err) return done(err);
+      return done();
+    });
 }
 
 describe('#GET buyers/', () => {
   it('responds with status 403', (done) => {
-    requestGet('/buyers', (err, res) => {
-      if (err) done(err);
-      expect(res.status).to.be.equal(403);
-      done();
-    });
+    requestGet(
+      done,
+      '/buyers', (res) => {
+        expect(res.status).to.be.equal(403);
+      },
+    );
   });
 });
 
@@ -40,72 +49,77 @@ describe('#POST /buyers/audit/consent/', () => {
 
   context('when the orderAddress is missing', () => {
     it('responds with status 400', (done) => {
-      requestPost('/buyers/audit/consent', {
-        responsesPercentage,
-        notarizationFee,
-        notarizationTermsOfService,
-      }, (err, res) => {
-        if (err) done(err);
-        expect(res.status).to.be.equal(400);
-        done();
-      });
+      requestPost(
+        done,
+        '/buyers/audit/consent', {
+          responsesPercentage,
+          notarizationFee,
+          notarizationTermsOfService,
+        }, (res) => {
+          expect(res.status).to.be.equal(400);
+        },
+      );
     });
   });
 
   context('when the responsesPercentage is missing', () => {
     it('responds with status 400', (done) => {
-      requestPost('/buyers/audit/consent', {
-        orderAddress,
-        notarizationFee,
-        notarizationTermsOfService,
-      }, (err, res) => {
-        if (err) done(err);
-        expect(res.status).to.be.equal(400);
-        done();
-      });
+      requestPost(
+        done,
+        '/buyers/audit/consent', {
+          orderAddress,
+          notarizationFee,
+          notarizationTermsOfService,
+        }, (res) => {
+          expect(res.status).to.be.equal(400);
+        },
+      );
     });
   });
 
   context('when the notarizationFee is missing', () => {
     it('responds with status 400', (done) => {
-      requestPost('/buyers/audit/consent', {
-        orderAddress,
-        responsesPercentage,
-        notarizationTermsOfService,
-      }, (err, res) => {
-        if (err) done(err);
-        expect(res.status).to.be.equal(400);
-        done();
-      });
+      requestPost(
+        done,
+        '/buyers/audit/consent', {
+          orderAddress,
+          responsesPercentage,
+          notarizationTermsOfService,
+        }, (res) => {
+          expect(res.status).to.be.equal(400);
+        },
+      );
     });
   });
 
   context('when the notarizationTermsOfService is missing', () => {
     it('responds with status 400', (done) => {
-      requestPost('/buyers/audit/consent', {
-        orderAddress,
-        responsesPercentage,
-        notarizationFee,
-      }, (err, res) => {
-        if (err) done(err);
-        expect(res.status).to.be.equal(400);
-        done();
-      });
+      requestPost(
+        done,
+        '/buyers/audit/consent', {
+          orderAddress,
+          responsesPercentage,
+          notarizationFee,
+        }, (res) => {
+          expect(res.status).to.be.equal(400);
+        },
+      );
     });
   });
 
   context('when the all the parameters are present', () => {
     it('responds with a correct signature', (done) => {
-      requestPost('/buyers/audit/consent', {
-        orderAddress,
-        responsesPercentage,
-        notarizationFee,
-        notarizationTermsOfService,
-      }, (err, res) => {
-        if (err) done(err);
-        expect(res.body.signature).to.be.equal(signature);
-        done();
-      });
+      requestPost(
+        done,
+        '/buyers/audit/consent', {
+          orderAddress,
+          responsesPercentage,
+          notarizationFee,
+          notarizationTermsOfService,
+        }, (res) => {
+          expect(res.body.signature).to.be.equal(signature);
+        },
+      );
     });
   });
 });
@@ -123,12 +137,11 @@ describe('#POST /buyers/audit/result', () => {
 
     it('responds with status 400', (done) => {
       requestPost(
+        done,
         '/buyers/audit/result',
         payloadWithOutOrderAddress,
-        (err, res) => {
-          if (err) done(err);
+        (res) => {
           expect(res.status).to.be.equal(400);
-          done();
         },
       );
     });
@@ -139,12 +152,11 @@ describe('#POST /buyers/audit/result', () => {
 
     it('responds with status 400', (done) => {
       requestPost(
+        done,
         '/buyers/audit/result',
         payloadWithOutSellerAddress,
-        (err, res) => {
-          if (err) done(err);
+        (res) => {
           expect(res.status).to.be.equal(400);
-          done();
         },
       );
     });
@@ -155,12 +167,11 @@ describe('#POST /buyers/audit/result', () => {
 
     it('responds with status 400', (done) => {
       requestPost(
+        done,
         '/buyers/audit/result',
         payloadWithOutWasAudited,
-        (err, res) => {
-          if (err) done(err);
+        (res) => {
           expect(res.status).to.be.equal(400);
-          done();
         },
       );
     });
@@ -171,29 +182,29 @@ describe('#POST /buyers/audit/result', () => {
 
     it('responds with status 400', (done) => {
       requestPost(
+        done,
         '/buyers/audit/result',
         payloadWithOutIsDataValid,
-        (err, res) => {
-          if (err) done(err);
+        (res) => {
           expect(res.status).to.be.equal(400);
-          done();
         },
       );
     });
   });
 
   context('with all the payload', () => {
-    const signature = '0x60450d197a21fdb0f6c8e290704674e54614bafeff47df1777cd38b87e4299905aecf671453de955cd9f4a90559d1696a2e09479866e213f919c9164db5174811b';
+    const signature = '0x60450d197a21fdb0f6c8e290704674e'
+    + '54614bafeff47df1777cd38b87e4299905aecf671453de955cd'
+    + '9f4a90559d1696a2e09479866e213f919c9164db5174811b';
 
     it('responds with status 200 and the correct signature', (done) => {
       requestPost(
+        done,
         '/buyers/audit/result',
         payload,
-        (err, res) => {
-          if (err) done(err);
+        (res) => {
           expect(res.status).to.be.equal(200);
           expect(res.body.signature).to.be.equal(signature);
-          done();
         },
       );
     });
