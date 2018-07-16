@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   res.sendStatus(403);
 });
 
-router.post('/audit/consent/', async (req, res) => {
+router.post('/audit/consent', async (req, res) => {
   res.contentType('application/json');
 
   if (!(req.body.hasOwnProperty('orderAddress') &&
@@ -31,5 +31,32 @@ router.post('/audit/consent/', async (req, res) => {
     res.status(200).json({ signature });
   }
 });
+
+router.post(
+  '/audit/result',
+  async (req, res) => {
+    res.contentType('application/json');
+    if (!(req.body.hasOwnProperty('orderAddress')
+      && req.body.hasOwnProperty('sellerAddress')
+      && req.body.hasOwnProperty('wasAudited')
+      && req.body.hasOwnProperty('isDataValid')
+    )) {
+      res.sendStatus(400);
+    } else {
+      const { privateKey } = config;
+
+      const message = [
+        req.body.orderAddress,
+        req.body.sellerAddress,
+        req.body.wasAudited,
+        req.body.isDataValid];
+
+      const messageHash = ethCrypto.hash.keccak256(message);
+      const signature = ethCrypto.sign(privateKey, messageHash);
+      console.log({ signature });
+      res.status(200).json({ signature });
+    }
+  },
+);
 
 export default router;

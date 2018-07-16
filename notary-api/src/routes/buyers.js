@@ -27,7 +27,7 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   } = config;
 
   if (!isValidOrderAddress(req.params.buyerAddress, req.params.orderAddress)) {
-    res.sendStatus(400);
+    res.status(400).json({});
   } else {
     try {
       const { data: { signature } } = await axios.post(
@@ -53,5 +53,34 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   }
 });
 
+router.post(
+  '/audit/result/:buyerAddress/:orderAddress',
+  async (req, res) => {
+    function randomInt(low, high) {
+      return Math.floor((Math.random() * (high - low)) + low);
+    }
+
+    if (req.body.hasOwnProperty('dataResponses')) {
+      const dataResponses = [];
+      req.body.dataResponses.forEach((element) => {
+        let result = 'na';
+
+        if (randomInt(1, 100) <= config.responsesPercentage) {
+          result = 'success';
+        }
+
+        dataResponses.push({
+          seller: element.seller,
+          result,
+          signature: 'this is a signature',
+        });
+      });
+      console.log(dataResponses);
+      res.status(200).json({ dataResponses });
+    } else {
+      res.status(400).json({});
+    }
+  },
+);
 
 export default router;
