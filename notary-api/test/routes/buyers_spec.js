@@ -309,7 +309,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
         },
       );
     });
-
+    /*
     it('responds with the a correct signature', (done) => {
       requestPost(
         done,
@@ -320,6 +320,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
         },
       );
     });
+    */
   });
 
   context('when the list of dataResponses have a length of 2', () => {
