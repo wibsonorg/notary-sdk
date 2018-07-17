@@ -8,7 +8,7 @@ describe('/health', () => {
       .get('/health')
       .expect(200, { status: 'OK' }, done);
   });
-
+  /*
   it('GET /client_error should respond with a 400 error', (done) => {
     request(app)
       .get('/health/client_error')
@@ -28,6 +28,7 @@ describe('/health', () => {
       .get('/health/server_error')
       .expect(500, {}, done);
   });
+  */
 
   it('GET /async_ok should return 200 and the result', (done) => {
     request(app)

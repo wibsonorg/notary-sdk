@@ -19,14 +19,16 @@ function isValidOrderAddress(buyerAddress, orderAddress) {
 }
 
 router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
+  const { orderAddress } = req.params;
+  const { buyerAddress } = req.params;
+
   const {
-    orderAddress,
     responsesPercentage,
     notarizationFee,
     notarizationTermsOfService,
   } = config;
 
-  if (!isValidOrderAddress(req.params.buyerAddress, req.params.orderAddress)) {
+  if (!isValidOrderAddress(buyerAddress, orderAddress)) {
     res.status(400).json({});
   } else {
     try {
@@ -60,9 +62,9 @@ router.post(
       return Math.floor((Math.random() * (high - low)) + low);
     }
 
-    if (req.body.hasOwnProperty('dataResponses')) {
+    if ('dataResponses' in req.body) {
       const dataResponses = [];
-      req.body.dataResponses.forEach((element) => {
+      req.body.dataResponses.forEach(async (element) => {
         let result = 'na';
 
         if (randomInt(1, 100) <= config.responsesPercentage) {
@@ -75,7 +77,6 @@ router.post(
           signature: 'this is a signature',
         });
       });
-      console.log(dataResponses);
       res.status(200).json({ dataResponses });
     } else {
       res.status(400).json({});

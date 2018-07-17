@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
   res.json({ status: 'OK' });
 });
 
+/*
 router.get('/client_error', (req, res) => {
   res.boom.badRequest('this should fail');
 });
@@ -27,7 +28,7 @@ router.get('/client_error', (req, res) => {
 router.get('/server_error', () => {
   throw new Error('this should fail');
 });
-
+*/
 function resolveAfter10ms(x) {
   return new Promise((resolve) => {
     setTimeout(() => {
