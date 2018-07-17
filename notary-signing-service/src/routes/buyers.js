@@ -15,9 +15,9 @@ router.post('/audit/consent', async (req, res) => {
 
   if (
     'orderAddress' in req.body
-      && req.body.hasOwnProperty('responsesPercentage')
-      && req.body.hasOwnProperty('notarizationFee')
-      && req.body.hasOwnProperty('notarizationTermsOfService')
+      && 'responsesPercentage' in req.body
+      && 'notarizationFee' in req.body
+      && 'notarizationTermsOfService' in req.body
   ) {
     const { privateKey } = config;
 
