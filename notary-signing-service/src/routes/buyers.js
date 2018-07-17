@@ -47,10 +47,10 @@ router.post('/audit/consent', async (req, res) => {
 router.post('/audit/result', async (req, res) => {
   res.contentType('application/json');
 
-  if (req.body.hasOwnProperty('orderAddress')
-      && req.body.hasOwnProperty('sellerAddress')
-      && req.body.hasOwnProperty('wasAudited')
-      && req.body.hasOwnProperty('isDataValid')
+  if ('orderAddress' in req.body
+      && 'sellerAddress' in req.body
+      && 'wasAudited' in req.body
+      && 'isDataValid' in req.body
   ) {
     const { privateKey } = config;
 
@@ -70,8 +70,6 @@ router.post('/audit/result', async (req, res) => {
     } catch (err) {
       throw new Error('Unable to create the signature');
     }
-
-    console.log(signature);
 
     res.status(200).json({ signature });
   } else {
