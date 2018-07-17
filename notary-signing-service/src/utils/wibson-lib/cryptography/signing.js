@@ -1,4 +1,4 @@
-import { packMessage, hashMessage, signMessage } from '../cryptography';
+import { packMessage, hashMessage, signMessage } from '.';
 
 const signSomething = (privateKey, ...args) => {
   try {

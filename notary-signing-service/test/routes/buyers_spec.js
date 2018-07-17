@@ -1,7 +1,6 @@
 import request from 'supertest';
 import { expect } from 'chai';
 import app from '../../src/app';
-import config from '../../config';
 
 function requestPost(done, uri, payload = {}, fn) {
   request(app)
@@ -9,10 +8,7 @@ function requestPost(done, uri, payload = {}, fn) {
     .send(payload)
     .set('Accept', 'application/json')
     .expect(fn)
-    .end((err) => {
-      if (err) return done(err);
-      return done();
-    });
+    .end(done);
 }
 
 function requestGet(done, uri, fn) {
@@ -26,7 +22,7 @@ function requestGet(done, uri, fn) {
     });
 }
 
-describe('#GET buyers/', () => {
+describe('#GET /buyers', () => {
   it('responds with status 403', (done) => {
     requestGet(
       done,
@@ -37,15 +33,11 @@ describe('#GET buyers/', () => {
   });
 });
 
-
 describe('#POST /buyers/audit/consent/', () => {
-  const {
-    orderAddress,
-    responsesPercentage,
-    notarizationFee,
-    notarizationTermsOfService,
-    signature,
-  } = config;
+  const orderAddress = '0xd56359a66d8ef7329507e5dd1f40aef7cd3320e7';
+  const responsesPercentage = 30;
+  const notarizationFee = 2;
+  const notarizationTermsOfService = 'The terms of service';
 
   context('when the orderAddress is missing', () => {
     it('responds with status 400', (done) => {
@@ -117,7 +109,10 @@ describe('#POST /buyers/audit/consent/', () => {
           notarizationFee,
           notarizationTermsOfService,
         }, (res) => {
-          expect(res.body.signature).to.be.equal(signature);
+          expect(res.body.signature).to.be.equal('0x011da84640d4861207270e' +
+            '212cb619c2bcaf5' +
+            'c3994f94417f74471d72a43135f4652ce3ab088' +
+            '79787429a99209e82ff0f7a621d4253f06a297f6714c1ac977b51c');
         },
       );
     });
@@ -193,9 +188,9 @@ describe('#POST /buyers/audit/result', () => {
   });
 
   context('with all the payload', () => {
-    const signature = '0x60450d197a21fdb0f6c8e290704674e'
-    + '54614bafeff47df1777cd38b87e4299905aecf671453de955cd'
-    + '9f4a90559d1696a2e09479866e213f919c9164db5174811b';
+    const signature = '0x03344d319275dfca74f241452910c75040' +
+    'a45f54bd6fee4f5dae5061f65e9c4a1ee66f' +
+    '911f40e1a2b16867e3cd03baac99fee4effa3fba1fa55c74e13aea1f6c1b';
 
     it('responds with status 200 and the correct signature', (done) => {
       requestPost(
@@ -210,8 +205,9 @@ describe('#POST /buyers/audit/result', () => {
     });
   });
 });
-/*
 
+
+/*
     it('responds with JSON', (done) => {
       requestPost('/buyers/audit/consent', payload, (err, res) => {
         if (err) return done(err);

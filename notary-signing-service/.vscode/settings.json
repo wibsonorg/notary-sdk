@@ -33,6 +33,4 @@
     },
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
-    "gitHistory.hideCommitViewExplorer": true,
-    "git.showInlineOpenFileAction": false
   }

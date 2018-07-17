@@ -1,7 +1,8 @@
 import express from 'express';
-import ethCrypto from 'eth-crypto';
 // import logger from '../utils/logger';
 import config from '../../config';
+import { packMessage, hashMessage, signMessage }
+  from '../utils/wibson-lib/cryptography';
 
 const router = express.Router();
 
@@ -12,51 +13,70 @@ router.get('/', async (req, res) => {
 router.post('/audit/consent', async (req, res) => {
   res.contentType('application/json');
 
-  if (!(req.body.hasOwnProperty('orderAddress') &&
-  req.body.hasOwnProperty('responsesPercentage') &&
-  req.body.hasOwnProperty('notarizationFee') &&
-  req.body.hasOwnProperty('notarizationTermsOfService'))) {
-    res.sendStatus(400);
-  } else {
+  if (
+    'orderAddress' in req.body
+      && req.body.hasOwnProperty('responsesPercentage')
+      && req.body.hasOwnProperty('notarizationFee')
+      && req.body.hasOwnProperty('notarizationTermsOfService')
+  ) {
     const { privateKey } = config;
 
-    const message = [
-      req.body.orderAddress,
-      req.body.responsesPercentage,
-      req.body.notarizationFee,
-      req.body.notarizationTermsOfService];
+    let signature;
 
-    const messageHash = ethCrypto.hash.keccak256(message);
-    const signature = ethCrypto.sign(privateKey, messageHash);
+    try {
+      const argsHash = packMessage(
+        req.body.orderAddress,
+        req.body.responsesPercentage,
+        req.body.notarizationFee,
+        req.body.notarizationTermsOfService,
+      );
+
+      const messageHash = hashMessage(argsHash);
+
+      signature = signMessage(privateKey, messageHash);
+    } catch (err) {
+      throw new Error('Unable to create the signature');
+    }
+
     res.status(200).json({ signature });
+  } else {
+    res.status(400).json({ error: 'missing parameter' });
   }
 });
 
-router.post(
-  '/audit/result',
-  async (req, res) => {
-    res.contentType('application/json');
-    if (!('orderAddress' in req.body.hasOwnProperty)
-      && ('sellerAddress' in req.body.hasOwnProperty)
-      && ('wasAudited' in req.body.hasOwnProperty)
-      && ('isDataValid' in req.body.hasOwnProperty)
-    ) {
-      res.sendStatus(400);
-    } else {
-      const { privateKey } = config;
+router.post('/audit/result', async (req, res) => {
+  res.contentType('application/json');
 
-      const message = [
+  if (req.body.hasOwnProperty('orderAddress')
+      && req.body.hasOwnProperty('sellerAddress')
+      && req.body.hasOwnProperty('wasAudited')
+      && req.body.hasOwnProperty('isDataValid')
+  ) {
+    const { privateKey } = config;
+
+    let signature;
+
+    try {
+      const argsHash = packMessage(
         req.body.orderAddress,
         req.body.sellerAddress,
         req.body.wasAudited,
-        req.body.isDataValid];
+        req.body.isDataValid,
+      );
 
-      const messageHash = ethCrypto.hash.keccak256(message);
-      const signature = ethCrypto.sign(privateKey, messageHash);
-      //  console.log({ signature });
-      res.status(200).json({ signature });
+      const messageHash = hashMessage(argsHash);
+
+      signature = signMessage(privateKey, messageHash);
+    } catch (err) {
+      throw new Error('Unable to create the signature');
     }
-  },
-);
+
+    console.log(signature);
+
+    res.status(200).json({ signature });
+  } else {
+    res.status(400).json({ error: 'missing parameter' });
+  }
+});
 
 export default router;

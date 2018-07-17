@@ -12,8 +12,8 @@ function requestPost(done, uri, payload = {}, fn) {
     .set('Accept', 'application/json')
     .expect(fn)
     .end((err) => {
-      if (err) return done(err);
-      return done();
+      if (err) done(err);
+      done();
     });
 }
 
@@ -23,8 +23,8 @@ function requestGet(done, uri, fn) {
     .set('Accept', 'application/json')
     .expect(fn)
     .end((err) => {
-      if (err) return done(err);
-      return done();
+      if (err) done(err);
+      done();
     });
 }
 
