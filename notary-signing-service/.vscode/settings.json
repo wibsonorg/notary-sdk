@@ -22,7 +22,7 @@
     },
     "eslint.run": "onType",
     "eslint.autoFixOnSave": true,
-  
+
     "files.exclude": {
       "**/.DS_Store": true,
       "**/.git": true,
@@ -32,5 +32,7 @@
       "dist*": true
     },
     "files.insertFinalNewline": true,
-    "files.trimTrailingWhitespace": true
+    "files.trimTrailingWhitespace": true,
+    "gitHistory.hideCommitViewExplorer": true,
+    "git.showInlineOpenFileAction": false
   }

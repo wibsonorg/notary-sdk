@@ -36,11 +36,11 @@ router.post(
   '/audit/result',
   async (req, res) => {
     res.contentType('application/json');
-    if (!(req.body.hasOwnProperty('orderAddress')
-      && req.body.hasOwnProperty('sellerAddress')
-      && req.body.hasOwnProperty('wasAudited')
-      && req.body.hasOwnProperty('isDataValid')
-    )) {
+    if (!('orderAddress' in req.body.hasOwnProperty)
+      && ('sellerAddress' in req.body.hasOwnProperty)
+      && ('wasAudited' in req.body.hasOwnProperty)
+      && ('isDataValid' in req.body.hasOwnProperty)
+    ) {
       res.sendStatus(400);
     } else {
       const { privateKey } = config;
@@ -53,7 +53,7 @@ router.post(
 
       const messageHash = ethCrypto.hash.keccak256(message);
       const signature = ethCrypto.sign(privateKey, messageHash);
-      console.log({ signature });
+      //  console.log({ signature });
       res.status(200).json({ signature });
     }
   },
