@@ -1,6 +1,7 @@
 import express from 'express';
 import axios from 'axios';
 import config from '../../config';
+import notarize from '../facade/notarizeFacade';
 
 const router = express.Router();
 
@@ -59,32 +60,13 @@ router.post(
   async (req, res) => {
     const { orderAddress } = req.params;
 
-    function randomInt(low, high) {
-      return Math.floor((Math.random() * (high - low)) + low);
-    }
-
     if ('dataResponses' in req.body) {
       const dataResponses = [];
 
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
-        let result = 'na';
-
-        if (randomInt(1, 100) <= config.responsesPercentage) {
-          result = 'success';
-        }
-
         // eslint-disable-next-line no-await-in-loop
-        const { data: { signature } } = await axios.post(
-          `${config.notarySigningServiceUri}/buyers/audit/result`,
-          {
-            orderAddress,
-            sellerAddress: seller,
-            wasAudited: result === 'success',
-            // Data Validators will be implemented in further releases
-            isDataValid: result === 'success',
-          },
-        );
+        const { result, signature } = await notarize(orderAddress, seller);
 
         dataResponses.push({
           seller,
