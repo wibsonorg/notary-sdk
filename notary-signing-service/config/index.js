@@ -14,7 +14,6 @@ var config = {
   env: env.NODE_ENV,
   port: env.PORT,
   host: env.HOST,
-  buyerSigningServiceUrl: env.BUYER_SIGNING_SERVICE_URL,
   // TEST
   privateKey: env.PRIVATE_KEY,
   orderAddress: env.ORDER_ADDRESS,
