@@ -1,6 +1,5 @@
 import express from 'express';
 import axios from 'axios';
-// import logger from '../utils/logger';
 import config from '../../config';
 
 const router = express.Router();

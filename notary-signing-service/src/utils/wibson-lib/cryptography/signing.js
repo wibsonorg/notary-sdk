@@ -1,6 +1,6 @@
 import { packMessage, hashMessage, signMessage } from '.';
 
-const signSomething = (privateKey, ...args) => {
+const signPayload = (privateKey, ...args) => {
   try {
     // 1. We calculate the sha3 of given input parameters in the same
     // way solidity would. This means arguments will be ABI converted and
@@ -21,4 +21,4 @@ const signSomething = (privateKey, ...args) => {
   }
 };
 
-export default signSomething;
+export default signPayload;
