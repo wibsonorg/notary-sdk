@@ -49,6 +49,7 @@ router.post('/audit/result', async (req, res) => {
 
   if ('orderAddress' in req.body
       && 'sellerAddress' in req.body
+      && 'dataHash' in req.body
       && 'wasAudited' in req.body
       && 'isDataValid' in req.body
   ) {
@@ -60,6 +61,7 @@ router.post('/audit/result', async (req, res) => {
       const argsHash = packMessage(
         req.body.orderAddress,
         req.body.sellerAddress,
+        req.body.dataHash,
         req.body.wasAudited,
         req.body.isDataValid,
       );

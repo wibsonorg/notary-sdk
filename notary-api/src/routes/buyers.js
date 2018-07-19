@@ -58,25 +58,45 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
 router.post(
   '/audit/result/:buyerAddress/:orderAddress',
   async (req, res) => {
+    const { orderAddress } = req.params;
+
     function randomInt(low, high) {
       return Math.floor((Math.random() * (high - low)) + low);
     }
 
     if ('dataResponses' in req.body) {
       const dataResponses = [];
-      req.body.dataResponses.forEach(async (element) => {
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const { seller } of req.body.dataResponses) {
         let result = 'na';
 
         if (randomInt(1, 100) <= config.responsesPercentage) {
           result = 'success';
         }
 
+        const dataHash = ''; // TODO: Should use seller dataHash instead
+
+        // eslint-disable-next-line no-await-in-loop
+        const { data: { signature } } = await axios.post(
+          `${config.notarySigningServiceUri}/buyers/audit/result`,
+          {
+            orderAddress,
+            sellerAddress: seller,
+            dataHash,
+            wasAudited: result === 'success',
+            // Data Validators will be implemented in further releases
+            isDataValid: true,
+          },
+        );
+
         dataResponses.push({
-          seller: element.seller,
+          seller,
           result,
-          signature: 'this is a signature',
+          signature,
         });
-      });
+      }
+
       res.status(200).json({ dataResponses });
     } else {
       res.status(400).json({});
