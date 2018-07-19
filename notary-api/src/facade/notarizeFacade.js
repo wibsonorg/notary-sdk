@@ -1,8 +1,26 @@
 import axios from 'axios';
 import config from '../../config';
+import { createLevelStore } from '../utils';
 
-const fetchNotarizationResult = (orderAddress, sellerAddress) => null;
-const storeNotarizationResult = params => null;
+const notarizationResultsStore = createLevelStore(config.notarizationResults.storePath);
+
+const fetchNotarizationResult = async ({ orderAddress, sellerAddress }) => {
+  try {
+    const payload = await notarizationResultsStore
+      .get(`${orderAddress}/${sellerAddress}`);
+    return JSON.parse(payload);
+  } catch (err) {
+    return null;
+  }
+};
+
+const storeNotarizationResult = async ({
+  orderAddress,
+  sellerAddress,
+  ...payload
+}) => notarizationResultsStore
+  .put(`${orderAddress}/${sellerAddress}`, JSON.stringify(payload));
+
 const randomInt = (low, high) =>
   Math.floor((Math.random() * (high - low)) + low);
 
@@ -39,11 +57,11 @@ const fetchNotarizationResultOrNotarize = async (
   orderAddress,
   sellerAddress,
 ) => {
-  let response = await fetchNotarizationResult(orderAddress, sellerAddress);
+  let response = await fetchNotarizationResult({ orderAddress, sellerAddress });
 
   if (!response) {
     response = await notarize(orderAddress, sellerAddress);
-    await storeNotarizationResult(response);
+    await storeNotarizationResult({ orderAddress, sellerAddress, ...response });
   }
 
   return response;
