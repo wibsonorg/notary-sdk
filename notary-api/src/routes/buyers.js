@@ -82,7 +82,7 @@ router.post(
             sellerAddress: seller,
             wasAudited: result === 'success',
             // Data Validators will be implemented in further releases
-            isDataValid: true,
+            isDataValid: result === 'success',
           },
         );
 
