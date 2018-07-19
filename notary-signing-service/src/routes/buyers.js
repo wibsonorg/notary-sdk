@@ -46,22 +46,13 @@ router.post('/audit/result', async (req, res) => {
   ) {
     const { privateKey } = config;
 
-    let signature;
-
-    try {
-      const argsHash = packMessage(
-        req.body.orderAddress,
-        req.body.sellerAddress,
-        req.body.wasAudited,
-        req.body.isDataValid,
-      );
-
-      const messageHash = hashMessage(argsHash);
-
-      signature = signMessage(privateKey, messageHash);
-    } catch (err) {
-      throw new Error('Unable to create the signature');
-    }
+    const signature = signPayload(
+      privateKey,
+      req.body.orderAddress,
+      req.body.sellerAddress,
+      req.body.wasAudited,
+      req.body.isDataValid,
+    );
 
     res.status(200).json({ signature });
   } else {
