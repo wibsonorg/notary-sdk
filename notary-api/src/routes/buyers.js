@@ -1,6 +1,7 @@
 import express from 'express';
 import axios from 'axios';
 import config from '../../config';
+import notarizeFacade from '../facade/notarizeFacade';
 
 const router = express.Router();
 
@@ -17,6 +18,14 @@ function isValidOrderAddress(buyerAddress, orderAddress) {
   return orderAddress !== 'this-is-an-invalid-dataorder';
 }
 
+/**
+ * @swagger
+ * /buyers/audit/consent/{buyerAddress}/{orderAddress}:
+ *   get:
+ *     description: |
+ *       # STEP 3 from Wibson's Protocol
+ *       ## Buyer asks for notary consent to participate in a DataOrder
+ */
 router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   const { orderAddress } = req.params;
   const { buyerAddress } = req.params;
@@ -54,28 +63,34 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /buyers/audit/result/{buyerAddress}/{orderAddress}:
+ *   post:
+ *     description: |
+ *       # STEP 9 from Wibson's Protocol
+ *       ## Buyer asks for notarization results
+ */
 router.post(
   '/audit/result/:buyerAddress/:orderAddress',
   async (req, res) => {
-    function randomInt(low, high) {
-      return Math.floor((Math.random() * (high - low)) + low);
-    }
+    const { orderAddress } = req.params;
 
     if ('dataResponses' in req.body) {
       const dataResponses = [];
-      req.body.dataResponses.forEach(async (element) => {
-        let result = 'na';
 
-        if (randomInt(1, 100) <= config.responsesPercentage) {
-          result = 'success';
-        }
+      // eslint-disable-next-line no-restricted-syntax
+      for (const { seller } of req.body.dataResponses) {
+        // eslint-disable-next-line no-await-in-loop
+        const { result, signature } = await notarizeFacade(orderAddress, seller);
 
         dataResponses.push({
-          seller: element.seller,
+          seller,
           result,
-          signature: 'this is a signature',
+          signature,
         });
-      });
+      }
+
       res.status(200).json({ dataResponses });
     } else {
       res.status(400).json({});

@@ -37,6 +37,9 @@ var config = {
   redis: {
     socket: env.REDIS_SOCKET
   },
+  notarizationResults: {
+    storePath: env.NOTARIZATION_RESULTS_STORE_PATH
+  },
 };
 
 exports.default = config;
