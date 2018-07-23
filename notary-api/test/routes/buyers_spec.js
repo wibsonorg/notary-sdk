@@ -13,6 +13,8 @@ const {
   signature,
 } = config;
 
+config.notarizationResults.storePath = 'tmp/notarizations';
+
 function requestPost(done, uri, payload = {}, fn) {
   request(app)
     .post(uri)
@@ -250,19 +252,31 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
   const sellerAddress3 = 'this-is-a-seller-address-3';
 
   context('when the list of dataResponses have a length of 1', () => {
-    it('responds with a list of dataResponses with a length of 1', (done) => {
-      requestPost(
-        done,
-        `/buyers/audit/result/${validBuyerAddress}/${orderAddress}`,
-        { dataResponses: [{ seller: sellerAddress1 }] },
-        (res) => {
-          expect(res.status).to.be.equal(200);
-          expect(res.type).to.be.equal('application/json');
-          expect(res.body).to.ownProperty('dataResponses');
-          expect(res.body.dataResponses).to.have.a.lengthOf(1);
-        },
-      );
+    beforeEach(() => {
+      sinon.stub(axios, 'post')
+        .returns(Promise.resolve({ data: { signature } }));
     });
+
+    afterEach(() => {
+      axios.post.restore();
+    });
+
+    it(
+      'responds with a list of dataResponses with a length of 1',
+      (done) => {
+        requestPost(
+          done,
+          `/buyers/audit/result/${validBuyerAddress}/${orderAddress}`,
+          { dataResponses: [{ seller: sellerAddress1 }] },
+          (res) => {
+            expect(res.status).to.be.equal(200);
+            expect(res.type).to.be.equal('application/json');
+            expect(res.body).to.haveOwnProperty('dataResponses');
+            expect(res.body.dataResponses).to.have.a.lengthOf(1);
+          },
+        );
+      },
+    );
 
     it('responds with the same seller', (done) => {
       requestPost(
@@ -270,7 +284,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
         `/buyers/audit/result/${validBuyerAddress}/${orderAddress}`,
         { dataResponses: [{ seller: sellerAddress1 }] },
         (res) => {
-          expect(res.body.dataResponses[0]).to.have.ownProperty('seller');
+          expect(res.body.dataResponses[0]).to.haveOwnProperty('seller');
           expect(res.body.dataResponses[0].seller).to.be.equal(sellerAddress1);
         },
       );
@@ -282,7 +296,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
         `/buyers/audit/result/${validBuyerAddress}/${orderAddress}`,
         { dataResponses: [{ seller: sellerAddress1 }] },
         (res) => {
-          expect(res.body.dataResponses[0]).to.have.ownProperty('result');
+          expect(res.body.dataResponses[0]).to.haveOwnProperty('result');
         },
       );
     });
@@ -324,6 +338,15 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
   });
 
   context('when the list of dataResponses have a length of 2', () => {
+    beforeEach(() => {
+      sinon.stub(axios, 'post')
+        .returns(Promise.resolve({ data: { signature } }));
+    });
+
+    afterEach(() => {
+      axios.post.restore();
+    });
+
     it('responds with a list of dataResponses with a length of 2', (done) => {
       requestPost(
         done,
@@ -357,6 +380,15 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
   });
 
   context('when the list of dataResponses have a length of 3', () => {
+    beforeEach(() => {
+      sinon.stub(axios, 'post')
+        .returns(Promise.resolve({ data: { signature } }));
+    });
+
+    afterEach(() => {
+      axios.post.restore();
+    });
+
     it('responds with a list of dataResponses with a length of 3', (done) => {
       requestPost(
         done,

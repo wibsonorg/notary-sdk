@@ -82,7 +82,10 @@ router.post(
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
         // eslint-disable-next-line no-await-in-loop
-        const { result, signature } = await notarizeFacade(orderAddress, seller);
+        const { result, signature } = await notarizeFacade(
+          orderAddress,
+          seller,
+        );
 
         dataResponses.push({
           seller,

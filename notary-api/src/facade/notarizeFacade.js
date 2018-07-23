@@ -2,7 +2,8 @@ import axios from 'axios';
 import config from '../../config';
 import { createLevelStore } from '../utils';
 
-const notarizationResultsStore = createLevelStore(config.notarizationResults.storePath);
+const notarizationResultsStore =
+  createLevelStore(config.notarizationResults.storePath);
 
 const fetchNotarizationResult = async ({ orderAddress, sellerAddress }) => {
   try {
