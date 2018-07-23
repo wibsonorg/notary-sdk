@@ -1,7 +1,7 @@
 import express from 'express';
 // import logger from '../utils/logger';
 import config from '../../config';
-import { packMessage, hashMessage, signMessage, signPayload }
+import { signPayload }
   from '../utils/wibson-lib/cryptography';
 
 
