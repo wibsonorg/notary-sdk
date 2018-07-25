@@ -109,10 +109,9 @@ describe('#POST /buyers/audit/consent/', () => {
           notarizationFee,
           notarizationTermsOfService,
         }, (res) => {
-          expect(res.body.signature).to.be.equal('0x011da84640d4861207270e' +
-            '212cb619c2bcaf5' +
-            'c3994f94417f74471d72a43135f4652ce3ab088' +
-            '79787429a99209e82ff0f7a621d4253f06a297f6714c1ac977b51c');
+          expect(res.body.signature).to.be.equal('0xa45c07fdcf84ea2a4333eb2680a2c853c2' +
+          '845333cd5649d386922a85547d03aa242986d1579cbb099eb246b872348ccf318006ee3303c' +
+          'b93cc80808bec5c73e11b');
         },
       );
     });
@@ -188,9 +187,9 @@ describe('#POST /buyers/audit/result', () => {
   });
 
   context('with all the payload', () => {
-    const signature = '0x03344d319275dfca74f241452910c75040' +
-    'a45f54bd6fee4f5dae5061f65e9c4a1ee66f' +
-    '911f40e1a2b16867e3cd03baac99fee4effa3fba1fa55c74e13aea1f6c1b';
+    const signature = '0xd0f72075792effd3aaf08b6fe54ca52c35406626f16c5b6dd714e' +
+    'f98868377a5640530f63ea138f02d98b20a31b5927c183bdcfdc7a3d36d19558' +
+    'e72b0cef4271b';
 
     it('responds with status 200 and the correct signature', (done) => {
       requestPost(
