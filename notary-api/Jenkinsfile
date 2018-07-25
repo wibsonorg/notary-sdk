@@ -6,7 +6,7 @@ pipeline {
   }
   environment {
     npm_config_cache = 'npm-cache'
-    workdir = '.'
+    workdir = 'notary-api'
     package_name = 'notary-api'
   }
   stages {
