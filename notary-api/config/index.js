@@ -40,6 +40,7 @@ var config = {
   notarizationResults: {
     storePath: env.NOTARIZATION_RESULTS_STORE_PATH
   },
+  levelDirectory: env.LEVEL_DIRECTORY
 };
 
 exports.default = config;
