@@ -37,7 +37,7 @@ const swaggerSpec = swaggerJSDoc({
       version: '1.0.0',
     },
   },
-  apis: ls('src/routes'),
+  apis: ls(`${__dirname}/routes/**/*.js`),
 });
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
