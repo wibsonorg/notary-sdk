@@ -37,7 +37,7 @@ router.get('/', (req, res) => {
 router.get('/deep', async (req, res) => {
   try {
     await requestPromise.get(
-      `${config.uri}/health`,
+      `${config.notarySigningServiceUri}/health`,
       { timeout: 1000 },
     );
     res.status(200).json({ status: 'OK' });
