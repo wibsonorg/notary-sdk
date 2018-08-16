@@ -4,7 +4,7 @@ import glob from 'glob';
 const schema = swaggerJSDoc({
   swaggerDefinition: {
     info: {
-      title: 'Buyer API',
+      title: 'Notary Validator API',
       version: '1.0.0',
     },
   },

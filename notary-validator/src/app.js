@@ -14,7 +14,7 @@ import {
   createLevelStore,
 } from './utils';
 
-import { account, health, notaries, dataOrders, dataResponses } from './routes';
+import { health } from './routes';
 
 const app = express();
 app.locals.stores = {
@@ -33,11 +33,11 @@ app.use(morgan(config.logType || 'combined', {
 app.use(cors());
 app.use(boom());
 
-app.use('/account', account);
+// app.use('/account', account);
 app.use('/health', health);
-app.use('/notaries', notaries);
-app.use('/data-responses', dataResponses);
-app.use('/orders', dataOrders);
+// app.use('/notaries', notaries);
+// app.use('/data-responses', dataResponses);
+// app.use('/orders', dataOrders);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
 app.get('/api-docs.json', (_req, res) => res.json(schema));
 
