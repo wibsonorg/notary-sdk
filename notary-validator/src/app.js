@@ -14,7 +14,7 @@ import {
   createLevelStore,
 } from './utils';
 
-import { account, health, notaries, dataOrders, dataResponses, buyerInfos } from './routes';
+import { account, health, notaries, dataOrders, dataResponses } from './routes';
 
 const app = express();
 app.locals.stores = {
@@ -22,8 +22,6 @@ app.locals.stores = {
   level: createLevelStore(`${config.levelDirectory}/sample_level`),
   ordersCache: createRedisStore('orders.cache'),
   notariesCache: createRedisStore('notaries.cache'),
-  buyerInfos: createLevelStore(`${config.levelDirectory}/buyer_infos`),
-  buyerInfoPerOrder: createLevelStore(`${config.levelDirectory}/buyer_info_per_order`),
 };
 
 app.use(helmet());
@@ -39,7 +37,6 @@ app.use('/account', account);
 app.use('/health', health);
 app.use('/notaries', notaries);
 app.use('/data-responses', dataResponses);
-app.use('/infos', buyerInfos);
 app.use('/orders', dataOrders);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
 app.get('/api-docs.json', (_req, res) => res.json(schema));
