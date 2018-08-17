@@ -14,7 +14,7 @@ import {
   createLevelStore,
 } from './utils';
 
-import { health } from './routes';
+import { health, validate } from './routes';
 
 const app = express();
 app.locals.stores = {
@@ -35,6 +35,8 @@ app.use(boom());
 
 // app.use('/account', account);
 app.use('/health', health);
+app.use('/validate', validate);
+
 // app.use('/notaries', notaries);
 // app.use('/data-responses', dataResponses);
 // app.use('/orders', dataOrders);
