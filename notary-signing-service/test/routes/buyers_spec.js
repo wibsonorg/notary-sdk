@@ -109,8 +109,10 @@ describe('#POST /buyers/audit/consent/', () => {
           notarizationFee,
           notarizationTermsOfService,
         }, (res) => {
-          expect(res.body.signature).to.be.equal('0xa45c07fdcf84ea2a4333eb2680a2c853c2' +
-          '845333cd5649d386922a85547d03aa242986d1579cbb099eb246b872348ccf318006ee3303c' +
+          expect(res.body.signature).to.be.equal('0xa45c07fdcf84ea2a4333eb26' +
+          '80a2c853c2' +
+          '845333cd5649d386922a85547d03aa242986d1579c' +
+          'bb099eb246b872348ccf318006ee3303c' +
           'b93cc80808bec5c73e11b');
         },
       );
@@ -187,7 +189,8 @@ describe('#POST /buyers/audit/result', () => {
   });
 
   context('with all the payload', () => {
-    const signature = '0xd0f72075792effd3aaf08b6fe54ca52c35406626f16c5b6dd714e' +
+    const signature = '0xd0f72075792effd3aaf08b6fe54ca52c354' +
+    '06626f16c5b6dd714e' +
     'f98868377a5640530f63ea138f02d98b20a31b5927c183bdcfdc7a3d36d19558' +
     'e72b0cef4271b';
 
