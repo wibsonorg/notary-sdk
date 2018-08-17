@@ -7,21 +7,13 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import config from '../config';
 import schema from './schema';
-import {
-  logger,
-  errorHandler,
-  createRedisStore,
-  createLevelStore,
-} from './utils';
+import { logger, errorHandler, createLevelStore } from './utils';
 
 import { health, validate } from './routes';
 
 const app = express();
 app.locals.stores = {
-  redis: createRedisStore('sample'),
   level: createLevelStore(`${config.levelDirectory}/sample_level`),
-  ordersCache: createRedisStore('orders.cache'),
-  notariesCache: createRedisStore('notaries.cache'),
 };
 
 app.use(helmet());
@@ -33,15 +25,11 @@ app.use(morgan(config.logType || 'combined', {
 app.use(cors());
 app.use(boom());
 
-// app.use('/account', account);
 app.use('/health', health);
 app.use('/validate', validate);
 
-// app.use('/notaries', notaries);
-// app.use('/data-responses', dataResponses);
-// app.use('/orders', dataOrders);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
-app.get('/api-docs.json', (_req, res) => res.json(schema));
+app.get('/api-docs.json', (req, res) => res.json(schema));
 
 app.use(errorHandler); // This MUST always go after any other app.use(...)
 

@@ -18,28 +18,10 @@ const router = express.Router();
  *       200:
  *         description: When the app is OK
  */
-router.get('/', async (_req, res) => {
+router.get('/:MSISDN', async (req, res) => {
+  const { MSISDN } = req.params;
+  console.log(MSISDN);
   res.json({ status: 'OK' });
-});
-
-router.get('/redis', async (req, res) => {
-  const { stores: { redis } } = req.app.locals;
-  await redis.set('foo', 'bar');
-  const bar = await redis.get('foo');
-
-  res.json({ foo: bar });
-});
-
-router.get('/level', async (req, res) => {
-  const { stores: { level } } = req.app.locals;
-  await level.put('foz', 'baz');
-  const baz = await level.get('foz');
-
-  res.json({ foz: baz });
-});
-
-router.get('/cache', cache('5 minutes'), (req, res) => {
-  res.json({ timestamp: Date.now() });
 });
 
 export default router;
