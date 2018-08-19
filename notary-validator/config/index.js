@@ -10,11 +10,12 @@ require('dotenv').config();
 var _process = process,
     env = _process.env;
 
-
 var config = {
   env: env.NODE_ENV,
   port: env.PORT,
   host: env.HOST,
+  clientId: env.CLIENT_ID,
+  redirectURI: env.REDIRECT_URI,
   buyerSigningServiceUrl: env.BUYER_SIGNING_SERVICE_URL,
   contracts: {
     addresses: {

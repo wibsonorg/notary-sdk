@@ -1,7 +1,7 @@
 import express from 'express';
-import requestPromise from 'request-promise-native';
+import axios from 'axios';
+import uuidv4 from 'uuid/v4';
 import config from '../../config';
-import { web3, cache } from '../utils';
 
 const router = express.Router();
 
@@ -18,28 +18,31 @@ const router = express.Router();
  *       200:
  *         description: When the app is OK
  */
-router.get('/', async (_req, res) => {
-  res.json({ status: 'OK' });
-});
 
-router.get('/redis', async (req, res) => {
-  const { stores: { redis } } = req.app.locals;
-  await redis.set('foo', 'bar');
-  const bar = await redis.get('foo');
+router.get('/:MSISDN', (req, res) => {
+  const { MSISDN } = req.params;
+  const nonce = uuidv4();
+  const state = uuidv4();
+  const { clientId, redirectURI } = config;
 
-  res.json({ foo: bar });
-});
-
-router.get('/level', async (req, res) => {
-  const { stores: { level } } = req.app.locals;
-  await level.put('foz', 'baz');
-  const baz = await level.get('foz');
-
-  res.json({ foz: baz });
-});
-
-router.get('/cache', cache('5 minutes'), (req, res) => {
-  res.json({ timestamp: Date.now() });
+  axios.get('https://mobileconnect.telefonica.es/es/oauth2/authorize?' +
+  'scope=openid%20phone&' +
+  'response_type=code&' +
+  'acr_values=2&' +
+  `client_id=${clientId}&` +
+  `state=${state}&` +
+  `nonce=${nonce}&` +
+  `redirect_uri=${redirectURI}&` +
+  `login_hint=MSISDN%3A${MSISDN}&` +
+  'version=mc_di_r2_v2.3').then((response) => {
+    res.send(response);
+  })
+    .catch((error) => {
+      res.send(error);
+    })
+    .then(() => {
+    // always executed
+    });
 });
 
 export default router;
