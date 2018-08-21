@@ -36,8 +36,10 @@ router.get('/:MSISDN', (req, res) => {
   `login_hint=MSISDN%3A${MSISDN}&` +
   'version=mc_di_r2_v2.3').then((response) => {
     res.send(response);
+    console.log(response.status);
   })
     .catch((error) => {
+      console.log(error.response.status);
       res.send(error);
     })
     .then(() => {
