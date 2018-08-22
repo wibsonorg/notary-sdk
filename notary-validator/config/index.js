@@ -14,6 +14,7 @@ var config = {
   env: env.NODE_ENV,
   port: env.PORT,
   host: env.HOST,
+  mobileConnectURI: env.MOBILE_CONNECT_URI,
   clientId: env.CLIENT_ID,
   redirectURI: env.REDIRECT_URI,
   buyerSigningServiceUrl: env.BUYER_SIGNING_SERVICE_URL,

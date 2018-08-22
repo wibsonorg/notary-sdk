@@ -23,9 +23,9 @@ router.get('/:MSISDN', (req, res) => {
   const { MSISDN } = req.params;
   const nonce = uuidv4();
   const state = uuidv4();
-  const { clientId, redirectURI } = config;
+  const { mobileConnectURI, clientId, redirectURI } = config;
 
-  axios.get('https://mobileconnect.telefonica.es/es/oauth2/authorize?' +
+  axios.get(`${mobileConnectURI}?` +
   'scope=openid%20phone&' +
   'response_type=code&' +
   'acr_values=2&' +
