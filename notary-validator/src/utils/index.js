@@ -5,6 +5,7 @@ import logger from './logger';
 export { web3, cache, logger };
 export {
   createRedisStore,
+  createBasicRedisStore,
   createLevelStore,
   listLevelPairs,
   listLevelKeys,

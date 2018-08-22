@@ -7,13 +7,18 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import config from '../config';
 import schema from './schema';
-import { logger, errorHandler, createLevelStore } from './utils';
+import {
+  logger,
+  errorHandler,
+  createBasicRedisStore,
+} from './utils';
 
 import { health, validate } from './routes';
 
 const app = express();
+
 app.locals.stores = {
-  level: createLevelStore(`${config.levelDirectory}/sample_level`),
+  requests: createBasicRedisStore('requests'),
 };
 
 app.use(helmet());
