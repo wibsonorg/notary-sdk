@@ -50,10 +50,10 @@ function isValidOrderAddress(buyerAddress, orderAddress) {
  *             signature:
  *               type: string
  *               description: Signature of the previous params
- *       422:
+ *       400:
  *         description: When there is a problem with the input
  *       500:
- *         description: Problem on our side
+ *         description: Internal server error
  */
 router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
   const { orderAddress } = req.params;
