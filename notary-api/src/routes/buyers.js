@@ -32,6 +32,7 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
 
   const {
     responsesPercentage,
+    // If the notarization fee is 4WIB, then the configured value should be 4e+9
     notarizationFee,
     notarizationTermsOfService,
   } = config;
