@@ -45,4 +45,9 @@ router.get('/:MSISDN', async (req, res) => {
   }
 });
 
+
+router.get('/identity-callback', async (req, res) => {
+  console.log(res);
+});
+
 export default router;
