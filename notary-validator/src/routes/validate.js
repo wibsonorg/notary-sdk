@@ -19,21 +19,17 @@ const router = express.Router();
  *         description: When the app is OK
  */
 
+
 router.get('/:MSISDN', async (req, res) => {
   const { MSISDN } = req.params;
-
-  // console.log(req.app.locals.stores.validationRequets);
   const { requests } = req.app.locals.stores;
 
   const nonce = uuidv4();
   const state = uuidv4();
   const { mobileConnectURI, clientId, redirectURI } = config;
-  // const value = await validationRequests.get(state);
-  // console.log(value);
-  await requests.set(state, nonce, MSISDN, 'EX', 1800);
+  // await requests.set(state, nonce, MSISDN, 'EX', 1800);
 
-  try {
-    const request = `${mobileConnectURI}?` +
+  const request = `${mobileConnectURI}?` +
     'scope=openid%20phone&' +
     'response_type=code&' +
     'acr_values=2&' +
@@ -44,14 +40,19 @@ router.get('/:MSISDN', async (req, res) => {
     `login_hint=MSISDN%3A${MSISDN}&` +
     'version=mc_di_r2_v2.3';
 
-    console.log(request);
-
+  try {
     const response = await axios.get(request);
-
-    res.send(response);
-
+    console.log('response');
     console.log(response.status);
+
+    try {
+      await requests.set(state, nonce, MSISDN, 'EX', 1800);
+      res.send(response);
+    } catch (error) {
+      res.send(error);
+    }
   } catch (error) {
+    console.log('error');
     console.log(error.response.status);
     res.send(error);
   }
