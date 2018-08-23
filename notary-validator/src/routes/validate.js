@@ -29,7 +29,7 @@ router.get('/:MSISDN', async (req, res) => {
   const { mobileConnectURI, clientId, redirectURI } = config;
   // await requests.set(state, nonce, MSISDN, 'EX', 1800);
 
-  const request = `${mobileConnectURI}?` +
+  const queryString = `${mobileConnectURI}?` +
     'scope=openid%20phone&' +
     'response_type=code&' +
     'acr_values=2&' +
@@ -40,15 +40,28 @@ router.get('/:MSISDN', async (req, res) => {
     `login_hint=MSISDN%3A${MSISDN}&` +
     'version=mc_di_r2_v2.3';
 
+  console.log(queryString);
+
+  let response;
   try {
-    const response = await axios.get(request);
+    response = await axios.get(queryString);
     console.log('response');
     console.log(response.status);
 
     try {
-      await requests.set(state, nonce, MSISDN, 'EX', 1800);
+      const request = await requests.set(
+        state,
+        JSON.stringify({
+          state,
+          nonce,
+          MSISDN,
+        }),
+      );
+      console.log(request);
+
       res.send(response);
     } catch (error) {
+      console.log(error);
       res.send(error);
     }
   } catch (error) {
@@ -58,9 +71,19 @@ router.get('/:MSISDN', async (req, res) => {
   }
 });
 
-
 router.get('/identity-callback', async (req, res) => {
-  console.log(res);
+  const { state } = req.params;
+  const { requests } = req.app.locals.stores;
+
+  console.log(state);
+
+  try {
+    const value = await requests.get(state);
+    console.log(value);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
 });
 
 export default router;
