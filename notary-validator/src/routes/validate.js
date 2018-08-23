@@ -74,15 +74,20 @@ router.get('/:MSISDN', async (req, res) => {
 router.get('/identity-callback', async (req, res) => {
   const { state } = req.params;
   const { requests } = req.app.locals.stores;
+  const { error } = req.params;
 
   console.log(state);
+
+  if (error === 'access_denied') {
+    res.send(error);
+  }
 
   try {
     const value = await requests.get(state);
     console.log(value);
-  } catch (error) {
-    console.log(error);
-    res.send(error);
+  } catch (e) {
+    console.log(e);
+    res.send(e);
   }
 });
 
