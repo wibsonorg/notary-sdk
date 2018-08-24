@@ -4,12 +4,11 @@ import morgan from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import boom from 'express-boom';
-import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import fs from 'fs';
 import config from '../config';
-import logger from './utils/logger';
+import { logger, errorHandler } from './utils';
 import { health, buyers } from './routes';
+import schema from './schema';
 
 const app = express();
 
@@ -24,23 +23,9 @@ app.use(boom());
 
 app.use('/health', health);
 app.use('/buyers', buyers);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
+app.get('/api-docs.json', (_req, res) => res.json(schema));
 
-
-const ls = dir =>
-  fs.readdirSync(dir)
-    .reduce((accumulator, file) => [...accumulator, `${dir}/${file}`], []);
-
-const swaggerSpec = swaggerJSDoc({
-  swaggerDefinition: {
-    info: {
-      title: 'Notary SDK',
-      version: '1.0.0',
-    },
-  },
-  apis: ls(`${__dirname}/routes`),
-});
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
+app.use(errorHandler); // This MUST always go after any other app.use(...)
 
 export default app;

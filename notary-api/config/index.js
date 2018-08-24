@@ -17,6 +17,11 @@ const config = {
   notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
   timeout: env.TIMEOUT,
   orderAddress: env.ORDER_ADDRESS,
+  contracts: {
+    addresses: {
+      dataExchange: env.DATA_EXCHANGE_ADDRESS,
+    },
+  },
   responsesPercentage: env.RESPONSES_PERCENTAGE,
   notarizationFee: env.NOTARIZATION_FEE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVICE,

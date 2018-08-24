@@ -5,17 +5,39 @@ import WibcoinDefinition from '../../contracts/Wibcoin.json';
 import DataOrderDefinition from '../../contracts/DataOrder.json';
 import DataExchangeDefinition from '../../contracts/DataExchange.json';
 
-const WibcoinContract = web3.eth.contract(WibcoinDefinition.abi);
-const DataOrderContract = web3.eth.contract(DataOrderDefinition.abi);
-const DataExchangeContract = web3.eth.contract(DataExchangeDefinition.abi);
+/**
+ * @param {String} addr ethereum address
+ * @returns {web3.eth.Contract} instan of the contract
+ */
+const wibcoinAt = addr =>
+  new web3.eth.Contract(WibcoinDefinition.abi, addr);
 
-const wibcoin = WibcoinContract.at(config.contracts.addresses.wibcoin);
-const dataExchange = DataExchangeContract.at(config.contracts.addresses.dataExchange);
+/**
+ * @param {String} addr ethereum address
+ * @returns {web3.eth.Contract} instan of the contract
+ */
+const dataOrderAt = addr =>
+  new web3.eth.Contract(DataOrderDefinition.abi, addr);
+
+/**
+ * @param {String} addr ethereum address
+ * @returns {web3.eth.Contract} instan of the contract
+ */
+const dataExchangeAt = addr =>
+  new web3.eth.Contract(DataExchangeDefinition.abi, addr);
+
+const {
+  wibcoin: wibcoinAddr,
+  dataExchange: dataExchangeAddr,
+} = config.contracts.addresses;
+
+const wibcoin = wibcoinAt(wibcoinAddr);
+const dataExchange = dataExchangeAt(dataExchangeAddr);
 
 export {
   wibcoin,
-  WibcoinContract,
-  DataOrderContract,
+  wibcoinAt,
+  dataOrderAt,
   dataExchange,
-  DataExchangeContract,
+  dataExchangeAt,
 };
