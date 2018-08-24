@@ -2,20 +2,23 @@ import {
   fetchNotarizationResult,
   storeNotarizationResult,
 } from './notarizationResultRepository';
-import { getSellerInfo, getSellerData } from './seller';
+import { fetchSellerInfo } from './sellerInfoRepository';
 import { validateData } from './validateData';
 import { logger } from '../../utils';
+import { storage } from '../../utils/wibson-lib';
 import signingService from '../../services/signingService';
 import config from '../../../config';
 
-const randomInt = (low, high) =>
-  Math.floor((Math.random() * (high - low)) + low);
+// const randomInt = (low, high) =>
+//   Math.floor((Math.random() * (high - low)) + low);
+
+const randomInt = (low, high) => 1;
 
 const notarizeDataFromSeller = async (orderAddress, sellerAddress) => {
   const {
     notaryAddress,
     closedAt,
-  } = await getSellerInfo(orderAddress, sellerAddress);
+  } = await fetchSellerInfo(orderAddress, sellerAddress);
   const { address } = await signingService.getAccount();
 
   return notaryAddress === address && !closedAt;
@@ -38,7 +41,10 @@ export const notarize = async (orderAddress, sellerAddress) => {
   const payload = { result: 'na' };
 
   if (randomInt(1, 100) <= config.responsesPercentage) {
-    const sellerData = await getSellerData(sellerAddress);
+    const sellerData = await storage.getData(
+      { address: orderAddress },
+      sellerAddress,
+    );
     payload.result = await validateData(sellerData);
   }
 

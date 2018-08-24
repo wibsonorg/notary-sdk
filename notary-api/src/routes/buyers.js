@@ -4,6 +4,8 @@ import { asyncError } from '../utils';
 import {
   fetchNotarizationResultOrNotarize,
   notarize,
+  deleteNotarizationResult,
+  storeNotarizationResult,
 } from '../facade/notarizeFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
@@ -124,12 +126,26 @@ router.post(
   }),
 );
 
+// TODO: remove before merging
 router.get(
   '/notarize/:sellerAddress/:orderAddress',
   asyncError(async (req, res) => {
     const { orderAddress, sellerAddress } = req.params;
+    await deleteNotarizationResult(orderAddress, sellerAddress);
+
     const response = await notarize(orderAddress, sellerAddress);
     res.json(response);
+  }),
+);
+
+// TODO: remove before merging
+router.get(
+  '/notarize/:sellerAddress/:orderAddress/success',
+  asyncError(async (req, res) => {
+    const { orderAddress, sellerAddress } = req.params;
+    await storeNotarizationResult(orderAddress, sellerAddress, { result: 'success' });
+
+    res.json({ result: 'success' });
   }),
 );
 

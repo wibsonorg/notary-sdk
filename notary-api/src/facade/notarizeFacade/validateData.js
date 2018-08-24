@@ -12,12 +12,12 @@ import config from '../../../config';
  *                                  and validation process started.
  *                   'failure': when data validator call failed
  */
-export const validateData = async (sellerAddress, payload) => {
+export const validateData = async (payload) => {
   const { msisdn } = payload;
 
   try {
     await axios.get(
-      `${config.notaryValidatorUrl}/validate/${msisdn}`,
+      `${config.notaryValidatorUri}/validate/${msisdn}`,
       payload,
     );
 

@@ -14,6 +14,15 @@ export const fetchNotarizationResult = async (orderAddress, sellerAddress) => {
   }
 };
 
-export const storeNotarizationResult = async (orderAddress, sellerAddress, payload) =>
+export const storeNotarizationResult = async (
+  orderAddress,
+  sellerAddress,
+  payload,
+) =>
   notarizationResultsStore
     .put(`${orderAddress}/${sellerAddress}`, JSON.stringify(payload));
+
+// TODO: remove before merging
+export const deleteNotarizationResult = async (orderAddress, sellerAddress) =>
+  notarizationResultsStore
+    .del(`${orderAddress}/${sellerAddress}`);

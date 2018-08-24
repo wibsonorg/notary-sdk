@@ -1,9 +1,11 @@
-import { logger } from '../../utils';
+import { notarize } from '../../facade/notarizeFacade';
 
 const notarizationRequestSubscriber = {
   name: 'NotarizationRequest',
-  callback: async (res) => {
-    logger.info(`[NotarizationRequest] received ${JSON.stringify({ event: res.event })}`);
+  callback: async (result) => {
+    console.log('[NotarizationRequest]', result);
+    const { orderAddr, seller } = result.returnValues;
+    await notarize(orderAddr, seller);
   },
   events: [
     'DataAdded',

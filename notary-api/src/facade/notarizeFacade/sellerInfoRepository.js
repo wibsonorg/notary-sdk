@@ -2,7 +2,7 @@ import web3Utils from 'web3-utils';
 import { dateOrNull } from '../helpers/date';
 import { dataOrderAt } from '../../utils';
 
-export const getSellerInfo = async (orderAddress, sellerAddress) => {
+export const fetchSellerInfo = async (orderAddress, sellerAddress) => {
   const dataOrder = dataOrderAt(orderAddress);
   try {
     const sellerInfo = await dataOrder.methods
@@ -21,7 +21,3 @@ export const getSellerInfo = async (orderAddress, sellerAddress) => {
     return { error: error.message };
   }
 };
-
-export const getSellerData = sellerAddress => ({
-  msisdn: '541112341234',
-});
