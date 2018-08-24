@@ -61,7 +61,7 @@ router.get('/validate/:MSISDN', async (req, res) => {
       );
       console.log(request);
 
-      res.status(response.status).json({ validated: true, identified: null });
+      res.json({ validated: true, identified: null });
     } catch (error) {
       console.log(error);
       res.sendStatus(500);
@@ -81,23 +81,48 @@ router.get('/identity-callback', async (req, res) => {
     state,
   } = req.query;
 
+  const { notaryAPIURL } = config;
   const { requests } = req.app.locals.stores;
 
   console.log(error, error_description, code, state);
 
+  let validated = false;
+  let identified = false;
+
   if ('error' in req.query) {
-    res.json({ validated: true, identified: false });
+    validated = true;
+    identified = false;
+    // res.json({ validated, identified });
   } else {
     try {
       const value = await requests.get(state);
 
       console.log(value);
-      res.json({ validated: true, identified: true });
+      validated = true;
+      identified = true;
     } catch (e) {
       console.log(e);
+      validated = true;
+      identified = null;
       res.sendStatus(500);
     }
   }
+
+  const queryString = `${notaryAPIURL}/data/validation-result?` +
+  `validated=${validated}&` +
+  `identified=${identified}&` +
+  `error=${error}&` +
+  `error_description=${error_description}`;
+
+  console.log(queryString);
+  try {
+    const response = await axios.get(queryString);
+    console.log(response);
+  } catch (e) {
+    console.log(e);
+  }
+
+  res.json({ validated, identified });
 });
 
 export default router;
