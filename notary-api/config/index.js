@@ -15,6 +15,7 @@ const config = {
   port: env.PORT,
   host: env.HOST,
   notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
+  notaryValidatorUri: env.NOTARY_VALIDATOR_URI,
   timeout: env.TIMEOUT,
   orderAddress: env.ORDER_ADDRESS,
   contracts: {
@@ -45,6 +46,13 @@ const config = {
     storePath: env.NOTARIZATION_RESULTS_STORE_PATH,
   },
   levelDirectory: env.LEVEL_DIRECTORY,
+  storage: {
+    url: env.STORAGE_URL,
+    region: env.STORAGE_REGION,
+    user: env.STORAGE_USER,
+    password: env.STORAGE_PASSWORD,
+    bucket: env.STORAGE_BUCKET,
+  },
 };
 
 exports.default = config;
