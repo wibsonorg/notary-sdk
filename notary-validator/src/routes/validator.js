@@ -1,6 +1,8 @@
 import express from 'express';
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
+import url from 'url';
+import querystring from 'querystring';
 import config from '../../config';
 
 const router = express.Router();
@@ -20,14 +22,13 @@ const router = express.Router();
  */
 
 
-router.get('/:MSISDN', async (req, res) => {
+router.get('/validate/:MSISDN', async (req, res) => {
   const { MSISDN } = req.params;
   const { requests } = req.app.locals.stores;
 
   const nonce = uuidv4();
   const state = uuidv4();
   const { mobileConnectURI, clientId, redirectURI } = config;
-  // await requests.set(state, nonce, MSISDN, 'EX', 1800);
 
   const queryString = `${mobileConnectURI}?` +
     'scope=openid%20phone&' +
@@ -72,19 +73,21 @@ router.get('/:MSISDN', async (req, res) => {
 });
 
 router.get('/identity-callback', async (req, res) => {
-  const { state } = req.params;
+  console.log(req.query);
+  const { error, code, state } = req.query;
   const { requests } = req.app.locals.stores;
-  const { error } = req.params;
 
-  console.log(state);
+  console.log(error, code, state);
 
   if (error === 'access_denied') {
     res.send(error);
+    return;
   }
-
   try {
     const value = await requests.get(state);
     console.log(value);
+    res.send(value);
+    return;
   } catch (e) {
     console.log(e);
     res.send(e);

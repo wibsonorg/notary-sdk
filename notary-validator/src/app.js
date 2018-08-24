@@ -13,7 +13,7 @@ import {
   createBasicRedisStore,
 } from './utils';
 
-import { health, validate } from './routes';
+import { health, validator } from './routes';
 
 const app = express();
 
@@ -22,6 +22,7 @@ app.locals.stores = {
 };
 
 app.use(helmet());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan(config.logType || 'combined', {
   stream: logger.stream,
@@ -31,7 +32,7 @@ app.use(cors());
 app.use(boom());
 
 app.use('/health', health);
-app.use('/validate', validate);
+app.use('/validator', validator);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
 app.get('/api-docs.json', (req, res) => res.json(schema));
