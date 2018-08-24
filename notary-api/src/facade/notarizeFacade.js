@@ -32,10 +32,10 @@ const randomInt = (low, high) =>
  * @param {String} sellerAddress Seller address whos data is being audited
  * @returns
  */
-const notarize = async (orderAddress, sellerAddress) => {
+const notarize = async (orderAddress, sellerAddress, randomize = true) => {
   let result = 'na';
 
-  if (randomInt(1, 100) <= config.responsesPercentage) {
+  if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
     result = 'success';
   }
 
@@ -54,6 +54,15 @@ const notarize = async (orderAddress, sellerAddress) => {
   return { signature, result };
 };
 
+const notarizeOnDemand = async (orderAddress, sellerAddress) => {
+  let response = await fetchNotarizationResult({ orderAddress, sellerAddress });
+
+  if (!response || !response.wasAudited) {
+    response = await notarize(orderAddress, sellerAddress, false);
+    await storeNotarizationResult({ orderAddress, sellerAddress, ...response });
+  }
+};
+
 const fetchNotarizationResultOrNotarize = async (
   orderAddress,
   sellerAddress,
@@ -68,4 +77,4 @@ const fetchNotarizationResultOrNotarize = async (
   return response;
 };
 
-export default fetchNotarizationResultOrNotarize;
+export { fetchNotarizationResultOrNotarize, notarizeOnDemand };
