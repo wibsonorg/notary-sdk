@@ -1,8 +1,6 @@
 import express from 'express';
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
-import url from 'url';
-import querystring from 'querystring';
 import config from '../../config';
 
 const router = express.Router();
@@ -44,31 +42,33 @@ router.get('/validate/:MSISDN', async (req, res) => {
   console.log(queryString);
 
   let response;
+
   try {
     response = await axios.get(queryString);
-    console.log('response');
     console.log(response.status);
 
     try {
       const request = await requests.set(
         state,
-        JSON.stringify({
-          state,
-          nonce,
-          MSISDN,
-        }),
+        JSON.stringify(
+          {
+            state,
+            nonce,
+            MSISDN,
+          },
+          'NX', 3600,
+        ),
       );
       console.log(request);
 
-      res.send(response);
+      res.status(response.status).json({ validated: true, identified: null });
     } catch (error) {
       console.log(error);
-      res.send(error);
+      res.sendStatus(500);
     }
   } catch (error) {
-    console.log('error');
     console.log(error.response.status);
-    res.send(error);
+    res.json({ validated: false, identified: false });
   }
 });
 
@@ -85,17 +85,17 @@ router.get('/identity-callback', async (req, res) => {
 
   console.log(error, error_description, code, state);
 
-  if (error === 'access_denied') {
-    res.send(error);
+  if ('error' in req.query) {
+    res.json({ validated: true, identified: false });
   } else {
     try {
       const value = await requests.get(state);
+
       console.log(value);
-      res.send(value);
-      return;
+      res.json({ validated: true, identified: true });
     } catch (e) {
       console.log(e);
-      res.send(e);
+      res.sendStatus(500);
     }
   }
 });

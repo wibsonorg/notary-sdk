@@ -32,7 +32,7 @@ app.use(cors());
 app.use(boom());
 
 app.use('/health', health);
-app.use('/validator', validator);
+app.use('/', validator);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
 app.get('/api-docs.json', (req, res) => res.json(schema));
