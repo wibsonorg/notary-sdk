@@ -7,16 +7,22 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import config from '../config';
 import schema from './schema';
-import { logger, errorHandler, createLevelStore } from './utils';
+import {
+  logger,
+  errorHandler,
+  createBasicRedisStore,
+} from './utils';
 
-import { health, validate } from './routes';
+import { health, validator } from './routes';
 
 const app = express();
+
 app.locals.stores = {
-  level: createLevelStore(`${config.levelDirectory}/sample_level`),
+  requests: createBasicRedisStore('requests'),
 };
 
 app.use(helmet());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan(config.logType || 'combined', {
   stream: logger.stream,
@@ -26,7 +32,7 @@ app.use(cors());
 app.use(boom());
 
 app.use('/health', health);
-app.use('/validate', validate);
+app.use('/', validator);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(schema));
 app.get('/api-docs.json', (req, res) => res.json(schema));

@@ -9,6 +9,6 @@
 
 
 import health from './health';
-import validate from './validate';
+import validator from './validator';
 
-export { health, validate };
+export { health, validator };

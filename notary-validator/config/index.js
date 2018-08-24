@@ -17,6 +17,7 @@ var config = {
   mobileConnectURI: env.MOBILE_CONNECT_URI,
   clientId: env.CLIENT_ID,
   redirectURI: env.REDIRECT_URI,
+  notaryAPIURL: env.NOTARY_API_URL,
   buyerSigningServiceUrl: env.BUYER_SIGNING_SERVICE_URL,
   contracts: {
     addresses: {
