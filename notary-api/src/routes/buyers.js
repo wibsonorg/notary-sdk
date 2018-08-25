@@ -1,7 +1,7 @@
 import express from 'express';
 import axios from 'axios';
 import config from '../../config';
-import notarizeFacade from '../facade/notarizeFacade';
+import { fetchNotarizationResultOrNotarize, notarizeOnDemand } from '../facade/notarizeFacade';
 
 const router = express.Router();
 
@@ -82,7 +82,7 @@ router.post(
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
         // eslint-disable-next-line no-await-in-loop
-        const { result, signature } = await notarizeFacade(
+        const { result, signature } = await fetchNotarizationResultOrNotarize(
           orderAddress,
           seller,
         );
@@ -100,5 +100,40 @@ router.post(
     }
   },
 );
+
+/**
+ * @swagger
+ * /buyers/audit/on_demand/{buyerAddress}/{orderAddress}:
+ *   post:
+ *     description: |
+ *       # STEP 9A from Wibson's Protocol
+ *       ## Buyer asks to notarize on demand
+ */
+router.post('/audit/on_demand/:buyerAddress/:orderAddress', async (req, res) => {
+  const { orderAddress } = req.params;
+
+  if ('dataResponses' in req.body) {
+    const dataResponses = [];
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const { seller } of req.body.dataResponses) {
+      // eslint-disable-next-line no-await-in-loop
+      const { result, signature } = await notarizeOnDemand(
+        orderAddress,
+        seller,
+      );
+
+      dataResponses.push({
+        seller,
+        result,
+        signature,
+      });
+    }
+
+    res.status(200).json({ dataResponses });
+  } else {
+    res.status(400).json({});
+  }
+});
 
 export default router;
