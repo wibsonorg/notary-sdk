@@ -9,6 +9,8 @@ import {
 } from '../facade/notarizeFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
+import notarizeFacade from '../facade/notarizeFacade';
+import { fromWib } from '../utils/coin';
 
 const router = express.Router();
 
@@ -32,6 +34,34 @@ function isValidOrderAddress(buyerAddress, orderAddress) {
  *     description: |
  *       # STEP 3 from Wibson's Protocol
  *       ## Buyer asks for notary consent to participate in a DataOrder
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: When the app is OK
+ *         schema:
+ *           type: object
+ *           properties:
+ *             orderAddress:
+ *               type: string
+ *               description: Ethereum address of the Order
+ *             responsesPercentage:
+ *               type: integer
+ *               description: Percentage of responses to notarize
+ *             notarizationFee:
+ *               type: string
+ *               description: Amount of WIB as fee for notarization
+ *               example: '4'
+ *             notarizationTermsOfService:
+ *               type: string
+ *               description: Terms for notarization service
+ *             signature:
+ *               type: string
+ *               description: Signature of the previous params
+ *       400:
+ *         description: When there is a problem with the input
+ *       500:
+ *         description: Internal server error
  */
 router.get(
   '/audit/consent/:buyerAddress/:orderAddress',
@@ -62,7 +92,7 @@ router.get(
         res.status(200).json({
           orderAddress,
           responsesPercentage,
-          notarizationFee,
+          notarizationFee: fromWib(notarizationFee),
           notarizationTermsOfService,
           signature,
         });

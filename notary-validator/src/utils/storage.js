@@ -6,7 +6,11 @@ import config from '../../config';
 const redisSocket = config.redis.socket;
 
 export const createRedisStore = ns =>
-  asyncRedis.decorate(redis.createClient(redisSocket, { prefix: ns }));
+  asyncRedis.decorate(redis.createClient(redisSocket, { prefix: `${ns}` }));
+
+export const createBasicRedisStore = () =>
+  asyncRedis.decorate(redis.createClient(redisSocket));
+
 
 export const createLevelStore = ns =>
   level(ns, (err, db) => {
