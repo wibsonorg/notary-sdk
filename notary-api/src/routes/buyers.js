@@ -84,7 +84,7 @@ router.get(
           {
             orderAddress,
             responsesPercentage,
-            notarizationFee: notarizationFee * 1e9,
+            notarizationFee: fromWib(notarizationFee),
             notarizationTermsOfService,
           },
         );
@@ -92,7 +92,7 @@ router.get(
         res.status(200).json({
           orderAddress,
           responsesPercentage,
-          notarizationFee: fromWib(notarizationFee),
+          notarizationFee,
           notarizationTermsOfService,
           signature,
         });
