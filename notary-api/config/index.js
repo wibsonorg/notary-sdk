@@ -45,6 +45,9 @@ const config = {
   notarizationResults: {
     storePath: env.NOTARIZATION_RESULTS_STORE_PATH,
   },
+  dataValidationResults: {
+    storePath: env.DATA_VALIDATION_RESULTS_STORE_PATH,
+  },
   levelDirectory: env.LEVEL_DIRECTORY,
   storage: {
     url: env.STORAGE_URL,

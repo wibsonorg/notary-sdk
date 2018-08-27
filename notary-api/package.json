@@ -39,6 +39,7 @@
     "swagger-jsdoc": "^1.9.7",
     "swagger-ui-express": "^3.0.10",
     "truffle-contract": "3.0.6",
+    "uuid": "^3.3.2",
     "web3": "^1.0.0-beta.33",
     "web3-providers-ws": "^1.0.0-beta.33",
     "web3-utils": "^1.0.0-beta.33",
