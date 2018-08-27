@@ -13,13 +13,12 @@ import config from '../../../config';
  *                   'failure': when data validator call failed
  */
 export const validateData = async (payload) => {
+  console.log('[validateData]', payload);
   const { msisdn } = payload;
+  if (!msisdn) return 'failure';
 
   try {
-    await axios.get(
-      `${config.notaryValidatorUri}/validate/${msisdn}`,
-      payload,
-    );
+    await axios.get(`${config.notaryValidatorUri}/validate/${msisdn}`);
 
     return 'in-progress';
   } catch (error) {

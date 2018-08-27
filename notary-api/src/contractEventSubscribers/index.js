@@ -1,7 +1,10 @@
 import subscribers from './subscribers';
 import { logger, dataExchange } from '../utils';
 
-const listenBlockchainEvents = (stores) => {
+const listenContractEvents = (stores) => {
+  subscribers.forEach(subscriber =>
+    logger.info(`Contract Events :: Subscribing '${subscriber.name}'`));
+
   dataExchange.events.allEvents((error, result) => {
     if (!error) {
       subscribers.forEach((subscriber) => {
@@ -19,4 +22,4 @@ const listenBlockchainEvents = (stores) => {
   });
 };
 
-export default listenBlockchainEvents;
+export default listenContractEvents;

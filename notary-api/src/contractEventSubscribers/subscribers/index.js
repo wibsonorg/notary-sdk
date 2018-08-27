@@ -3,9 +3,9 @@ import { notarize } from '../../facade/notarizeFacade';
 const notarizationRequestSubscriber = {
   name: 'NotarizationRequest',
   callback: async (result) => {
-    console.log('[NotarizationRequest]', result);
     const { orderAddr, seller } = result.returnValues;
-    await notarize(orderAddr, seller);
+    // Addresses are being handled in lower case in other services
+    await notarize(orderAddr.toLowerCase(), seller.toLowerCase());
   },
   events: [
     'DataAdded',

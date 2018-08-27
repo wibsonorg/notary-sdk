@@ -56,8 +56,7 @@ export const notarize = async (orderAddress, sellerAddress) => {
 /**
  * @param {String} orderAddress Order address
  * @param {String} sellerAddress Seller address whos data is being audited
- * @throws
- * @returns
+ * @returns {Object} object with notarization result or with an error
  */
 export const fetchNotarizationResultOrNotarize = async (
   orderAddress,
