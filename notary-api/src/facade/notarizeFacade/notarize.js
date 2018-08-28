@@ -29,9 +29,10 @@ const notarizeDataFromSeller = async (orderAddress, sellerAddress) => {
  *
  * @param {String} orderAddress Order address
  * @param {String} sellerAddress Seller address whos data is being audited
+ * @param {Boolean} randomize whether to check percentage or not
  * @returns {Object} object with notarization result or with an error
  */
-export const notarize = async (orderAddress, sellerAddress) => {
+export const notarize = async (orderAddress, sellerAddress, randomize = true) => {
   if (!await notarizeDataFromSeller(orderAddress, sellerAddress)) {
     const error = `Can't notarize data from seller '${sellerAddress}' in order '${orderAddress}'`;
     logger.info(error);
@@ -40,7 +41,7 @@ export const notarize = async (orderAddress, sellerAddress) => {
 
   const payload = { result: 'na' };
 
-  if (randomInt(1, 100) <= config.responsesPercentage) {
+  if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
     const sellerData = await storage.getData(
       { address: orderAddress },
       sellerAddress,
@@ -54,19 +55,16 @@ export const notarize = async (orderAddress, sellerAddress) => {
 };
 
 /**
+ * Forces notarization operation
+ *
  * @param {String} orderAddress Order address
  * @param {String} sellerAddress Seller address whos data is being audited
- * @returns {Object} object with notarization result or with an error
  */
-export const fetchNotarizationResultOrNotarize = async (
-  orderAddress,
-  sellerAddress,
-) => {
-  let response = await fetchNotarizationResult(orderAddress, sellerAddress);
-
-  if (!response) {
-    response = await notarize(orderAddress, sellerAddress);
-    await storeNotarizationResult(orderAddress, sellerAddress, response);
+export const notarizeOnDemand = async (orderAddress, sellerAddress) => {
+  let response = await fetchNotarizationResult({ orderAddress, sellerAddress });
+  if (!response || !response.wasAudited) {
+    response = await notarize(orderAddress, sellerAddress, false);
+    await storeNotarizationResult({ orderAddress, sellerAddress, ...response });
   }
 
   return response;

@@ -1,6 +1,8 @@
-export { notarize, fetchNotarizationResultOrNotarize } from './notarize';
+export {
+  notarize,
+  notarizeOnDemand,
+} from './notarize';
 export {
   fetchNotarizationResult,
   storeNotarizationResult,
-  deleteNotarizationResult, // TODO: remove before merging
 } from './notarizationResultRepository';

@@ -4,13 +4,17 @@ import { createLevelStore } from '../../utils';
 const notarizationResultsStore =
   createLevelStore(config.notarizationResults.storePath);
 
-export const fetchNotarizationResult = async (orderAddress, sellerAddress) => {
+export const fetchNotarizationResult = async (
+  orderAddress,
+  sellerAddress,
+  defaultResult = { result: 'na' },
+) => {
   try {
     const payload = await notarizationResultsStore
       .get(`${orderAddress}/${sellerAddress}`);
     return JSON.parse(payload);
   } catch (err) {
-    return null;
+    return defaultResult;
   }
 };
 
@@ -21,8 +25,3 @@ export const storeNotarizationResult = async (
 ) =>
   notarizationResultsStore
     .put(`${orderAddress}/${sellerAddress}`, JSON.stringify(payload));
-
-// TODO: remove before merging
-export const deleteNotarizationResult = async (orderAddress, sellerAddress) =>
-  notarizationResultsStore
-    .del(`${orderAddress}/${sellerAddress}`);
