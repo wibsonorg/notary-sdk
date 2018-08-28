@@ -2,14 +2,11 @@ import express from 'express';
 import axios from 'axios';
 import { asyncError } from '../utils';
 import {
-  fetchNotarizationResultOrNotarize,
-  notarize,
-  deleteNotarizationResult,
-  storeNotarizationResult,
+  notarizeOnDemand,
+  fetchNotarizationResult,
 } from '../facade/notarizeFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
-import notarizeFacade from '../facade/notarizeFacade';
 import { fromWib } from '../utils/coin';
 
 const router = express.Router();
@@ -122,31 +119,24 @@ router.post(
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
         // eslint-disable-next-line no-await-in-loop
-        const { error, result } = await fetchNotarizationResultOrNotarize(
+        const { result } = await fetchNotarizationResult(
           orderAddress,
           seller,
         );
 
-        if (result) {
-          // eslint-disable-next-line no-await-in-loop
-          const { signature } = await signingService.signNotarization({
-            orderAddress,
-            sellerAddress: seller,
-            wasAudited: result === 'success',
-            isDataValid: result === 'success',
-          });
+        // eslint-disable-next-line no-await-in-loop
+        const { signature } = await signingService.signNotarization({
+          orderAddress,
+          sellerAddress: seller,
+          wasAudited: result === 'success',
+          isDataValid: result === 'success',
+        });
 
-          dataResponses.push({
-            seller,
-            result,
-            signature,
-          });
-        } else {
-          dataResponses.push({
-            seller,
-            error,
-          });
-        }
+        dataResponses.push({
+          seller,
+          result,
+          signature,
+        });
       }
 
       res.status(200).json({ dataResponses });
@@ -156,26 +146,49 @@ router.post(
   }),
 );
 
-// TODO: remove before merging
-router.get(
-  '/notarize/:sellerAddress/:orderAddress',
+/**
+ * @swagger
+ * /buyers/audit/on-demand/{buyerAddress}/{orderAddress}:
+ *   post:
+ *     description: |
+ *       # STEP 9A from Wibson's Protocol
+ *       ## Buyer asks to notarize on demand
+ */
+router.post(
+  '/audit/on-demand/:buyerAddress/:orderAddress',
   asyncError(async (req, res) => {
-    const { orderAddress, sellerAddress } = req.params;
-    await deleteNotarizationResult(orderAddress, sellerAddress);
+    const { orderAddress } = req.params;
 
-    const response = await notarize(orderAddress, sellerAddress);
-    res.json(response);
-  }),
-);
+    if ('dataResponses' in req.body) {
+      const dataResponses = [];
 
-// TODO: remove before merging
-router.get(
-  '/notarize/:sellerAddress/:orderAddress/success',
-  asyncError(async (req, res) => {
-    const { orderAddress, sellerAddress } = req.params;
-    await storeNotarizationResult(orderAddress, sellerAddress, { result: 'success' });
+      // eslint-disable-next-line no-restricted-syntax
+      for (const { seller } of req.body.dataResponses) {
+        // eslint-disable-next-line no-await-in-loop
+        const { result } = await notarizeOnDemand(
+          orderAddress,
+          seller,
+        );
 
-    res.json({ result: 'success' });
+        // eslint-disable-next-line no-await-in-loop
+        const { signature } = await signingService.signNotarization({
+          orderAddress,
+          sellerAddress: seller,
+          wasAudited: result === 'success',
+          isDataValid: result === 'success',
+        });
+
+        dataResponses.push({
+          seller,
+          result,
+          signature,
+        });
+      }
+
+      res.status(200).json({ dataResponses });
+    } else {
+      res.status(400).json({});
+    }
   }),
 );
 
