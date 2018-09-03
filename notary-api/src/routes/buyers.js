@@ -1,7 +1,12 @@
 import express from 'express';
 import axios from 'axios';
+import { asyncError } from '../utils';
+import {
+  notarizeOnDemand,
+  fetchNotarizationResult,
+} from '../facade/notarizeFacade';
+import signingService from '../services/signingService';
 import config from '../../config';
-import notarizeFacade from '../facade/notarizeFacade';
 import { fromWib } from '../utils/coin';
 
 const router = express.Router();
@@ -55,42 +60,45 @@ function isValidOrderAddress(buyerAddress, orderAddress) {
  *       500:
  *         description: Internal server error
  */
-router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
-  const { orderAddress } = req.params;
-  const { buyerAddress } = req.params;
+router.get(
+  '/audit/consent/:buyerAddress/:orderAddress',
+  asyncError(async (req, res) => {
+    const { orderAddress } = req.params;
+    const { buyerAddress } = req.params;
 
-  const {
-    responsesPercentage,
-    notarizationFee,
-    notarizationTermsOfService,
-  } = config;
+    const {
+      responsesPercentage,
+      notarizationFee,
+      notarizationTermsOfService,
+    } = config;
 
-  if (!isValidOrderAddress(buyerAddress, orderAddress)) {
-    res.status(400).json({});
-  } else {
-    try {
-      const { data: { signature } } = await axios.post(
-        `${config.notarySigningServiceUri}/buyers/audit/consent`,
-        {
+    if (!isValidOrderAddress(buyerAddress, orderAddress)) {
+      res.status(400).json({});
+    } else {
+      try {
+        const { data: { signature } } = await axios.post(
+          `${config.notarySigningServiceUri}/buyers/audit/consent`,
+          {
+            orderAddress,
+            responsesPercentage,
+            notarizationFee: fromWib(notarizationFee),
+            notarizationTermsOfService,
+          },
+        );
+
+        res.status(200).json({
           orderAddress,
           responsesPercentage,
-          notarizationFee: fromWib(notarizationFee),
+          notarizationFee,
           notarizationTermsOfService,
-        },
-      );
-
-      res.status(200).json({
-        orderAddress,
-        responsesPercentage,
-        notarizationFee,
-        notarizationTermsOfService,
-        signature,
-      });
-    } catch (error) {
-      res.sendStatus(500);
+          signature,
+        });
+      } catch (error) {
+        res.sendStatus(500);
+      }
     }
-  }
-});
+  }),
+);
 
 /**
  * @swagger
@@ -102,7 +110,7 @@ router.get('/audit/consent/:buyerAddress/:orderAddress', async (req, res) => {
  */
 router.post(
   '/audit/result/:buyerAddress/:orderAddress',
-  async (req, res) => {
+  asyncError(async (req, res) => {
     const { orderAddress } = req.params;
 
     if ('dataResponses' in req.body) {
@@ -111,10 +119,18 @@ router.post(
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
         // eslint-disable-next-line no-await-in-loop
-        const { result, signature } = await notarizeFacade(
+        const { result } = await fetchNotarizationResult(
           orderAddress,
           seller,
         );
+
+        // eslint-disable-next-line no-await-in-loop
+        const { signature } = await signingService.signNotarization({
+          orderAddress,
+          sellerAddress: seller,
+          wasAudited: result === 'success',
+          isDataValid: result === 'success',
+        });
 
         dataResponses.push({
           seller,
@@ -127,7 +143,53 @@ router.post(
     } else {
       res.status(400).json({});
     }
-  },
+  }),
+);
+
+/**
+ * @swagger
+ * /buyers/audit/on-demand/{buyerAddress}/{orderAddress}:
+ *   post:
+ *     description: |
+ *       # STEP 9A from Wibson's Protocol
+ *       ## Buyer asks to notarize on demand
+ */
+router.post(
+  '/audit/on-demand/:buyerAddress/:orderAddress',
+  asyncError(async (req, res) => {
+    const { orderAddress } = req.params;
+
+    if ('dataResponses' in req.body) {
+      const dataResponses = [];
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const { seller } of req.body.dataResponses) {
+        // eslint-disable-next-line no-await-in-loop
+        const { result } = await notarizeOnDemand(
+          orderAddress,
+          seller,
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        const { signature } = await signingService.signNotarization({
+          orderAddress,
+          sellerAddress: seller,
+          wasAudited: result === 'success',
+          isDataValid: result === 'success',
+        });
+
+        dataResponses.push({
+          seller,
+          result,
+          signature,
+        });
+      }
+
+      res.status(200).json({ dataResponses });
+    } else {
+      res.status(400).json({});
+    }
+  }),
 );
 
 export default router;

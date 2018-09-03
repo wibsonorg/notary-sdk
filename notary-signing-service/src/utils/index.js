@@ -1,3 +1,4 @@
 import logger from './logger';
+import * as account from './account';
 
-export { logger }; // eslint-disable-line
+export { logger, account };
