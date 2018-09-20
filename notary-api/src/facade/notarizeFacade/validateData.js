@@ -18,7 +18,6 @@ const dataValidationResults =
  */
 export const validateData = async (orderAddress, sellerAddress, payload) => {
   const { msisdn } = payload;
-  if (!msisdn) return 'failure';
 
   const nonce = uuidv4();
 
