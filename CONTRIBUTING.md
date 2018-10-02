@@ -40,7 +40,7 @@ By contributing, you agree that your contributions will be licensed under the [L
 ## All set!
 If you have any questions, feel free to post them to the [Github Issues].
 
-Finally, if you're looking to collaborate and want to find easy tasks to start, look at the issues we marked as ["Good first issue"](https://github.com/wibsonorg/wibson-core/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22).
+Finally, if you're looking to collaborate and want to find easy tasks to start, look at the issues we marked as ["Good first issue"](https://github.com/wibsonorg/notary-sdk/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22).
 
 Thanks for your time and code. Happy coding!
 
