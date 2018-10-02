@@ -1,2 +1,2 @@
-# notwwry-sdk
+# notary-signing-service
 Wibson Notary SDK

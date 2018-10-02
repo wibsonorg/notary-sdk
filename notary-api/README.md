@@ -1,3 +1,3 @@
-# notwwry-sdk
+# notary-api
 Wibson Notary SDK
 Documentation
