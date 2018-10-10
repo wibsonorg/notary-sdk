@@ -1,4 +1,4 @@
-export { encryptSignedMessage, decryptSignedMessage } from './encription';
+export { decryptWithPrivateKey } from './encription';
 export {
   hashData,
   checkDataHash,
