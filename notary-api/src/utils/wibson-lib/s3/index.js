@@ -1,7 +1,7 @@
 import getS3Client from './getS3Client';
 import config from '../../../../config';
 
-const prefix = 'buyer';
+const prefix = 'notary';
 const { storage } = config;
 const client = getS3Client(
   storage.url,
