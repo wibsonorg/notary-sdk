@@ -4,7 +4,7 @@ import { cryptography } from '../utils/wibson-lib';
 
 const router = express.Router();
 
-const { privateKey } = config.buyer;
+const { privateKey } = config;
 
 /**
  * @swagger
