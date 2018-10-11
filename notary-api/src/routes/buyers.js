@@ -170,18 +170,22 @@ router.post(
           seller,
         );
 
-        // eslint-disable-next-line no-await-in-loop
-        const { signature } = await signingService.signNotarization({
-          orderAddress,
-          sellerAddress: seller,
-          wasAudited: result === 'success',
-          isDataValid: result === 'success',
-        });
+        let sig;
+        if (result !== 'in-progress') {
+          // eslint-disable-next-line no-await-in-loop
+          const { signature } = await signingService.signNotarization({
+            orderAddress,
+            sellerAddress: seller,
+            wasAudited: result === 'success',
+            isDataValid: result === 'success',
+          });
+          sig = signature;
+        }
 
         dataResponses.push({
           seller,
           result,
-          signature,
+          sig,
         });
       }
 
