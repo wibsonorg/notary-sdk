@@ -22,6 +22,18 @@ const notarizeDataFromSeller = async (orderAddress, sellerAddress) => {
   return notaryAddress === address && !closedAt;
 };
 
+const getData = async (orderAddress, sellerAddress) => {
+  const encryptedData = await storage.getData(
+    { address: orderAddress },
+    sellerAddress,
+  );
+  const decryptedMessage = await signingService.decryptData({
+    encryptedData,
+    senderAddress: sellerAddress,
+  });
+  return JSON.parse(decryptedMessage);
+};
+
 /**
  * Notarization operation
  *
@@ -40,10 +52,7 @@ export const notarize = async (orderAddress, sellerAddress, randomize = true) =>
   const payload = { result: 'na' };
 
   if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
-    const sellerData = await storage.getData(
-      { address: orderAddress },
-      sellerAddress,
-    );
+    const sellerData = await getData(orderAddress, sellerAddress);
     payload.result = await validateData(orderAddress, sellerAddress, sellerData);
   }
 

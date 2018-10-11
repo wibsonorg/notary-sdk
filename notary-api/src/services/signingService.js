@@ -25,10 +25,20 @@ const signNotarization = async (payload) => {
   return data;
 };
 
+const decryptData = async (payload) => {
+  const { message } = await client.post(
+    '/data/decrypt',
+    payload,
+  );
+
+  return message;
+};
+
 const signinService = {
   getHealth,
   getAccount,
   signNotarization,
+  decryptData,
 };
 
 export default signinService;
