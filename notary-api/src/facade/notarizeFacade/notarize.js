@@ -24,7 +24,7 @@ const notarizeDataFromSeller = async (orderAddress, sellerAddress) => {
 
 const getData = async (orderAddress, sellerAddress) => {
   const encryptedData = await storage.getData(
-    { address: orderAddress },
+    orderAddress,
     sellerAddress,
   );
   const decryptedMessage = await signingService.decryptData({
@@ -52,7 +52,7 @@ export const notarize = async (orderAddress, sellerAddress, randomize = true) =>
   const payload = { result: 'na' };
 
   if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
-    const sellerData = await getData(orderAddress, sellerAddress);
+    const sellerData = config.takeDataFromStorage && await getData(orderAddress, sellerAddress);
     payload.result = await validateData(orderAddress, sellerAddress, sellerData);
   }
 
@@ -85,11 +85,10 @@ export const updateNotarizationResultFromValidation = async (
  * @returns {Object} object with notarization result or with an error
  */
 export const notarizeOnDemand = async (orderAddress, sellerAddress) => {
-  let response = await fetchNotarizationResult({ orderAddress, sellerAddress });
+  let response = await fetchNotarizationResult(orderAddress, sellerAddress);
 
   if (!response || response.result === 'na') {
     response = await notarize(orderAddress, sellerAddress, false);
-    await storeNotarizationResult({ orderAddress, sellerAddress, ...response });
   }
 
   return response;

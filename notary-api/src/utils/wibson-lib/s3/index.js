@@ -35,41 +35,29 @@ const getS3Objects = async (namespace, justSnippets = false) => {
 
 // //
 
-const countObjects = (dataOrder, type) => {
-  const namespace = `${prefix}/${dataOrder.address}/${type}/`;
-  const objects = getS3Objects(namespace, true);
+const countObjects = async (orderAddress, type) => {
+  const namespace = `${prefix}/${orderAddress}/${type}/`;
+  const objects = await getS3Objects(namespace, true);
   return objects.length;
 };
 
-const listObjects = (dataOrder, type) => {
-  const namespace = `${prefix}/${dataOrder.address}/${type}/`;
+const listObjects = (orderAddress, type) => {
+  const namespace = `${prefix}/${orderAddress}/${type}/`;
   return getS3Objects(namespace);
 };
 
-const getObject = (dataOrder, seller, type) => {
-  const name = `${prefix}/${dataOrder.address}/${type}/${seller}.json`;
+const getObject = (orderAddress, seller, type) => {
+  const name = `${prefix}/${orderAddress}/${type}/${seller}.json`;
   return getS3Object(name);
 };
 
+const countData = orderAddress => countObjects(orderAddress, 'data');
 
-// //
+const listData = orderAddress => listObjects(orderAddress, 'data');
 
-const countDataResponses = dataOrder => countObjects(dataOrder, 'data-responses');
-
-const listDataResponses = dataOrder => listObjects(dataOrder, 'data-responses');
-
-const getDataResponse = (dataOrder, seller) => getObject(dataOrder, seller, 'data-responses');
-
-const countData = dataOrder => countObjects(dataOrder, 'data');
-
-const listData = dataOrder => listObjects(dataOrder, 'data');
-
-const getData = (dataOrder, seller) => getObject(dataOrder, seller, 'data');
+const getData = (orderAddress, seller) => getObject(orderAddress, seller, 'data');
 
 export {
-  countDataResponses,
-  listDataResponses,
-  getDataResponse,
   countData,
   listData,
   getData,

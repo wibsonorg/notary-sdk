@@ -26,12 +26,12 @@ const signNotarization = async (payload) => {
 };
 
 const decryptData = async (payload) => {
-  const { message } = await client.post(
+  const { data } = await client.post(
     '/data/decrypt',
     payload,
   );
 
-  return message;
+  return data.message;
 };
 
 const signinService = {

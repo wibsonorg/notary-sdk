@@ -26,6 +26,7 @@ const config = {
   responsesPercentage: env.RESPONSES_PERCENTAGE,
   notarizationFee: env.NOTARIZATION_FEE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVICE,
+  takeDataFromStorage: env.TAKE_DATA_FROM_STORAGE === 'true',
   signature: env.SIGNATURE,
   cache: {
     enabled: env.CACHE === 'enabled',
