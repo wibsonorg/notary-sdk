@@ -17,7 +17,7 @@ const dataValidationResults =
  *                   'failure': when data validator call failed
  */
 export const validateData = async (orderAddress, sellerAddress, payload) => {
-  const { msisdn } = payload;
+  const { msisdn } = payload || {};
 
   const nonce = uuidv4();
 
