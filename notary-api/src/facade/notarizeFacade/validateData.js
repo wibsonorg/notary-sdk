@@ -60,24 +60,15 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
  */
 export const resultFromValidation = (validation) => {
   const {
-    validated,
+    validated, // eslint-disable-line no-unused-vars
     identified,
     error,
     error_description: errorDescription,
   } = validation;
 
-  let result = 'success';
-
-  if (error) {
-    logger.error(`Data Validation Resulted in error: ${error} - ${errorDescription}`);
-    result = 'failure';
-  } else if (!validated) {
-    result = 'na';
-  } else if (!identified) {
-    result = 'failure';
-  }
-
-  return result;
+  logger.error(error);
+  logger.error(errorDescription);
+  return identified ? 'success' : 'failure';
 };
 
 /**
