@@ -28,12 +28,6 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
   const nonce = uuidv4();
 
   try {
-    await axios.get(`${config.notaryValidatorUri}/validate/${msisdn}`, {
-      params: {
-        nonce,
-      },
-      httpsAgent,
-    });
     const status = 'in-progress';
 
     await dataValidationResults.put(nonce, JSON.stringify({
@@ -41,6 +35,13 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
       orderAddress,
       sellerAddress,
     }));
+
+    axios.get(`${config.notaryValidatorUri}/validate/${msisdn}`, {
+      params: {
+        nonce,
+      },
+      httpsAgent,
+    });
 
     return status;
   } catch (error) {
