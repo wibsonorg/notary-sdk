@@ -3,6 +3,12 @@ import uuidv4 from 'uuid/v4';
 import { logger, createLevelStore } from '../../utils';
 import config from '../../../config';
 
+const https = require('https');
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
+
 const dataValidationResults =
   createLevelStore(config.dataValidationResults.storePath);
 
@@ -26,6 +32,7 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
       params: {
         nonce,
       },
+      httpsAgent,
     });
     const status = 'in-progress';
 

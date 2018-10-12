@@ -9,6 +9,12 @@ import signingService from '../services/signingService';
 import config from '../../config';
 import { fromWib } from '../utils/coin';
 
+const https = require('https');
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
+
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -84,6 +90,7 @@ router.get(
             notarizationFee: fromWib(notarizationFee),
             notarizationTermsOfService,
           },
+          { httpsAgent },
         );
 
         res.status(200).json({

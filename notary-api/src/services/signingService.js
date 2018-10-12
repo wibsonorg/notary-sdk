@@ -1,9 +1,16 @@
 import axios from 'axios';
 import config from '../../config';
 
+const https = require('https');
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
+
 const client = axios.create({
   baseURL: `${config.notarySigningServiceUri}/`,
   timeout: 1000,
+  httpsAgent,
 });
 
 const getHealth = async () => {
