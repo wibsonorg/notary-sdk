@@ -41,7 +41,7 @@ export const notarize = async (orderAddress, sellerAddress, randomize = true) =>
 
   if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
     const sellerData = await storage.getData(
-      { address: orderAddress },
+      orderAddress,
       sellerAddress,
     );
     payload.result = await validateData(orderAddress, sellerAddress, sellerData);
