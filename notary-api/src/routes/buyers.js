@@ -78,11 +78,11 @@ router.get(
       try {
         const {
           responsesPercentage,
-          notarizationPercentage,
+          notarizationFeePercentage,
           notarizationTermsOfService,
         } = config;
 
-        const notarizationFee = await getNotarizationFee(orderAddress, notarizationPercentage);
+        const notarizationFee = await getNotarizationFee(orderAddress, notarizationFeePercentage);
 
         const { data: { signature } } = await axios.post(
           `${config.notarySigningServiceUri}/buyers/audit/consent`,
