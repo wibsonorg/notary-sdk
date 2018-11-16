@@ -5,9 +5,9 @@ import {
   notarizeOnDemand,
   fetchNotarizationResult,
 } from '../facade/notarizeFacade';
+import { getNotarizationFee } from '../facade/ordersFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
-import { fromWib } from '../utils/coin';
 
 const https = require('https');
 
@@ -72,22 +72,24 @@ router.get(
     const { orderAddress } = req.params;
     const { buyerAddress } = req.params;
 
-    const {
-      responsesPercentage,
-      notarizationFee,
-      notarizationTermsOfService,
-    } = config;
-
     if (!isValidOrderAddress(buyerAddress, orderAddress)) {
       res.status(400).json({});
     } else {
       try {
+        const {
+          responsesPercentage,
+          notarizationPercentage,
+          notarizationTermsOfService,
+        } = config;
+
+        const notarizationFee = await getNotarizationFee(orderAddress, notarizationPercentage);
+
         const { data: { signature } } = await axios.post(
           `${config.notarySigningServiceUri}/buyers/audit/consent`,
           {
             orderAddress,
             responsesPercentage,
-            notarizationFee: fromWib(notarizationFee),
+            notarizationFee: notarizationFee.toString(),
             notarizationTermsOfService,
           },
           { httpsAgent },
