@@ -3,12 +3,13 @@ import redis from 'redis';
 import level from 'level';
 import config from '../../config';
 
-const redisSocket = config.redis.socket;
-
 export const createRedisStore = ns =>
-  asyncRedis.decorate(redis.createClient(redisSocket, { prefix: ns }));
+  asyncRedis.decorate(redis.createClient(config.redis.socket, {
+    prefix: `notary-api:${ns}`,
+  }));
 
-export const createLevelStore = ns => level(ns, (err, db) => {
-  if (err) { throw new Error(err); }
-  return db;
-});
+export const createLevelStore = dir =>
+  level(`${config.levelDirectory}/${dir}`, (err, db) => {
+    if (err) throw new Error(err);
+    return db;
+  });
