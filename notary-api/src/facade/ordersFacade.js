@@ -3,7 +3,7 @@ import { dataOrderAt } from '../utils';
 
 const getNotarizationFee = async (orderAddress, notarizationPercentage) => {
   const dataOrder = dataOrderAt(orderAddress);
-  const price = await dataOrder.price();
+  const price = await dataOrder.methods.price().call();
   const bnPrice = new BigNumber(price);
   return bnPrice.multipliedBy(notarizationPercentage).dividedBy(100);
 };
