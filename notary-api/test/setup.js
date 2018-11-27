@@ -2,8 +2,9 @@
 process.env.ORDER_ADDRESS = '0xaa8f666e26599f21cccf10cd560c400ddc6be388';
 process.env.WEB3_PROVIDER = 'wss://ropsten.infura.io/ws';
 process.env.RESPONSES_PERCENTAGE = 30;
-process.env.NOTARIZATION_FEE = 4;
+process.env.NOTARIZATION_FEE_PERCENTAGE = 10;
 process.env.NOTARIZATION_TERMS_OF_SERVICE = 'Terms of Service';
+process.env.LEVEL_DIRECTORY = '/tmp';
 process.env.STORAGE_URL = 's3://storage.wibson.org';
 process.env.STORAGE_REGION = 'eu-central-1';
 process.env.STORAGE_BUCKET = 'wibson-storage';
