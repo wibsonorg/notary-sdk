@@ -1,3 +1,4 @@
+import attachContractEventSubscribers from './attachContractEventSubscribers';
 import { notarize } from '../facade/notarizeFacade';
 
 const notarizationRequestSubscriber = {
@@ -10,7 +11,8 @@ const notarizationRequestSubscriber = {
     await notarize(orderAddr.toLowerCase(), seller.toLowerCase());
   },
 };
+const subscribers = [notarizationRequestSubscriber];
 
-export default [
-  notarizationRequestSubscriber,
-];
+export default (stores, startingBlock) => {
+  attachContractEventSubscribers(subscribers, stores, startingBlock);
+};

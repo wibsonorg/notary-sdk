@@ -1,5 +1,5 @@
-import { logger, dataExchange } from '.';
-import { eventBlocks } from './stores';
+import { logger, dataExchange } from '../utils';
+import { eventBlocks } from '../utils/stores';
 
 const attachContractEventSubscribers = async (
   subscribers,

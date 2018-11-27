@@ -1,8 +1,8 @@
 import 'babel-polyfill';
 import app from './app';
 import config from '../config';
-import { logger, attachContractEventSubscribers } from './utils';
-import contractEventSubscribers from './contractEventSubscribers';
+import { logger } from './utils';
+import attachSubscribers from './contractEventSubscribers';
 
 function runInterval(fn, delay) {
   fn();
@@ -15,8 +15,7 @@ const server = async () => {
     logger.info(`Notary API listening on port ${port} and host ${host} in ${env} mode`));
 
   runInterval(
-    () => attachContractEventSubscribers(
-      contractEventSubscribers,
+    () => attachSubscribers(
       app.locals.stores,
       config.eventSubscribers.lastProcessedBlock,
     ),
