@@ -1,25 +1,18 @@
-import subscribers from './subscribers';
-import { logger, dataExchange } from '../utils';
+import attachContractEventSubscribers from './attachContractEventSubscribers';
+import { notarize } from '../facade/notarizeFacade';
 
-const listenContractEvents = (stores) => {
-  subscribers.forEach(subscriber =>
-    logger.info(`Contract Events :: Subscribing '${subscriber.name}'`));
-
-  dataExchange.events.allEvents((error, result) => {
-    if (!error) {
-      subscribers.forEach((subscriber) => {
-        if (subscriber.events.includes(result.event)) {
-          logger.info(`Contract Events :: Invoking subscriber '${subscriber.name}' :: Event '${result.event}'`);
-          subscriber.callback(result, stores);
-          logger.info(`Contract Events :: Subscriber '${subscriber.name}' :: Event '${result.event}' :: Done `);
-        } else {
-          logger.info(`Contract Events :: Skipping '${subscriber.name}' :: Event '${result.event}'`);
-        }
-      });
-    } else {
-      logger.error(`Contract Events :: Error :: ${error}`);
-    }
-  });
+const notarizationRequestSubscriber = {
+  name: 'NotarizationRequest',
+  events: [
+    'DataAdded',
+  ],
+  callback: async (result) => {
+    const { orderAddr, seller } = result.returnValues;
+    await notarize(orderAddr.toLowerCase(), seller.toLowerCase());
+  },
 };
+const subscribers = [notarizationRequestSubscriber];
 
-export default listenContractEvents;
+export default (stores, startingBlock) => {
+  attachContractEventSubscribers(subscribers, stores, startingBlock);
+};

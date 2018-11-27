@@ -13,7 +13,7 @@ const {
   signature,
 } = config;
 
-config.notarizationResults.storePath = 'tmp/notarizations';
+config.levelDirectory = '/tmp';
 
 function requestPost(done, uri, payload = {}, fn) {
   request(app)
@@ -437,4 +437,3 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
     });
   });
 });
-

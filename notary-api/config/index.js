@@ -16,7 +16,6 @@ const config = {
   host: env.HOST,
   notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
   notaryValidatorUri: env.NOTARY_VALIDATOR_URI,
-  timeout: env.TIMEOUT,
   orderAddress: env.ORDER_ADDRESS,
   contracts: {
     addresses: {
@@ -43,11 +42,9 @@ const config = {
   redis: {
     socket: env.REDIS_SOCKET,
   },
-  notarizationResults: {
-    storePath: env.NOTARIZATION_RESULTS_STORE_PATH,
-  },
-  dataValidationResults: {
-    storePath: env.DATA_VALIDATION_RESULTS_STORE_PATH,
+  eventSubscribers: {
+    interval: env.EVENT_SUBSCRIBERS_INTERVAL,
+    lastProcessedBlock: env.EVENT_SUBSCRIBERS_LAST_PROCESSED_BLOCK,
   },
   levelDirectory: env.LEVEL_DIRECTORY,
   storage: {
