@@ -1,7 +1,4 @@
-import config from '../../../config';
-import { createLevelStore } from '../../utils';
-
-const notarizationResultsStore = createLevelStore(config.notarizationResults.storePath);
+import { notarizationResults } from '../../utils/stores';
 
 export const fetchNotarizationResult = async (
   orderAddress,
@@ -9,7 +6,7 @@ export const fetchNotarizationResult = async (
   defaultResult = { result: 'na' },
 ) => {
   try {
-    const payload = await notarizationResultsStore.get(`${orderAddress}/${sellerAddress}`);
+    const payload = await notarizationResults.get(`${orderAddress}/${sellerAddress}`);
     return JSON.parse(payload);
   } catch (err) {
     return defaultResult;
@@ -17,4 +14,4 @@ export const fetchNotarizationResult = async (
 };
 
 export const storeNotarizationResult = async (orderAddress, sellerAddress, payload) =>
-  notarizationResultsStore.put(`${orderAddress}/${sellerAddress}`, JSON.stringify(payload));
+  notarizationResults.put(`${orderAddress}/${sellerAddress}`, JSON.stringify(payload));
