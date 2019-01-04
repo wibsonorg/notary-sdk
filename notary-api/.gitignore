@@ -4,6 +4,10 @@
 # Babel build
 dist/
 
+# Releases
+artifacts
+package
+
 # Logs
 logs
 *.log

@@ -4,6 +4,10 @@
 # Babel build
 dist/
 
+# Releases
+artifacts
+package
+
 # Logs
 logs
 *.log
@@ -81,4 +85,3 @@ typings/
 
 # IDEs configuration
 # .vscode/
-
