@@ -6,7 +6,7 @@ const notarizationResultsStore = createLevelStore(config.notarizationResults.sto
 export const fetchNotarizationResult = async (
   orderAddress,
   sellerAddress,
-  defaultResult = { result: 'na' },
+  defaultResult = { error: 'Unknown data response.' },
 ) => {
   try {
     const payload = await notarizationResultsStore.get(`${orderAddress}/${sellerAddress}`);
