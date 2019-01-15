@@ -1,16 +1,14 @@
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
-import { logger, createLevelStore } from '../../utils';
 import config from '../../../config';
+import { logger } from '../../utils';
+import { dataValidationResults } from '../../utils/stores';
 
 const https = require('https');
 
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
-
-const dataValidationResults =
-  createLevelStore(config.dataValidationResults.storePath);
 
 /**
  * TODO: The implementation of this call is coupled to Telefonica's
@@ -66,7 +64,9 @@ export const resultFromValidation = (validation) => {
     error,
     error_description: errorDescription,
   } = validation;
-
+  if (error || errorDescription) {
+    logger.error(`Validation Error: ${error}::${errorDescription}`);
+  }
   return identified === 'true' ? 'success' : 'failure';
 };
 
