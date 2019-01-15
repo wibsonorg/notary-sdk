@@ -3,7 +3,7 @@ import { notarizationResults } from '../../utils/stores';
 export const fetchNotarizationResult = async (
   orderAddress,
   sellerAddress,
-  defaultResult = { result: 'na' },
+  defaultResult = { error: 'Unknown data response.' },
 ) => {
   try {
     const payload = await notarizationResults.get(`${orderAddress}/${sellerAddress}`);
