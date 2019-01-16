@@ -8,7 +8,7 @@ const notarizationRequestSubscriber = {
   ],
   callback: async (result) => {
     const { orderAddr, seller } = result.returnValues;
-    await notarize(orderAddr.toLowerCase(), seller.toLowerCase());
+    await notarize(orderAddr, seller);
   },
 };
 const subscribers = [notarizationRequestSubscriber];
