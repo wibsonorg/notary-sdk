@@ -5,9 +5,15 @@ import {
   notarizeOnDemand,
   fetchNotarizationResult,
 } from '../facade/notarizeFacade';
+import { getNotarizationFee } from '../facade/ordersFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
-import { fromWib } from '../utils/coin';
+
+const https = require('https');
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 const router = express.Router();
 
@@ -66,24 +72,27 @@ router.get(
     const { orderAddress } = req.params;
     const { buyerAddress } = req.params;
 
-    const {
-      responsesPercentage,
-      notarizationFee,
-      notarizationTermsOfService,
-    } = config;
-
     if (!isValidOrderAddress(buyerAddress, orderAddress)) {
       res.status(400).json({});
     } else {
       try {
+        const {
+          responsesPercentage,
+          notarizationFeePercentage,
+          notarizationTermsOfService,
+        } = config;
+
+        const notarizationFee = await getNotarizationFee(orderAddress, notarizationFeePercentage);
+
         const { data: { signature } } = await axios.post(
           `${config.notarySigningServiceUri}/buyers/audit/consent`,
           {
             orderAddress,
             responsesPercentage,
-            notarizationFee: fromWib(notarizationFee),
+            notarizationFee: notarizationFee.toString(),
             notarizationTermsOfService,
           },
+          { httpsAgent },
         );
 
         res.status(200).json({
@@ -170,18 +179,22 @@ router.post(
           seller,
         );
 
-        // eslint-disable-next-line no-await-in-loop
-        const { signature } = await signingService.signNotarization({
-          orderAddress,
-          sellerAddress: seller,
-          wasAudited: result === 'success',
-          isDataValid: result === 'success',
-        });
+        let sig;
+        if (result !== 'in-progress') {
+          // eslint-disable-next-line no-await-in-loop
+          const { signature } = await signingService.signNotarization({
+            orderAddress,
+            sellerAddress: seller,
+            wasAudited: result === 'success',
+            isDataValid: result === 'success',
+          });
+          sig = signature;
+        }
 
         dataResponses.push({
           seller,
           result,
-          signature,
+          sig,
         });
       }
 

@@ -1,6 +1,7 @@
 import express from 'express';
-import requestPromise from 'request-promise-native';
-import config from '../../config';
+import signingService from '../services/signingService';
+
+const NS_PER_SEC = 1e9;
 
 const router = express.Router();
 
@@ -34,19 +35,15 @@ router.get('/', (req, res) => {
  *       500:
  *         description: When the app or sub-systems are not responding
  */
-router.get('/deep', async (req, res) => {
-  try {
-    await requestPromise.get(
-      `${config.notarySigningServiceUri}/health`,
-      { timeout: 1000 },
-    );
-    res.status(200).json({ status: 'OK' });
-  } catch (err) {
-    res.status(500).json({
-      message: 'Signing Service not working as expected',
-      error: err.message,
-    });
-  }
+router.get('/ss', async (req, res) => {
+  const time = process.hrtime();
+  const response = await signingService.getHealth();
+  const diff = process.hrtime(time);
+
+  res.json({
+    ...response,
+    ns: `Took ${(diff[0] * NS_PER_SEC) + diff[1]} nanoseconds`,
+  });
 });
 
 router.get('/client_error', (req, res) => {

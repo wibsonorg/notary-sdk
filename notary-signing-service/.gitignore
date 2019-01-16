@@ -1,5 +1,12 @@
+# Mac
+.DS_Store
+
 # Babel build
 dist/
+
+# Releases
+artifacts
+package
 
 # Logs
 logs
@@ -78,4 +85,3 @@ typings/
 
 # IDEs configuration
 # .vscode/
-

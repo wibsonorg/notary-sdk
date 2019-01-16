@@ -1,10 +1,14 @@
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
-import { logger, createLevelStore } from '../../utils';
 import config from '../../../config';
+import { logger } from '../../utils';
+import { dataValidationResults } from '../../utils/stores';
 
-const dataValidationResults =
-  createLevelStore(config.dataValidationResults.storePath);
+const https = require('https');
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 /**
  * TODO: The implementation of this call is coupled to Telefonica's
@@ -17,16 +21,11 @@ const dataValidationResults =
  *                   'failure': when data validator call failed
  */
 export const validateData = async (orderAddress, sellerAddress, payload) => {
-  const { msisdn } = payload;
+  const { msisdn } = payload || {};
 
   const nonce = uuidv4();
 
   try {
-    await axios.get(`${config.notaryValidatorUri}/validate/${msisdn}`, {
-      params: {
-        nonce,
-      },
-    });
     const status = 'in-progress';
 
     await dataValidationResults.put(nonce, JSON.stringify({
@@ -34,6 +33,13 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
       orderAddress,
       sellerAddress,
     }));
+
+    axios.get(`${config.notaryValidatorUri}/validate/${msisdn}`, {
+      params: {
+        nonce,
+      },
+      httpsAgent,
+    });
 
     return status;
   } catch (error) {
@@ -53,24 +59,15 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
  */
 export const resultFromValidation = (validation) => {
   const {
-    validated,
+    validated, // eslint-disable-line no-unused-vars
     identified,
     error,
     error_description: errorDescription,
   } = validation;
-
-  let result = 'success';
-
-  if (error) {
-    logger.error(`Data Validation Resulted in error: ${error} - ${errorDescription}`);
-    result = 'failure';
-  } else if (!validated) {
-    result = 'na';
-  } else if (!identified) {
-    result = 'failure';
+  if (error || errorDescription) {
+    logger.error(`Validation Error: ${error}::${errorDescription}`);
   }
-
-  return result;
+  return identified ? 'success' : 'failure';
 };
 
 /**
