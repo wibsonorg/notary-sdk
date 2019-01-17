@@ -128,7 +128,7 @@ router.post(
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
         // eslint-disable-next-line no-await-in-loop
-        const { result } = await fetchNotarizationResult(
+        const { error, result } = await fetchNotarizationResult(
           orderAddress,
           seller,
         );
@@ -137,11 +137,12 @@ router.post(
         const { signature } = await signingService.signNotarization({
           orderAddress,
           sellerAddress: seller,
-          wasAudited: result === 'success',
+          wasAudited: result === 'success' || result === 'failure',
           isDataValid: result === 'success',
         });
 
         dataResponses.push({
+          error,
           seller,
           result,
           signature,
@@ -174,7 +175,7 @@ router.post(
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
         // eslint-disable-next-line no-await-in-loop
-        const { result } = await notarizeOnDemand(
+        const { error, result } = await notarizeOnDemand(
           orderAddress,
           seller,
         );
@@ -185,16 +186,17 @@ router.post(
           const { signature } = await signingService.signNotarization({
             orderAddress,
             sellerAddress: seller,
-            wasAudited: result === 'success',
+            wasAudited: result === 'success' || result === 'failure',
             isDataValid: result === 'success',
           });
           sig = signature;
         }
 
         dataResponses.push({
+          error,
           seller,
           result,
-          sig,
+          signature: sig,
         });
       }
 

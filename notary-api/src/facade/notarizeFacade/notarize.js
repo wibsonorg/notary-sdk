@@ -12,7 +12,7 @@ import config from '../../../config';
 const randomInt = (low, high) =>
   Math.floor((Math.random() * (high - low)) + low);
 
-const notarizeDataFromSeller = async (orderAddress, sellerAddress) => {
+const canNotarizeDataFromSeller = async (orderAddress, sellerAddress) => {
   const {
     notaryAddress,
     closedAt,
@@ -43,9 +43,10 @@ const getData = async (orderAddress, sellerAddress) => {
  * @returns {Object} object with notarization result or with an error
  */
 export const notarize = async (orderAddress, sellerAddress, randomize = true) => {
-  if (!await notarizeDataFromSeller(orderAddress, sellerAddress)) {
-    const error = `Can't notarize data from seller '${sellerAddress}' in order '${orderAddress}'`;
-    logger.info(error);
+  const canNotarize = await canNotarizeDataFromSeller(orderAddress, sellerAddress);
+  if (!canNotarize) {
+    const error = `Can't or should not notarize data from seller '${sellerAddress}' in order '${orderAddress}'`;
+    logger.error(error);
     return { error };
   }
 
@@ -90,6 +91,5 @@ export const notarizeOnDemand = async (orderAddress, sellerAddress) => {
   if (!response || response.result === 'na') {
     response = await notarize(orderAddress, sellerAddress, false);
   }
-
   return response;
 };
