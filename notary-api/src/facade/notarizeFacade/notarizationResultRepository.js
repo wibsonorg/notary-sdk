@@ -3,15 +3,18 @@ import { notarizationResults } from '../../utils/stores';
 export const fetchNotarizationResult = async (
   orderAddress,
   sellerAddress,
-  defaultResult = { error: 'Unknown data response.' },
+  defaultResult = { error: 'Unknown notarization' },
 ) => {
   try {
-    const payload = await notarizationResults.get(`${orderAddress}/${sellerAddress}`);
+    const key = `${orderAddress.toLowerCase()}/${sellerAddress.toLowerCase()}`;
+    const payload = await notarizationResults.get(key);
     return JSON.parse(payload);
   } catch (err) {
     return defaultResult;
   }
 };
 
-export const storeNotarizationResult = async (orderAddress, sellerAddress, payload) =>
-  notarizationResults.put(`${orderAddress}/${sellerAddress}`, JSON.stringify(payload));
+export const storeNotarizationResult = async (orderAddress, sellerAddress, payload) => {
+  const key = `${orderAddress.toLowerCase()}/${sellerAddress.toLowerCase()}`;
+  return notarizationResults.put(key, JSON.stringify(payload));
+}
