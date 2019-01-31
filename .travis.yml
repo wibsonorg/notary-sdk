@@ -1,0 +1,48 @@
+dist: xenial
+language: node_js
+
+node_js:
+- '8'
+
+env:
+- WORKING_DIR=notary-api SKIP_AUDIT=false SKIP_TESTS=true
+- WORKING_DIR=notary-signing-service SKIP_AUDIT=false SKIP_TESTS=true
+
+cache:
+  directories:
+  - "$WORKING_DIR/node_modules"
+
+before_install: npm i -g npm@6.1.0 codecov@3.1.0
+
+install:
+- cd $WORKING_DIR
+- npm install
+
+before_script:
+  - npm run lint
+  # TODO: Make these steps compulsive
+  - npm audit || $SKIP_AUDIT
+  - npm run test:coverage:ci || $SKIP_TESTS
+  - codecov || $SKIP_TESTS
+
+script: npm run build
+
+before_deploy: npm run publish
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Hixknb20wfgL2Vz7sMc624OuCbK4O2piEMlJWnUbv7WTn4ETBOmnRpiav047ZsSKCZME8vXTHkwPmylsLyjgVPDGKyixMdb1YvRGtFVrbPBFCel5lOeQzB0qcVOBUYNlRG3PfEKebbRNuhielVxYVlyPaWJdvexO6lyou/3lrQ9kMF5MoXqGV3f0WIlFX2nX/Lmzz0aL50SILvlRIpxLmZjvh5KQCWCOtUrh9BqIidSwkJlEyviZdfroeCOu0AuOYHq2oX++ALKNR1BC6Wffu9t49Ky+K74R5tWzDLLxk7+MlbLPS/evXKsOjQmqmMW2QStdhfNYahbHqqWDUQ4WQVx+q3Lk9Y+zO4I9t0YTQGpjVYxPLPeklSILsPIgP4MPYAGqLw796S3omMXxHiKPWynw74H8avqcE+1esaAySSmKY2DNBUt03ZBiqdfpWkU7xWyZdVF33Ef+sKGHhw5wRPJI6SGzNWIQHPSLReV9z5g2SFxesExuOo5bssBl1GjF3eLa3/zsqW/l5e29GL9StNK3FK2EklI8YUAiiIE2gvNL2BGvuF0V4DCcUXCkqkHAg9uOcQMerGNvaSmm6HZZqrJQ0HJ6yhxU14goN7lsigvA6eHuA0ORRn0Mkt8dpUpnm6Vm4dvCnYSYILxaT7WNS1w0eDZGj6KtBe2UlPKrIgc=
+  file_glob: true
+  file: "artifacts/*.tar.gz"
+  skip_cleanup: true
+  on:
+    tags: true
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - secure: SXJdWYpl+0jSrnxtQ+vKabZWoUOus12k3F+a9/5wtdMBkvNcjEaJcB4A++Zcp16Uhgsx+fWH8HS5riyra6ML6oRYTvsvp6ZafdKDy4S6tHqDtbaUE1P0oIUyrzaS6JLj8lHdjXh7uHWf7q9yZHhuZyv/0FpHEI0fPK3jEC2tGCdx6yjZ8j0wASGh3EQzG/y7tw6EA757bUvF4e4Qs9MJhkVpCDa3/M2Zuh0cRABKZLaLrinfRu2qs2nmbpx5/9oMhE8NJspqHq/cxz8gb8UsNhn+6bmp3fkKbqka7J5tQzXwbE72J2OVnr2/1PfUeByDF6SsVqyskWTofKL6NxpILmzpKeVc8hzFw22/3uTYougdHKm/4bDiyiFTP9Db1gf6bpfI5wck5ZHhoPjHiwl/DIdUr63M4JNKx9E9FK2GI2AI7H/IXJGsoZWxXHq99Ai83T43ybc3Xl6BCBpbmissl3PKwbnutoV4nsdlitNrlUDc/jpOXoxruLnD+nelzKVgqoZRj+NUHICMP2+dDNFaIY514MJ8qdPvxW0lDxjXvqLyTZK4dTkV+/lUMvpQSQE9CKzfYGCu4S3v/iqV5C9sMM5Wyw1+Aou9XVLKTSBPmxBkjP0QvqUnB+tXlZ8AI7dldQELYn3MB65FS0bN8JByfxGrz+rx/IIBdAwyvET2+WQ=
+    on_success: change
+    on_failure: change
