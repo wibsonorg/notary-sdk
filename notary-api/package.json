@@ -1,6 +1,6 @@
 {
   "name": "notary-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Wibson Notary API",
   "author": "Wibson Development Team",
   "main": "src/index.js",
@@ -42,7 +42,6 @@
     "truffle-contract": "3.0.6",
     "uuid": "^3.3.2",
     "web3": "1.0.0-beta.33",
-    "web3-providers-ws": "1.0.0-beta.33",
     "winston": "^3.0.0"
   },
   "devDependencies": {
