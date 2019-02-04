@@ -48,7 +48,7 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
     } else {
       logger.error(`Data Validation error: ${error.message}`);
     }
-    
+
     return 'failure';
   }
 };

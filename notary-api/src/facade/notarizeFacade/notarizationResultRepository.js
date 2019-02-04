@@ -17,4 +17,4 @@ export const fetchNotarizationResult = async (
 export const storeNotarizationResult = async (orderAddress, sellerAddress, payload) => {
   const key = `${orderAddress.toLowerCase()}/${sellerAddress.toLowerCase()}`;
   return notarizationResults.put(key, JSON.stringify(payload));
-}
+};
