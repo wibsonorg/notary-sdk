@@ -53,7 +53,7 @@ const invalidOrderAddress = 'this-is-an-invalid-dataorder';
 const validBuyerAddress = 'this-is-a-valid-buyer-address';
 
 describe('#GET /buyers/audit/consent/:buyerAddress/:orderAddress', () => {
-  context('when the orderAddress is an invalid orderAddress', () => {
+  describe('when the orderAddress is an invalid orderAddress', () => {
     it('responds with status 400', (done) => {
       requestGet(
         done,
@@ -86,7 +86,7 @@ describe('#GET /buyers/audit/consent/:buyerAddress/:orderAddress', () => {
     axios.post.restore();
   });
 
-  context('when the orderAddress is a valid orderAddress', () => {
+  describe('when the orderAddress is a valid orderAddress', () => {
     it('responds with status 200', (done) => {
       requestGet(
         done,
@@ -217,7 +217,7 @@ describe('#GET /buyers/audit/consent/:buyerAddress/:orderAddress', () => {
 });
 
 describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
-  context('when the payload its empty', () => {
+  describe('when the payload its empty', () => {
     it('responds with 400', (done) => {
       requestPost(
         done,
@@ -231,7 +231,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
     });
   });
 
-  context('when the list of data-responses its empty', () => {
+  describe('when the list of data-responses its empty', () => {
     it('responds with an empty list of data-responses', (done) => {
       requestPost(
         done,
@@ -251,7 +251,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
   const sellerAddress2 = 'this-is-a-seller-address-2';
   const sellerAddress3 = 'this-is-a-seller-address-3';
 
-  context('when the list of dataResponses have a length of 1', () => {
+  describe('when the list of dataResponses have a length of 1', () => {
     beforeEach(() => {
       sinon.stub(axios, 'post')
         .returns(Promise.resolve({ data: { signature } }));
@@ -337,7 +337,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
     */
   });
 
-  context('when the list of dataResponses have a length of 2', () => {
+  describe('when the list of dataResponses have a length of 2', () => {
     beforeEach(() => {
       sinon.stub(axios, 'post')
         .returns(Promise.resolve({ data: { signature } }));
@@ -379,7 +379,7 @@ describe('#POST /buyers/audit/result/:buyerAddress/:orderAddress', () => {
     });
   });
 
-  context('when the list of dataResponses have a length of 3', () => {
+  describe('when the list of dataResponses have a length of 3', () => {
     beforeEach(() => {
       sinon.stub(axios, 'post')
         .returns(Promise.resolve({ data: { signature } }));
