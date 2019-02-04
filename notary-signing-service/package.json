@@ -59,11 +59,12 @@
   },
   "nyc": {
     "check-coverage": true,
-    "lines": 80,
+    "lines": 70,
     "cache": false,
     "reporter": [
       "html",
-      "text"
+      "text",
+      "lcov"
     ],
     "exclude": [
       "src/utils/logger.js"
