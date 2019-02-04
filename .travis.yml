@@ -12,7 +12,7 @@ cache:
   directories:
   - "$WORKING_DIR/node_modules"
 
-before_install: npm i -g npm@6.1.0 codecov@3.1.0
+before_install: npm i -g npm@6.1.0
 
 install:
 - cd $WORKING_DIR
@@ -21,8 +21,8 @@ install:
 before_script:
   - npm run lint
   - npm audit
-  - npm run test:coverage:ci || $SKIP_TESTS
-  - codecov || $SKIP_TESTS
+  - npm run test:coverage
+  - bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
 
 script: npm run build
 
@@ -31,7 +31,7 @@ before_deploy: npm run publish
 deploy:
   provider: releases
   api_key:
-    secure: Hixknb20wfgL2Vz7sMc624OuCbK4O2piEMlJWnUbv7WTn4ETBOmnRpiav047ZsSKCZME8vXTHkwPmylsLyjgVPDGKyixMdb1YvRGtFVrbPBFCel5lOeQzB0qcVOBUYNlRG3PfEKebbRNuhielVxYVlyPaWJdvexO6lyou/3lrQ9kMF5MoXqGV3f0WIlFX2nX/Lmzz0aL50SILvlRIpxLmZjvh5KQCWCOtUrh9BqIidSwkJlEyviZdfroeCOu0AuOYHq2oX++ALKNR1BC6Wffu9t49Ky+K74R5tWzDLLxk7+MlbLPS/evXKsOjQmqmMW2QStdhfNYahbHqqWDUQ4WQVx+q3Lk9Y+zO4I9t0YTQGpjVYxPLPeklSILsPIgP4MPYAGqLw796S3omMXxHiKPWynw74H8avqcE+1esaAySSmKY2DNBUt03ZBiqdfpWkU7xWyZdVF33Ef+sKGHhw5wRPJI6SGzNWIQHPSLReV9z5g2SFxesExuOo5bssBl1GjF3eLa3/zsqW/l5e29GL9StNK3FK2EklI8YUAiiIE2gvNL2BGvuF0V4DCcUXCkqkHAg9uOcQMerGNvaSmm6HZZqrJQ0HJ6yhxU14goN7lsigvA6eHuA0ORRn0Mkt8dpUpnm6Vm4dvCnYSYILxaT7WNS1w0eDZGj6KtBe2UlPKrIgc=
+    secure: qYSbn3B8FM673cADwbe7T5dDAwsQ9H5lLAiGnIbp3ZYxpAcFo6yprNb1LvwtPArp/7HwDpycdDx0a2hC3fBSkhUkbKcHIzyGpTaFIum5Ffm8Cwnuu4uOwrx4G5/CZrpZlha75lHuRCvvjUHIEBVwXsuizpbn4qXoAn+aJyzwKlVZBabPyjBFyv0qxqsYKDgQ4mFnEgrL+vY2A3C9WdIZ9fsyAf9jJeFqcpV1eHb8wTL887p4Gm9oWVjNalaagXn/66NAOJcvC3W2e2ZGyEyWzxVqLUHBAenF8SyMOEe+VBMCY9ewfCaGrnrlZGnWungE3I966eYoEBPcUBJsTWesonJznY5WTyVpaSVRpOSk1BjWi3JjeKrosWTGprRKX9JfdeecFrrr2hLTzwAZxJ5X6zdDGPo8oFtg/qyhHK9ava5Jr2FhjfHy1QkYLr5k6/T7I1uDKZjUl8Ng8KtU9uKDPpRH69TbUYsbq2VNCOC/yAMxOfIWa/vj+Pn6kzl0G2f2ucWwRgadVyTHtsXhRDV6No1lCG5kUyfN9cxc2DnPcY2erYo4dqMiFHDcoBpYN03f3kuyG65xkyTpzsq+37nPFMt6jFjh206VWXCt7qHs4pgyVbhdRXV8k1W6QikFTuODpCH6ddEs0ptVa5YKBvOj0bHYAHGWfFiVOgE7E9UnOHk=
   file_glob: true
   file: "artifacts/*.tar.gz"
   skip_cleanup: true
@@ -42,6 +42,6 @@ notifications:
   email: false
   slack:
     rooms:
-      - secure: SXJdWYpl+0jSrnxtQ+vKabZWoUOus12k3F+a9/5wtdMBkvNcjEaJcB4A++Zcp16Uhgsx+fWH8HS5riyra6ML6oRYTvsvp6ZafdKDy4S6tHqDtbaUE1P0oIUyrzaS6JLj8lHdjXh7uHWf7q9yZHhuZyv/0FpHEI0fPK3jEC2tGCdx6yjZ8j0wASGh3EQzG/y7tw6EA757bUvF4e4Qs9MJhkVpCDa3/M2Zuh0cRABKZLaLrinfRu2qs2nmbpx5/9oMhE8NJspqHq/cxz8gb8UsNhn+6bmp3fkKbqka7J5tQzXwbE72J2OVnr2/1PfUeByDF6SsVqyskWTofKL6NxpILmzpKeVc8hzFw22/3uTYougdHKm/4bDiyiFTP9Db1gf6bpfI5wck5ZHhoPjHiwl/DIdUr63M4JNKx9E9FK2GI2AI7H/IXJGsoZWxXHq99Ai83T43ybc3Xl6BCBpbmissl3PKwbnutoV4nsdlitNrlUDc/jpOXoxruLnD+nelzKVgqoZRj+NUHICMP2+dDNFaIY514MJ8qdPvxW0lDxjXvqLyTZK4dTkV+/lUMvpQSQE9CKzfYGCu4S3v/iqV5C9sMM5Wyw1+Aou9XVLKTSBPmxBkjP0QvqUnB+tXlZ8AI7dldQELYn3MB65FS0bN8JByfxGrz+rx/IIBdAwyvET2+WQ=
+      - secure: O33MiwjpOnGSeEGQaRwkdCL93IWQG5Izw+GWGkKZKZuA+OvRfeeYb6ECykLXzL9a0w+NDHwwzejgVrgFPxxTebB76VK/QIRze5x1obmd5DMIBtzGvS2+rJRbmmYIZAey0r80/+ZrhM3yZnZMJ1INIQVW5sLC4vi97J0Goy63A4JONLADldPhC61EPAB6HfjmrGXShA5ytLnVdjzEiBDl7vkvIgMwS7q3RMbCt4LO8nhOtDpTD46D0c0x6xB6NIE0oEUqtsSVXVHQteSQZqUBqnQmN4Af572pS8M2kGVtlfiZIKqE1BZqmBaMpw7WWKse4N0m5nCjxV3AP/Ff7UVuMKI7rgFjuMeRGrdKLG7e4POtRzGH5jLckKDvg1p09XVUv2XHEPKyL+a/lxU5eSTcAbXZgBgrlfxyC/XDRkc5R1770cyK8HsNDppwaMkE363mVdl4gLBMcsSg0IASnWGlVTiR8HAc9iAkT7xHLq/a+toC1xr/rtUQgQ/5nmAu+DQ24hC8hStKLbIvjvl7Bd5nsMyRHBUwzPkbm0dryNDDUD9OR3Xv4gBO6C9LCV5Jvjw7itBeGAU/SWxmvCXAjJo/XUnbhybt7cA3Ko8QQXFYZmhGi/MQBif+FE/R9sgTrGlnrurrPJQgusY9V20IwuPildnWV/gIhhvwiR32E0t3xZg=
     on_success: change
     on_failure: change
