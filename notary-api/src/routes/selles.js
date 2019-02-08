@@ -29,11 +29,10 @@ const router = express.Router();
  */
 router.post('/heads-up', asyncError(async (req, res) => {
   const { sellerAddress, sellerId } = req.body;
-  if (saveSeller(sellerAddress, sellerId)) {
+  if (await saveSeller(sellerAddress, sellerId)) {
     res.status(202).json({ message: 'OK' });
   } else {
-    const { message } = 'Seller has already been registered';
-    res.boom.notFound(message);
+    res.boom.notFound('Seller has already been registered');
   }
 }));
 

@@ -7,9 +7,13 @@ import { sellers } from '../utils/stores';
  * @param {number} sellerId Seller's unique ID.
  */
 export const saveSeller = async (sellerAddress, sellerId) => {
-  const seller = await sellers.get(sellerAddress);
-  if (seller) {
-    return false;
+  try {
+    const seller = await sellers.get(sellerAddress);
+    if (seller) {
+      return false;
+    }
+  } catch (error) {
+    // do nothing
   }
   await sellers.put(sellerAddress, sellerId);
   return true;
