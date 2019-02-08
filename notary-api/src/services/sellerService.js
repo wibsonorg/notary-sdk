@@ -7,9 +7,10 @@ import { sellers } from '../utils/stores';
  * @param {number} sellerId Seller's unique ID.
  */
 export const saveSeller = async (sellerAddress, sellerId) => {
-  const seller = sellers.fetch(sellerAddress);
+  const seller = await sellers.get(sellerAddress);
   if (seller) {
-    throw new Error('Seller has already been registered');
+    return false;
   }
-  await sellers.store(sellerAddress, sellerId);
+  await sellers.put(sellerAddress, sellerId);
+  return true;
 };
