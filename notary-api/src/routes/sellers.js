@@ -26,13 +26,15 @@ const router = express.Router();
  *     responses:
  *       204:
  *         description: When validation results are registered successfully
+ *       422:
+ *         description: When seller has already been registered
  */
 router.post('/heads-up', asyncError(async (req, res) => {
   const { sellerAddress, sellerId } = req.body;
   if (await saveSeller(sellerAddress, sellerId)) {
     res.status(204).send();
   } else {
-    res.boom.notFound('Seller has already been registered');
+    res.boom.badData('Seller has already been registered');
   }
 }));
 
