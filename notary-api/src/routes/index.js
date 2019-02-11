@@ -1,6 +1,6 @@
 import health from './health';
 import buyers from './buyers';
 import data from './data';
-import selles from './selles';
+import sellers from './sellers';
 
-export { health, buyers, data, selles };
+export { health, buyers, data, sellers };
