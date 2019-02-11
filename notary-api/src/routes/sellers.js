@@ -9,7 +9,7 @@ const router = express.Router();
  * /sellers/heads-up:
  *   post:
  *     description: |
- *       Endpoint where the WAPI will make the POST request when the registration is finished.
+ *       Endpoint where the sellers registrerer will send the information regarding a new seller.
  *     parameters:
  *       - name: sellerAddress
  *         description: Seller's ethereum address.
