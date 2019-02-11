@@ -1,6 +1,6 @@
 import express from 'express';
 import { asyncError } from '../utils';
-import { saveSeller } from '../services/sellerService';
+import { saveSeller } from '../operations/saveSeller';
 
 const router = express.Router();
 
