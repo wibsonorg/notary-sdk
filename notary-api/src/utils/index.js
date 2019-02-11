@@ -12,3 +12,5 @@ export {
   dataExchange,
   dataExchangeAt,
 } from './contracts';
+
+export { getElements, date } from './blockchain';

@@ -30,6 +30,7 @@ const config = {
   cache: {
     enabled: env.CACHE === 'enabled',
     adapter: env.CACHE_ADAPTER,
+    ordersTTL: Number(env.CONTRACTS_CACHE_ORDERS_TTL),
   },
   logType: env.LOG_TYPE,
   log: {
