@@ -24,13 +24,13 @@ const router = express.Router();
  *     produces:
  *       - application/json
  *     responses:
- *       200:
+ *       204:
  *         description: When validation results are registered successfully
  */
 router.post('/heads-up', asyncError(async (req, res) => {
   const { sellerAddress, sellerId } = req.body;
   if (await saveSeller(sellerAddress, sellerId)) {
-    res.status(202).json({ message: 'OK' });
+    res.status(204).send();
   } else {
     res.boom.notFound('Seller has already been registered');
   }
