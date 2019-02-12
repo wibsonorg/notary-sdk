@@ -29,11 +29,6 @@ const checkConfig = (conf) => {
   }
 };
 
-const runInterval = (fn, delay) => {
-  fn();
-  return setInterval(fn, delay);
-};
-
 const server = () => {
   checkConfig(config);
   const { port, host, env } = config;
