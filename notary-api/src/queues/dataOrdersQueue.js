@@ -1,6 +1,6 @@
 import config from '../../config';
 import { createQueue } from './createQueue';
-import { fetchDataOrder } from '../blockchain/dataExchange';
+import { fetchDataOrder } from '../blockchain/dataOrder';
 import { saveDataOrder } from '../operations/dataExchange';
 
 const queueName = 'DataOrdersQueue';

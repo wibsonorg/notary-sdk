@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import app from './app';
 import config from '../config';
 import logger from './utils/logger';
-import eventSubscriber from './events/subscriber';
+import { contractEventListener } from './blockchain/contractEventListener';
 import { refreshOpenOrders } from './operations/dataExchange';
 
 const checkConfig = (conf) => {
@@ -43,7 +43,7 @@ const server = () => {
 
   refreshOpenOrders();
 
-  runInterval(eventSubscriber.processEvents, config.eventSubscribers.interval);
+  contractEventListener.listen();
 };
 
 export default server;

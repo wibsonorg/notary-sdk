@@ -1,3 +1,5 @@
+// TODO: DEPRECATED FILE Should be removed in favor of src/blockchain
+import logger from './logger';
 import web3 from './web3';
 import config from '../../config';
 
@@ -32,3 +34,4 @@ export {
   dataExchange,
   dataExchangeAt,
 };
+logger.warn('src/utils/contracts.js [DEPRECATED] Should be removed in favor of src/blockchain');

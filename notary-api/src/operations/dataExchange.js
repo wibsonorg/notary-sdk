@@ -1,7 +1,7 @@
 import { logger } from '../utils';
 import { dataOrders } from '../utils/stores';
 import { dataOrdersQueue } from '../queues';
-import { fetchDataOrders } from '../blockchain/dataExchange';
+import { fetchDataOrders } from '../blockchain/dataOrder';
 
 const OPEN_ORDERS = 'open_orders';
 
@@ -46,6 +46,7 @@ const getOpenOrders = async () =>
  */
 const refreshOpenOrders = async () => {
   const { openOrders } = await fetchDataOrders();
+  // TODO: stop double fetching from blockchain
   openOrders.forEach(order =>
     dataOrdersQueue.enqueue('fetchAndSave', { orderId: order.orderId }));
 };

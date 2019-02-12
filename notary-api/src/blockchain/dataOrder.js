@@ -1,6 +1,16 @@
 import axios from 'axios';
-import { dataExchange, getElements, date } from '../utils';
 import { toWib } from '../utils/wibson-lib/coin';
+import { dataExchange, toDate, getElements } from './contracts';
+import { contractEventListener } from './contractEventListener';
+import { dataOrdersQueue } from '../queues';
+
+contractEventListener
+  .addContract(dataExchange)
+  .on('DataOrderCreated', async ({ orderId }) => {
+    dataOrdersQueue.enqueue('notifyNew', { orderId });
+  }).on('DataOrderClosed', async ({ orderId }) => {
+    dataOrdersQueue.enqueue('fetchAndSave', { orderId });
+  });
 
 /**
  * @async
@@ -8,7 +18,7 @@ import { toWib } from '../utils/wibson-lib/coin';
  * @param {Number} orderId DataOrder id
  * @returns {Promise} Promise which resolves to the Data Order.
  */
-const fetchDataOrder = async (orderId) => {
+export const fetchDataOrder = async (orderId) => {
   const {
     buyer,
     audience,
@@ -29,20 +39,20 @@ const fetchDataOrder = async (orderId) => {
     price: toWib(price),
     requestedData: JSON.parse(requestedData),
     termsAndConditionsHash,
-    createdAt: date(createdAt),
-    closedAt: date(closedAt),
+    createdAt: toDate(createdAt),
+    closedAt: toDate(closedAt),
     buyerUrl,
     ...offchainData,
   };
 };
 
-const fetchDataOrders = async () => {
+export const fetchDataOrders = async () => {
   const openOrders = [];
   const closedOrders = [];
   const orders = await getElements(dataExchange, 'dataOrders');
 
   orders.forEach((order, orderId) => {
-    if (date(order.closedAt)) {
+    if (toDate(order.closedAt)) {
       closedOrders.push({ orderId, order });
     } else {
       openOrders.push({ orderId, order });
@@ -50,9 +60,4 @@ const fetchDataOrders = async () => {
   });
 
   return { openOrders, closedOrders };
-};
-
-export {
-  fetchDataOrder,
-  fetchDataOrders,
 };
