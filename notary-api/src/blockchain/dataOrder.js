@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { toWib } from '../utils/wibson-lib/coin';
-import { dataExchange, toDate, getElements } from './contracts';
+import { DataExchange, toDate, getElements } from './contracts';
 import { contractEventListener } from './contractEventListener';
 import { dataOrdersQueue } from '../queues';
 
 contractEventListener
-  .addContract(dataExchange)
+  .addContract(DataExchange)
   .on('DataOrderCreated', async ({ orderId }) => {
     dataOrdersQueue.enqueue('notifyNew', { orderId });
   }).on('DataOrderClosed', async ({ orderId }) => {
@@ -28,7 +28,7 @@ export const fetchDataOrder = async (orderId) => {
     buyerUrl,
     createdAt,
     closedAt,
-  } = await dataExchange.methods.dataOrders(orderId).call();
+  } = await DataExchange.methods.dataOrders(orderId).call();
 
   const offchainData = await axios.get(buyerUrl, { timeout: 5000 });
 
@@ -49,7 +49,7 @@ export const fetchDataOrder = async (orderId) => {
 export const fetchDataOrders = async () => {
   const openOrders = [];
   const closedOrders = [];
-  const orders = await getElements(dataExchange, 'dataOrders');
+  const orders = await getElements(DataExchange, 'dataOrders');
 
   orders.forEach((order, orderId) => {
     if (toDate(order.closedAt)) {

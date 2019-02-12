@@ -1,6 +1,6 @@
 // TODO: DEPRECATED FILE Should be removed in favor of src/blockchain
 import logger from './logger';
-import web3 from './web3';
+import { web3 } from './web3';
 import config from '../../config';
 
 import WibcoinDefinition from '../../contracts/Wibcoin.json';

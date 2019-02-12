@@ -1,7 +1,7 @@
 import Queue from 'bull';
 import { logger } from '../utils';
 
-const PREFIX = 'wibson-api:jobs';
+const PREFIX = 'notary-api:jobs';
 
 const fullJobId = (queueName, id) => `${PREFIX}:${queueName}:${id}`;
 

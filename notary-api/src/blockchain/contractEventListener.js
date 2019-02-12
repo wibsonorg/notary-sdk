@@ -31,7 +31,7 @@ const processEvents = async () => {
 
 Object.assign(contractEventListener, {
   addContract(contract) {
-    if (!contracts.find(contract)) {
+    if (!contracts.find(c => c === contract)) {
       contracts.push(contract);
     }
     return contractEventListener;
