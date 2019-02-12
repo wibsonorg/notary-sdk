@@ -16,6 +16,7 @@ before_install: npm i -g npm@6.1.0
 
 install:
 - cd $WORKING_DIR
+- npm prune
 - npm install
 
 before_script:
