@@ -1,0 +1,1 @@
+export { dataOrdersQueue } from './dataOrdersQueue';

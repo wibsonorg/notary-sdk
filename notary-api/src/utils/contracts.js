@@ -1,8 +1,9 @@
-import web3 from './web3';
+// TODO: DEPRECATED FILE Should be removed in favor of src/blockchain
+import logger from './logger';
+import { web3 } from './web3';
 import config from '../../config';
 
 import WibcoinDefinition from '../../contracts/Wibcoin.json';
-import DataOrderDefinition from '../../contracts/DataOrder.json';
 import DataExchangeDefinition from '../../contracts/DataExchange.json';
 
 /**
@@ -11,13 +12,6 @@ import DataExchangeDefinition from '../../contracts/DataExchange.json';
  */
 const wibcoinAt = addr =>
   new web3.eth.Contract(WibcoinDefinition.abi, addr);
-
-/**
- * @param {String} addr ethereum address
- * @returns {web3.eth.Contract} instan of the contract
- */
-const dataOrderAt = addr =>
-  new web3.eth.Contract(DataOrderDefinition.abi, addr);
 
 /**
  * @param {String} addr ethereum address
@@ -37,7 +31,7 @@ const dataExchange = dataExchangeAt(dataExchangeAddr);
 export {
   wibcoin,
   wibcoinAt,
-  dataOrderAt,
   dataExchange,
   dataExchangeAt,
 };
+logger.warn('src/utils/contracts.js [DEPRECATED] Should be removed in favor of src/blockchain');

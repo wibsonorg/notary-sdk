@@ -30,6 +30,7 @@ const config = {
   cache: {
     enabled: env.CACHE === 'enabled',
     adapter: env.CACHE_ADAPTER,
+    ordersTTL: Number(env.CONTRACTS_CACHE_ORDERS_TTL),
   },
   logType: env.LOG_TYPE,
   log: {
@@ -42,9 +43,9 @@ const config = {
   redis: {
     socket: env.REDIS_SOCKET,
   },
-  eventSubscribers: {
-    interval: env.EVENT_SUBSCRIBERS_INTERVAL,
-    lastProcessedBlock: env.EVENT_SUBSCRIBERS_LAST_PROCESSED_BLOCK,
+  contractEventListener: {
+    interval: Number(env.CONTRACT_EVENT_LISTENER_INTERVAL),
+    lastProcessedBlock: Number(env.CONTRACT_EVENT_LISTENER_LAST_PROCESSED_BLOCK),
   },
   levelDirectory: env.LEVEL_DIRECTORY,
   storage: {

@@ -1,10 +1,11 @@
-import { createLevelStore } from './storage';
+import { createLevelStore, createRedisStore } from './storage';
 /**
  * @typedef {import('./storage').LevelStore<K,V>} LevelStore
  * @template K
  * @template V
  */
 
+export const dataOrders = createRedisStore('data_orders:');
 export const eventBlocks = createLevelStore('event_blocks');
 export const notarizationResults = createLevelStore('notarization_results');
 export const dataValidationResults = createLevelStore('data_validation_results');

@@ -23,6 +23,7 @@
     "babel-polyfill": "6.26.0",
     "bignumber.js": "^7.2.1",
     "body-parser": "^1.18.3",
+    "bull": "^3.4.7",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "eth-crypto": "1.2.3",
