@@ -3,12 +3,6 @@ import redis from 'redis';
 import level from 'level';
 import config from '../../config';
 
-const redisClient = ns =>
-  redis.createClient(config.redis.socket, { prefix: ns });
-
-export const asyncRedisClient = ns =>
-  asyncRedis.decorate(redisClient(ns));
-
 export const createRedisStore = ns =>
   asyncRedis.decorate(redis.createClient(config.redis.socket, {
     prefix: `notary-api:${ns}`,
