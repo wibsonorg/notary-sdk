@@ -1,5 +1,7 @@
 import { BigNumber } from 'bignumber.js';
-import { dataOrderAt } from '../utils';
+
+const { dataOrderAt } = {}; // from '../utils';
+// TODO: to be updated [v2]
 
 const getNotarizationFee = async (orderAddress, notarizationPercentage) => {
   const dataOrder = dataOrderAt(orderAddress);

@@ -1,5 +1,7 @@
 import { dateOrNull } from '../helpers/date';
-import { web3, dataOrderAt } from '../../utils';
+
+const { web3, dataOrderAt } = {}; // from '../../utils';
+// TODO: to be updated [v2]
 
 export const fetchSellerInfo = async (orderAddress, sellerAddress) => {
   const dataOrder = dataOrderAt(orderAddress);
