@@ -5,8 +5,8 @@ node_js:
 - '8'
 
 env:
-- WORKING_DIR=notary-api SKIP_TESTS=true
-- WORKING_DIR=notary-signing-service SKIP_TESTS=true
+- WORKING_DIR=notary-api SKIP_AUDIT=true SKIP_TESTS=true
+- WORKING_DIR=notary-signing-service SKIP_AUDIT=true SKIP_TESTS=true
 
 cache:
   directories:
@@ -20,7 +20,7 @@ install:
 
 before_script:
   - npm run lint
-  - npm audit
+  - npm audit || $SKIP_AUDIT
   - npm run test:coverage || $SKIP_TESTS
   - bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info || $SKIP_TESTS
 
