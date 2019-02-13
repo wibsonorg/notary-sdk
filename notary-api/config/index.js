@@ -16,7 +16,6 @@ const config = {
   host: env.HOST,
   notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
   notaryValidatorUri: env.NOTARY_VALIDATOR_URI,
-  orderAddress: env.ORDER_ADDRESS,
   contracts: {
     addresses: {
       dataExchange: env.DATA_EXCHANGE_ADDRESS,
@@ -26,7 +25,6 @@ const config = {
   notarizationFeePercentage: env.NOTARIZATION_FEE_PERCENTAGE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVICE,
   takeDataFromStorage: env.TAKE_DATA_FROM_STORAGE === 'true',
-  signature: env.SIGNATURE,
   cache: {
     enabled: env.CACHE === 'enabled',
     adapter: env.CACHE_ADAPTER,
