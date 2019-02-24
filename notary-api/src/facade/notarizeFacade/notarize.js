@@ -75,8 +75,7 @@ export const updateNotarizationResultFromValidation = async (
   sellerAddress,
   validation,
 ) => {
-  let notarizationResult = await fetchNotarizationResult(orderAddress, sellerAddress);
-  notarizationResult = { ...notarizationResult, result: resultFromValidation(validation) };
+  const notarizationResult = { result: resultFromValidation(validation) };
   await storeNotarizationResult(orderAddress, sellerAddress, notarizationResult);
 };
 
