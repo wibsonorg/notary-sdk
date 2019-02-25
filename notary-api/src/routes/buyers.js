@@ -8,6 +8,7 @@ import {
 import { getNotarizationFee } from '../facade/ordersFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
+import { addNotarizationJob } from '../queues/notarizationsQueue';
 
 const https = require('https');
 
@@ -203,6 +204,54 @@ router.post(
       res.status(200).json({ dataResponses });
     } else {
       res.status(400).json({});
+    }
+  }),
+);
+
+/**
+ * @swagger
+ * /notarization-request/{notarizationRequestId}:
+ *   post:
+ *     parameters:
+ *       - name: notarizationRequestId
+ *         description: Notarization request id
+ *         required: true
+ *         type: string
+ *         in: uri
+ *       - name: orderId
+ *         description: The unique identifier for the order.
+ *         required: true
+ *         type: number
+ *         in: body
+ *       - name: sellers
+ *         description: List of sellers send to notarize.
+ *         required: true
+ *         type: array
+ *         in: body
+ *       - name: callbackUrl
+ *         description: Buyer's URL to call after notarization.
+ *         required: true
+ *         type: string
+ *         in: body
+ *     description: Receives a batch of sellers to notarize
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       202:
+ *         description: When the job was successfully added.
+ *       500:
+ *         description: When there was an error with the app
+ */
+router.post(
+  '/notarization-request/:notarizationRequestId',
+  asyncError(async (req, res) => {
+    const { notarizationRequestId } = req.params;
+    const notarizationRequest = req.body;
+    try {
+      addNotarizationJob(notarizationRequestId, { ...notarizationRequest });
+      res.sendStatus(202);
+    } catch (error) {
+      res.sendStatus(500);
     }
   }),
 );
