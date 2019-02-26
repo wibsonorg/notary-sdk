@@ -1,10 +1,8 @@
-import uuidv4 from 'uuid/v4';
 import axios from 'axios';
 import config from '../../config';
 import { createQueue } from './createQueue';
 import { getAccount } from '../services/signingService';
-import { notarizationsKeys } from '../utils/stores';
-// import { sha3 } from '../utils/wibson-lib/cryptography/hashing';
+import { notarizationResults } from '../utils/stores';
 
 const queueName = 'NotarizationQueue';
 const { fetchOrderMaxAttempts } = config;
@@ -15,20 +13,36 @@ const defaultJobOptions =
 const notarizationQueue = createQueue(queueName, defaultJobOptions);
 
 export const notarize = async ({
-  notarizationRequestId, orderId, sellers, callbackUrl,
+  lock,
 }) => {
-  const { address: notaryAddress } = await getAccount();
-  const id = uuidv4();
-  // sellers: [{ sellerAddress, sellerId, decryptionKeyHash, }]
+  const notarization = notarizationResults.safeFetch(lock);
+  if (!notarization) return;
 
-  const payDataHash = '';
-  const lock = 'invalid-lock';
+  const { address: notaryAddress } = await getAccount();
+
+  const {
+    request: {
+      orderId,
+      callbackUrl,
+    },
+    result: {
+      notarizationPercentage,
+      notarizationFee,
+    },
+    payDataHash,
+  } = notarization;
+
+  const sellers = notarization.sellers.map(s => ({
+    ...s,
+    result: 'ignored',
+    decryptionKeyEncryptedWithMasterKey: '',
+  }));
 
   const notarizationResponse = {
     orderId,
     notaryAddress,
-    notarizationPercentage: 0,
-    notarizationFee: 0,
+    notarizationPercentage,
+    notarizationFee,
     payDataHash,
     lock,
     sellers,
@@ -39,9 +53,9 @@ export const notarize = async ({
     notarizationResponse,
   );
 
-  notarizationsKeys.store(notarizationRequestId, id);
+  notarizationResults.store(lock, { ...notarization, sellers });
 };
 
 notarizationQueue.process(notarize);
 
-export const addNotarizationJob = params => notarizationQueue.add({ ...params });
+export const addNotarizationJob = lock => notarizationQueue.add(lock);

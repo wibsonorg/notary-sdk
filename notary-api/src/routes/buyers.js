@@ -8,7 +8,7 @@ import {
 import { getNotarizationFee } from '../facade/ordersFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
-import { addNotarizationJob } from '../queues/notarizationsQueue';
+import { notarize } from '../operations/notarize';
 
 const https = require('https');
 
@@ -243,12 +243,10 @@ router.post(
  *         description: When there was an error with the app
  */
 router.post(
-  '/notarization-request/:notarizationRequestId',
+  '/notarization-request',
   asyncError(async (req, res) => {
-    const { notarizationRequestId } = req.params;
-    const notarizationRequest = req.body;
     try {
-      addNotarizationJob(notarizationRequestId, { ...notarizationRequest });
+      notarize({ ...req.body });
       res.sendStatus(202);
     } catch (error) {
       res.sendStatus(500);
