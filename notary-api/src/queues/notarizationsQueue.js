@@ -32,11 +32,10 @@ export const notarize = async ({
     payDataHash,
   } = notarization;
 
-  const sellers = notarization.sellers.map(s => ({
-    ...s,
-    result: 'ignored',
-    decryptionKeyEncryptedWithMasterKey: '',
-  }));
+  notarization.result.sellers.forEach((seller, i) => {
+    this[i].result = 'ignored';
+    this[i].decryptionKeyEncryptedWithMasterKey = '';
+  }, notarization.result.sellers);
 
   const notarizationResponse = {
     orderId,
@@ -45,15 +44,14 @@ export const notarize = async ({
     notarizationFee,
     payDataHash,
     lock,
-    sellers,
+    sellers: notarization.result.sellers,
   };
 
   await axios.post(
     callbackUrl,
     notarizationResponse,
   );
-
-  notarizationResults.store(lock, { ...notarization, sellers });
+  notarizationResults.store(lock, { ...notarization, status: 'responded' });
 };
 
 notarizationQueue.process(notarize);
