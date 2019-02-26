@@ -3,28 +3,19 @@ import redis from 'redis';
 import level from 'level';
 import config from '../../config';
 
+const { url, prefix } = config.redis;
 export const createRedisStore = ns =>
-  asyncRedis.decorate(redis.createClient(config.redis.socket, {
-    prefix: `notary-api:${ns}`,
-  }));
-
-const listLevelStream = stream =>
-  new Promise((resolve, reject) => {
-    const result = [];
-    stream
-      .on('data', data => result.push(data))
-      .on('error', reject)
-      .on('end', () => resolve(result));
-  });
+  asyncRedis.decorate(redis.createClient(url, { prefix: `${prefix}:${ns}` }));
 
 /**
  * @typedef LevelStore A store that uses LevelDB
  * @property {(id: K) => Promise<V>} fetch Retrives the value parsed from LevelDB
  * @property {(id: K) => Promise<V>} safeFetch As fetch but retrives null if missing
  * @property {(id: K, obj: V) => Promise<void>} store Stores the value stringified on LevelDB
- * @property {() => Promise<K[]>} listKeys Lists all the keys stored on LevelDB
- * @property {() => Promise<V[]>} listValues Lists all the values stored on LevelDB
- * @property {() => Promise<({id:K}&V)[]>} list Lists all the objects stored on LevelDB
+ * @property {(id: K, obj: V) => Promise<void>} update Updates the value stringified on LevelDB
+ * @property {(group: string) => Promise<({id:K}&V)[]>} list Lists all the objects stored on LevelDB
+ * @property {(group: string) => Promise<K[]>} listKeys Lists all the keys stored on LevelDB
+ * @property {(group: string) => Promise<V[]>} listValues Lists all the values stored on LevelDB
  * @template K
  * @template V
 */
@@ -47,14 +38,29 @@ export const createLevelStore = (dir) => {
     }
   };
   store.store = (id, obj) => store.put(id, JSON.stringify(obj));
-  store.listKeys = () => listLevelStream(store.createKeyStream());
-  store.listValues = async () => {
-    const list = await listLevelStream(store.createValueStream());
-    return list.map(value => JSON.parse(value));
+  store.update = async (id, obj) => {
+    const value = await store.fetch(id);
+    return store.store(id, { ...value, ...obj });
   };
-  store.list = async () => {
-    const list = await listLevelStream(store.createReadStream());
-    return list.map(({ key, value }) => ({ id: key, ...JSON.parse(value) }));
-  };
+  const createListFunction = mode => group => new Promise((res, rej) => {
+    const result = [];
+    store.createReadStream({
+      keys: mode !== 'values',
+      values: mode !== 'keys',
+      ...(group ? { gte: group, lte: `${group}∞` } : {}),
+    })
+      .on('data', data => result.push(data))
+      .on('error', rej)
+      .on('end', () => res(result));
+  }).then((list) => {
+    switch (mode) {
+      case 'keys': return list;
+      case 'values': return list.map(value => JSON.parse(value));
+      default: return list.map(({ key, value }) => ({ id: key, ...JSON.parse(value) }));
+    }
+  });
+  store.list = createListFunction('all');
+  store.listKeys = createListFunction('keys');
+  store.listValues = createListFunction('values');
   return store;
 };

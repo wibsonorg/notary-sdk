@@ -39,7 +39,8 @@ const config = {
     provider: env.WEB3_PROVIDER,
   },
   redis: {
-    socket: env.REDIS_SOCKET,
+    url: env.REDIS_URL,
+    prefix: env.REDIS_PREFIX,
   },
   contractEventListener: {
     interval: Number(env.CONTRACT_EVENT_LISTENER_INTERVAL),
