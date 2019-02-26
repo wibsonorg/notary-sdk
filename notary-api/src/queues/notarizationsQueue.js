@@ -32,10 +32,11 @@ export const notarize = async ({
     payDataHash,
   } = notarization;
 
-  notarization.result.sellers.forEach((seller, i) => {
-    this[i].result = 'ignored';
-    this[i].decryptionKeyEncryptedWithMasterKey = '';
-  }, notarization.result.sellers);
+  notarization.result.sellers = notarization.result.sellers.map(s => ({
+    ...s,
+    result: 'ignored',
+    decryptionKeyEncryptedWithMasterKey: '',
+  }));
 
   const notarizationResponse = {
     orderId,
