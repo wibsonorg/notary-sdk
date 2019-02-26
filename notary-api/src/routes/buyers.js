@@ -246,8 +246,9 @@ router.post(
   '/notarization-request',
   asyncError(async (req, res) => {
     try {
-      notarize({ ...req.body });
-      res.sendStatus(202);
+      const ok = notarize({ ...req.body });
+      if (ok) res.sendStatus(202);
+      else res.sendStatus(422);
     } catch (error) {
       res.sendStatus(500);
     }

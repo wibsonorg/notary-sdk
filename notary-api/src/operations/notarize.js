@@ -47,6 +47,11 @@ const createNotarization = ({
  * @param {String} params.notarizationFee OPTIONAL: Amount of WIB that notary will receive
  */
 export const notarize = (params) => {
-  const lock = createNotarization(params);
-  addNotarizationJob(lock);
+  try {
+    const lock = createNotarization(params);
+    addNotarizationJob(lock);
+    return true;
+  } catch (Error) {
+    return false;
+  }
 };
