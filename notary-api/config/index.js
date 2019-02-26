@@ -18,7 +18,9 @@ const config = {
   notaryValidatorUri: env.NOTARY_VALIDATOR_URI,
   contracts: {
     addresses: {
+      wibcoin: env.WIBCOIN_ADDRESS,
       dataExchange: env.DATA_EXCHANGE_ADDRESS,
+      batPay: env.BATPAY_ADDRESS,
     },
   },
   responsesPercentage: env.RESPONSES_PERCENTAGE,
