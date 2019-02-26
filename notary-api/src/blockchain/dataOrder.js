@@ -1,16 +1,6 @@
 import axios from 'axios';
 import { toWib } from '../utils/wibson-lib/coin';
 import { DataExchange, toDate, getElements } from './contracts';
-import { contractEventListener } from './contractEventListener';
-import { dataOrdersQueue } from '../queues';
-
-contractEventListener
-  .addContract(DataExchange)
-  .on('DataOrderCreated', async ({ orderId }) => {
-    dataOrdersQueue.enqueue('notifyNew', { orderId });
-  }).on('DataOrderClosed', async ({ orderId }) => {
-    dataOrdersQueue.enqueue('fetchAndSave', { orderId });
-  });
 
 /**
  * @async

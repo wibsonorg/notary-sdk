@@ -2,7 +2,7 @@ import '@babel/polyfill';
 import app from './app';
 import config from '../config';
 import logger from './utils/logger';
-import { contractEventListener } from './blockchain/contractEventListener';
+import { contractEventListener } from './blockchain/contractEventSubscribers';
 import { refreshOpenOrders } from './operations/dataExchange';
 
 const checkConfig = (conf) => {
