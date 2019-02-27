@@ -64,7 +64,7 @@ export function createQueue(name, options = {}, settings = {}) {
  * @template F
  */
 export function jobify(fn, { name = fn.name, queue, priority } = {}) {
-  const q = queue || queues[name] || createQueue(name, { concurrency: Infinity });
+  const q = queue || queues[name] || createQueue(name);
   q.jobHandlers[name] = fn;
   return (...args) => q.add(name, args, { priority }).finished();
 }
