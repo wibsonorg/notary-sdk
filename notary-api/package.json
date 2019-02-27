@@ -70,7 +70,6 @@
     "supertest": "^3.1.0",
     "testdouble": "^3.10.0"
   },
-  "babel": { "presets": [["@babel/env"]] },
   "nodemonConfig": {
     "exec": "clear;babel-node",
     "watchedExtensions": [
