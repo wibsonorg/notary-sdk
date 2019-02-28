@@ -22,6 +22,7 @@ const config = {
   },
 
   privateKey: env.PRIVATE_KEY,
+  batPayId: env.BATPAY_ID,
 };
 
 exports.default = config;

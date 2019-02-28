@@ -1,7 +1,9 @@
 import express from 'express';
 import { account } from '../utils';
+import config from '../../config';
 
 const router = express.Router();
+const { batPayId } = config;
 
 /**
  * @swagger
@@ -18,6 +20,7 @@ router.get('/', async (_req, res) => {
   res.json({
     address: account.getAddress(),
     publicKey: account.getPublicKey(),
+    batPayId,
   });
 });
 
