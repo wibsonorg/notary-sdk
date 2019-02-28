@@ -20,7 +20,6 @@ const createNotarization = async ({
   const notarization = {
     request: {
       orderId,
-      sellers,
       callbackUrl,
     },
     result: {

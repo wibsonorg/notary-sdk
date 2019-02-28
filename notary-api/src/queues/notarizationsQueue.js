@@ -43,7 +43,7 @@ export const notarize = async ({
     notaryAddress,
     notarizationPercentage,
     notarizationFee,
-    payDataHash,
+    payDataHash, // TODO: Buyer shouldn't need this anymore
     lock,
     sellers: notarization.result.sellers,
   };
