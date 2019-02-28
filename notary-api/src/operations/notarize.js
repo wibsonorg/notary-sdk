@@ -2,6 +2,7 @@ import uuidv4 from 'uuid/v4';
 import { addNotarizationJob } from '../queues/notarizationsQueue';
 import { notarizationResults } from '../utils/stores';
 import { sha3 } from '../utils/wibson-lib/cryptography/hashing';
+import { packPayData } from '../blockchain/batPay';
 
 const createNotarization = ({
   orderId,
@@ -11,8 +12,9 @@ const createNotarization = ({
   notarizationFee = 0,
 }) => {
   const masterKey = uuidv4();
-  const payDataHash = '';
-  const lock = sha3(masterKey.concat(payDataHash));
+  const payData = packPayData(sellers.map(s => s.sellerId));
+  const payDataHash = sha3(payData);
+  const lock = sha3(payDataHash.concat(masterKey));
   const notarization = {
     request: {
       orderId,
