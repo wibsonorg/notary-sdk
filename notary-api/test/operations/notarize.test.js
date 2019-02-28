@@ -29,7 +29,7 @@ it('Stores notarization object and enqueues job if proper parameters', async (as
 });
 
 it('Doesn\'t store notarization object nor enqueues jobs if wrong parameters', async (assert) => {
-  hashing.sha3.onCall(0).throws(); // Simulates an error with master key / payData
+  hashing.sha3.throws(); // Simulates an error with master key / payData
   const result = await notarize(params);
   assert.false(notarizationResults.store.called);
   assert.false(notarizationsQueue.add.called);

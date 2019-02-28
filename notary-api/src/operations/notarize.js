@@ -1,10 +1,11 @@
 import uuidv4 from 'uuid/v4';
 import { addNotarizationJob } from '../queues/notarizationsQueue';
 import { notarizationResults } from '../utils/stores';
-import { sha3 } from '../utils/wibson-lib/cryptography/hashing';
+import { packMessage, sha3 } from '../utils/wibson-lib/cryptography/hashing';
 import { packPayData } from '../blockchain/batPay';
+import { getAccount } from '../services/signingService';
 
-const createNotarization = ({
+const createNotarization = async ({
   orderId,
   sellers,
   callbackUrl,
@@ -14,7 +15,8 @@ const createNotarization = ({
   const masterKey = uuidv4();
   const payData = packPayData(sellers.map(s => s.sellerId));
   const payDataHash = sha3(payData);
-  const lock = sha3(payDataHash.concat(masterKey));
+  const { batPayId: notaryId } = await getAccount();
+  const lock = packMessage(notaryId, masterKey);
   const notarization = {
     request: {
       orderId,
@@ -48,9 +50,9 @@ const createNotarization = ({
  * @param {String} params.notarizationPercentage OPTIONAL: Percentage of data to notarize
  * @param {String} params.notarizationFee OPTIONAL: Amount of WIB that notary will receive
  */
-export const notarize = (params) => {
+export const notarize = async (params) => {
   try {
-    const lock = createNotarization(params);
+    const lock = await createNotarization(params);
     addNotarizationJob(lock);
     return true;
   } catch (Error) {

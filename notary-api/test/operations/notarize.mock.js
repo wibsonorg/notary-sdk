@@ -20,11 +20,14 @@ td.replace('../../src/queues/createQueue', { createQueue });
 const uuidv4 = () => '3ec12ec7-b8ce-4e21-agus-e05e1ac010d9';
 td.replace('uuid/v4', uuidv4);
 
-export const hashing = { sha3: sinon.stub() };
+const getAccount = async () => ({ batPayId: 1634170227 });
+td.replace('../../src/services/signingService', { getAccount });
+
+export const hashing = { sha3: sinon.stub(), packMessage: sinon.stub() };
 td.replace('../../src/utils/wibson-lib/cryptography/hashing', hashing);
 
 test.beforeEach(() => {
-  hashing.sha3.onCall(0).returns('0x8e0eaf0732773217516bd3c5fe2c8affe2bacf1ae7a4ae75a5c605d306fe4f5a');
-  hashing.sha3.onCall(1).returns('0xbx9fabxf9baxfb9bax6bd3c59f0aefe9e0af9e8afe78af66e7a889fea78fe8aa');
+  hashing.sha3.returns('0x8e0eaf0732773217516bd3c5fe2c8affe2bacf1ae7a4ae75a5c605d306fe4f5a');
+  hashing.packMessage.returns('0xbx9fabxf9baxfb9bax6bd3c59f0aefe9e0af9e8afe78af66e7a889fea78fe8aa');
 });
 test.afterEach(sinon.reset);
