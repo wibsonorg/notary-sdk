@@ -1,11 +1,12 @@
 /**
- * Builds bytes format for BatPay.Transfer
+ * Builds payData for BatPay.Transfer
  * [1, 3, 5, 7] -> '0xff04...'
  * first byte should be ff, second is element length in bytes
  * the rest are the id deltas in hex format
- * @param {number[]} ids list of ids to send as payData
+ * @param {{sellerId: number}[]} sellers list of sellers to send as payData
  */
-export const packPayData = ids => `0xff04${ids
+export const packPayData = sellers => `0xff04${sellers
+  .map(s => s.sellerId)
   .sort((a, b) => a - b)
   .map((id, i, l) => id - (l[i - 1] || 0))
   .map(d => d % (256 ** 4))
@@ -14,11 +15,11 @@ export const packPayData = ids => `0xff04${ids
 }`;
 
 /**
- * Retrives ids from bytes format
+ * Retrives ids from payData
  * '0xff04...' -> [1, 3, 5, 7]
- * @param {Buffer} bytes list of ids to send as payData
+ * @param {Buffer} payData pack of seller ids
  */
-export const unpackPayData = bytes => bytes
+export const unpackPayData = payData => payData
   .toString('hex') // TODO: if abi-decoder already parses the buffer remove this line
   .slice(4)
   .match(/.{8}/img)
