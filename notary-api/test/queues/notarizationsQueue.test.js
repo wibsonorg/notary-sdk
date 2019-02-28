@@ -14,7 +14,7 @@ it('Calls buyer\'s callback after creating the response and stores updated notar
 
 it('Doesn\'t update store if buyer call fails', async (assert) => {
   axios.post.rejects();
-  await assert.throws(notarize({ lock }));
+  await assert.throwsAsync(notarize({ lock }));
   assert.true(axios.post.called);
   assert.false(notarizationResults.store.called);
 });
