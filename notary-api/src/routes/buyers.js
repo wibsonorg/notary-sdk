@@ -210,14 +210,9 @@ router.post(
 
 /**
  * @swagger
- * /notarization-request/{notarizationRequestId}:
+ * /notarization-request:
  *   post:
  *     parameters:
- *       - name: notarizationRequestId
- *         description: Notarization request id
- *         required: true
- *         type: string
- *         in: uri
  *       - name: orderId
  *         description: The unique identifier for the order.
  *         required: true
@@ -247,10 +242,9 @@ router.post(
   asyncError(async (req, res) => {
     try {
       const ok = notarize({ ...req.body });
-      if (ok) res.sendStatus(202);
-      else res.sendStatus(422);
+      return ok ? res.sendStatus(202) : res.boom.badData('Invalid parameters');
     } catch (error) {
-      res.sendStatus(500);
+      return res.sendStatus(500);
     }
   }),
 );

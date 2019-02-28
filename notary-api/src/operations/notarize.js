@@ -15,8 +15,8 @@ const createNotarization = async ({
   const masterKey = uuidv4();
   const payData = packPayData(sellers.map(s => s.sellerId));
   const payDataHash = sha3(payData);
-  const { batPayId: notaryId } = await getAccount();
-  const lock = packMessage(notaryId, masterKey);
+  const { batPayId } = await getAccount();
+  const lock = packMessage(batPayId, masterKey);
   const notarization = {
     request: {
       orderId,
@@ -33,7 +33,7 @@ const createNotarization = async ({
     status: 'accepted',
   };
 
-  notarizationResults.store(lock, notarization);
+  await notarizationResults.store(lock, notarization);
 
   return lock;
 };
