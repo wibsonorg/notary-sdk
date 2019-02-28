@@ -14,6 +14,7 @@ const config = {
   env: env.NODE_ENV,
   port: env.PORT,
   host: env.HOST,
+  brokerUrl: env.BROKER_URL,
   notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
   notaryValidatorUri: env.NOTARY_VALIDATOR_URI,
   contracts: {
