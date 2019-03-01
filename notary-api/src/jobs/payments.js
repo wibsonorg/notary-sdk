@@ -3,7 +3,7 @@ import config from '../../config';
 import { jobify } from '../utils/jobify';
 import { fetchTxData, fetchTxLogs } from '../blockchain/contracts';
 import { notarizationResults } from '../utils/stores';
-import { packPayData } from '../blockchain/batpay';
+import { packPayData } from '../blockchain/batPay';
 import { getDataOrder } from '../operations/dataExchange';
 import { getAccount } from '../services/signingService';
 
