@@ -8,6 +8,7 @@ import {
 import { getNotarizationFee } from '../facade/ordersFacade';
 import signingService from '../services/signingService';
 import config from '../../config';
+import { notarize } from '../operations/notarize';
 
 const https = require('https');
 
@@ -203,6 +204,47 @@ router.post(
       res.status(200).json({ dataResponses });
     } else {
       res.status(400).json({});
+    }
+  }),
+);
+
+/**
+ * @swagger
+ * /notarization-request:
+ *   post:
+ *     parameters:
+ *       - name: orderId
+ *         description: The unique identifier for the order.
+ *         required: true
+ *         type: number
+ *         in: body
+ *       - name: sellers
+ *         description: List of sellers send to notarize.
+ *         required: true
+ *         type: array
+ *         in: body
+ *       - name: callbackUrl
+ *         description: Buyer's URL to call after notarization.
+ *         required: true
+ *         type: string
+ *         in: body
+ *     description: Receives a batch of sellers to notarize
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       202:
+ *         description: When the job was successfully added.
+ *       500:
+ *         description: When there was an error with the app
+ */
+router.post(
+  '/notarization-request',
+  asyncError(async (req, res) => {
+    try {
+      const ok = notarize({ ...req.body });
+      return ok ? res.sendStatus(202) : res.boom.badData('Invalid parameters');
+    } catch (error) {
+      return res.sendStatus(500);
     }
   }),
 );
