@@ -11,8 +11,7 @@ export const notarizationsQueue = {
   on: sinon.stub(),
 };
 
-const config = { fetchOrderMaxAttempts: 1 };
-td.replace('../../config', { config });
+td.replace('../../config', { fetchOrderMaxAttempts: 1 });
 
 export const axios = { post: sinon.stub() };
 td.replace('axios', axios);
