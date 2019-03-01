@@ -1,11 +1,10 @@
 import axios from 'axios';
-import config from '../../config';
+import { brokerUrl, batPayId } from '../../config';
 import { jobify } from '../utils/jobify';
 import { fetchTxData, fetchTxLogs } from '../blockchain/contracts';
-import { notarizationResults } from '../utils/stores';
 import { packPayData } from '../blockchain/batPay';
 import { getDataOrder } from '../operations/dataExchange';
-import { getAccount } from '../services/signingService';
+import { notarizationResults } from '../utils/stores';
 
 /**
  * BatPay.Transfer handler: TODO: addUnlockJob
@@ -47,8 +46,7 @@ export async function sendUnlock(payIndex, transferHash) {
     transfer.fee === fee,
     'fee did not match requested fee',
   );
-  const { batPayId } = await getAccount();
-  await axios.post(`${config.brokerUrl}/unlock`, {
+  await axios.post(`${brokerUrl}/unlock`, {
     payIndex,
     unlockerId: batPayId,
     key: masterKey,
