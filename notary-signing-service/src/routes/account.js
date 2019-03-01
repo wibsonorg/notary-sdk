@@ -1,9 +1,8 @@
 import express from 'express';
 import { account } from '../utils';
-import config from '../../config';
+import { batPayId } from '../../config';
 
 const router = express.Router();
-const { batPayId } = config;
 
 /**
  * @swagger

@@ -20,7 +20,7 @@ const config = {
     error: env.ERROR_LOG,
     combined: env.COMBINED_LOG,
   },
-
+  batPayId: env.BATPAY_ID,
   privateKey: env.PRIVATE_KEY,
   batPayId: env.BATPAY_ID,
 };
