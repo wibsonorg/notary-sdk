@@ -1,15 +1,12 @@
 import axios from 'axios';
-import config from '../../config';
+import { fetchOrderMaxAttempts } from '../../config';
 import { createQueue } from './createQueue';
 import { getAccount } from '../services/signingService';
 import { notarizationResults } from '../utils/stores';
 
 const queueName = 'NotarizationQueue';
-const { fetchOrderMaxAttempts } = config;
-
 const defaultJobOptions =
   { priority: 3, attempts: fetchOrderMaxAttempts, backoff: { type: 'linear' } };
-
 const notarizationQueue = createQueue(queueName, defaultJobOptions);
 
 export const notarize = async ({

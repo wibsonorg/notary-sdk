@@ -14,11 +14,15 @@ const config = {
   env: env.NODE_ENV,
   port: env.PORT,
   host: env.HOST,
+  batPayId: env.BATPAY_ID,
+  brokerUrl: env.BROKER_URL,
   notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
   notaryValidatorUri: env.NOTARY_VALIDATOR_URI,
   contracts: {
     addresses: {
+      wibcoin: env.WIBCOIN_ADDRESS,
       dataExchange: env.DATA_EXCHANGE_ADDRESS,
+      batPay: env.BATPAY_ADDRESS,
     },
   },
   responsesPercentage: env.RESPONSES_PERCENTAGE,
@@ -39,7 +43,8 @@ const config = {
     provider: env.WEB3_PROVIDER,
   },
   redis: {
-    socket: env.REDIS_SOCKET,
+    url: env.REDIS_URL,
+    prefix: env.REDIS_PREFIX,
   },
   contractEventListener: {
     interval: Number(env.CONTRACT_EVENT_LISTENER_INTERVAL),

@@ -2,6 +2,9 @@ import td from 'testdouble';
 import sinon from 'sinon';
 import test from 'ava';
 
+td.replace('uuid/v4', () => '3ec12ec7-b8ce-4e21-agus-e05e1ac010d9');
+td.replace('../../config', { batPayId: 1634170227 });
+
 export const notarizationResults = { safeFetch: sinon.stub(), store: sinon.spy() };
 td.replace('../../src/utils/stores', { notarizationResults });
 
@@ -11,17 +14,8 @@ export const notarizationsQueue = {
   on: sinon.stub(),
 };
 
-const config = { fetchOrderMaxAttempts: 1 };
-td.replace('../../config', { config });
-
 export const createQueue = sinon.stub().returns(notarizationsQueue);
 td.replace('../../src/queues/createQueue', { createQueue });
-
-const uuidv4 = () => '3ec12ec7-b8ce-4e21-agus-e05e1ac010d9';
-td.replace('uuid/v4', uuidv4);
-
-const getAccount = async () => ({ batPayId: 1634170227 });
-td.replace('../../src/services/signingService', { getAccount });
 
 export const hashing = { sha3: sinon.stub(), packMessage: sinon.stub() };
 td.replace('../../src/utils/wibson-lib/cryptography/hashing', hashing);

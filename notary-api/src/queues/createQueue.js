@@ -1,14 +1,23 @@
 import Queue from 'bull';
+import config from '../../config';
 import { logger } from '../utils';
 
-const PREFIX = 'notary-api:jobs';
+const { url, prefix } = config.redis;
+const fullJobId = (queueName, id) => `${prefix}:jobs:${queueName}:${id}`;
 
-const fullJobId = (queueName, id) => `${PREFIX}:${queueName}:${id}`;
-
-const createQueue = (queueName, jobOpts = {}) => {
-  const queue = new Queue(queueName, {
-    prefix: PREFIX,
-    defaultJobOptions: jobOpts,
+export function createQueue(queueName, jobOpts = {}) {
+  const queue = new Queue(queueName, url, {
+    prefix: `${prefix}:jobs`,
+    defaultJobOptions: {
+      backoff: { type: 'linear' },
+      attempts: 20,
+      ...jobOpts,
+    },
+    settings: {
+      backoffStrategies: {
+        linear: attemptsMade => attemptsMade * 10 * 1000,
+      },
+    },
   });
 
   queue.on('active', ({ id, name }) => {
@@ -25,6 +34,10 @@ const createQueue = (queueName, jobOpts = {}) => {
     logger.info(`[${fullJobId(queueName, id)}][${name}] completed.`);
   });
 
+  queue.on('paused', () => {
+    logger.warn(`[${fullJobId(queueName)}] PAUSED.`);
+  });
+
   queue.enqueue = (jobType, data, options) => {
     if (options) {
       queue.add(jobType, data, options);
@@ -33,7 +46,9 @@ const createQueue = (queueName, jobOpts = {}) => {
     }
   };
 
-  return queue;
-};
+  queue.getPausedCount().then((pauseCount) => {
+    logger.info(`[${fullJobId(queueName)}] is on pause for ${pauseCount} jobs`);
+  });
 
-export { createQueue };
+  return queue;
+}
