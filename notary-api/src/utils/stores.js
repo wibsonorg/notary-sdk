@@ -11,3 +11,4 @@ export const notarizationResults = createLevelStore('notarization_results');
 export const dataValidationResults = createLevelStore('data_validation_results');
 /** @type {LevelStore<string, number>} */
 export const sellers = createLevelStore('sellers');
+export const dataResponses = createLevelStore('data_responses');
