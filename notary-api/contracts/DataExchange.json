@@ -158,9 +158,7 @@
     },
     {
       "constant": false,
-      "inputs": [
-        
-      ],
+      "inputs": [],
       "name": "unregisterNotary",
       "outputs": [
         {
@@ -255,12 +253,8 @@
         "src": "0:24:0"
       },
       {
-        "baseContracts": [
-          
-        ],
-        "contractDependencies": [
-          
-        ],
+        "baseContracts": [],
+        "contractDependencies": [],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
@@ -855,9 +849,7 @@
                             "id": 58,
                             "name": "publicUrl",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 51,
                             "src": "1007:9:0",
                             "typeDescriptions": {
@@ -876,9 +868,7 @@
                           "id": 57,
                           "name": "isNotEmpty",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 264,
                           "src": "996:10:0",
                           "typeDescriptions": {
@@ -892,9 +882,7 @@
                         "isPure": false,
                         "kind": "functionCall",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "996:21:0",
                         "typeDescriptions": {
@@ -952,9 +940,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "988:61:0",
                     "typeDescriptions": {
@@ -1001,19 +987,13 @@
                   "id": 67,
                   "initialValue": {
                     "argumentTypes": null,
-                    "arguments": [
-                      
-                    ],
+                    "arguments": [],
                     "expression": {
-                      "argumentTypes": [
-                        
-                      ],
+                      "argumentTypes": [],
                       "id": 65,
                       "name": "isSenderNotary",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 249,
                       "src": "1071:14:0",
                       "typeDescriptions": {
@@ -1027,9 +1007,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "1071:16:0",
                     "typeDescriptions": {
@@ -1055,9 +1033,7 @@
                         "id": 68,
                         "name": "notaryUrls",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 49,
                         "src": "1093:10:0",
                         "typeDescriptions": {
@@ -1073,9 +1049,7 @@
                           "id": 69,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "1104:3:0",
                           "typeDescriptions": {
@@ -1115,9 +1089,7 @@
                       "id": 72,
                       "name": "publicUrl",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 51,
                       "src": "1118:9:0",
                       "typeDescriptions": {
@@ -1141,9 +1113,7 @@
                     "id": 75,
                     "name": "isUpdate",
                     "nodeType": "Identifier",
-                    "overloadedDeclarations": [
-                      
-                    ],
+                    "overloadedDeclarations": [],
                     "referencedDeclaration": 64,
                     "src": "1137:8:0",
                     "typeDescriptions": {
@@ -1167,9 +1137,7 @@
                                 "id": 83,
                                 "name": "msg",
                                 "nodeType": "Identifier",
-                                "overloadedDeclarations": [
-                                  
-                                ],
+                                "overloadedDeclarations": [],
                                 "referencedDeclaration": 898,
                                 "src": "1228:3:0",
                                 "typeDescriptions": {
@@ -1202,9 +1170,7 @@
                             "id": 82,
                             "name": "NotaryRegistered",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 5,
                             "src": "1211:16:0",
                             "typeDescriptions": {
@@ -1218,9 +1184,7 @@
                           "isPure": false,
                           "kind": "functionCall",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "1211:28:0",
                           "typeDescriptions": {
@@ -1253,9 +1217,7 @@
                                 "id": 77,
                                 "name": "msg",
                                 "nodeType": "Identifier",
-                                "overloadedDeclarations": [
-                                  
-                                ],
+                                "overloadedDeclarations": [],
                                 "referencedDeclaration": 898,
                                 "src": "1174:3:0",
                                 "typeDescriptions": {
@@ -1288,9 +1250,7 @@
                             "id": 76,
                             "name": "NotaryUpdated",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 9,
                             "src": "1160:13:0",
                             "typeDescriptions": {
@@ -1304,9 +1264,7 @@
                           "isPure": false,
                           "kind": "functionCall",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "1160:25:0",
                           "typeDescriptions": {
@@ -1352,9 +1310,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "registerNotary",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -1442,19 +1398,13 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "arguments": [
-                          
-                        ],
+                        "arguments": [],
                         "expression": {
-                          "argumentTypes": [
-                            
-                          ],
+                          "argumentTypes": [],
                           "id": 98,
                           "name": "isSenderNotary",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 249,
                           "src": "1475:14:0",
                           "typeDescriptions": {
@@ -1468,9 +1418,7 @@
                         "isPure": false,
                         "kind": "functionCall",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "1475:16:0",
                         "typeDescriptions": {
@@ -1528,9 +1476,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "1467:54:0",
                     "typeDescriptions": {
@@ -1557,9 +1503,7 @@
                         "id": 103,
                         "name": "notaryUrls",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 49,
                         "src": "1527:10:0",
                         "typeDescriptions": {
@@ -1575,9 +1519,7 @@
                           "id": 104,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "1538:3:0",
                           "typeDescriptions": {
@@ -1651,9 +1593,7 @@
                           "id": 111,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "1584:3:0",
                           "typeDescriptions": {
@@ -1686,9 +1626,7 @@
                       "id": 110,
                       "name": "NotaryUnregistered",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 13,
                       "src": "1565:18:0",
                       "typeDescriptions": {
@@ -1702,9 +1640,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "1565:30:0",
                     "typeDescriptions": {
@@ -1747,17 +1683,13 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "unregisterNotary",
             "nodeType": "FunctionDefinition",
             "parameters": {
               "id": 93,
               "nodeType": "ParameterList",
-              "parameters": [
-                
-              ],
+              "parameters": [],
               "src": "1433:5:0"
             },
             "payable": false,
@@ -1818,9 +1750,7 @@
                             "id": 135,
                             "name": "buyerUrl",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 128,
                             "src": "2477:8:0",
                             "typeDescriptions": {
@@ -1839,9 +1769,7 @@
                           "id": 134,
                           "name": "isNotEmpty",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 264,
                           "src": "2466:10:0",
                           "typeDescriptions": {
@@ -1855,9 +1783,7 @@
                         "isPure": false,
                         "kind": "functionCall",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "2466:20:0",
                         "typeDescriptions": {
@@ -1915,9 +1841,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "2458:59:0",
                     "typeDescriptions": {
@@ -1942,9 +1866,7 @@
                       "id": 140,
                       "name": "orderId",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 131,
                       "src": "2524:7:0",
                       "typeDescriptions": {
@@ -1961,9 +1883,7 @@
                         "id": 141,
                         "name": "dataOrders",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 45,
                         "src": "2534:10:0",
                         "typeDescriptions": {
@@ -2010,9 +1930,7 @@
                         "id": 145,
                         "name": "dataOrders",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 45,
                         "src": "2557:10:0",
                         "typeDescriptions": {
@@ -2079,9 +1997,7 @@
                         "id": 151,
                         "name": "dataOrders",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 45,
                         "src": "2585:10:0",
                         "typeDescriptions": {
@@ -2095,9 +2011,7 @@
                         "id": 152,
                         "name": "orderId",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 131,
                         "src": "2596:7:0",
                         "typeDescriptions": {
@@ -2128,9 +2042,7 @@
                             "id": 155,
                             "name": "msg",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 898,
                             "src": "2624:3:0",
                             "typeDescriptions": {
@@ -2157,9 +2069,7 @@
                           "id": 157,
                           "name": "audience",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 120,
                           "src": "2642:8:0",
                           "typeDescriptions": {
@@ -2172,9 +2082,7 @@
                           "id": 158,
                           "name": "price",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 122,
                           "src": "2658:5:0",
                           "typeDescriptions": {
@@ -2187,9 +2095,7 @@
                           "id": 159,
                           "name": "requestedData",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 124,
                           "src": "2671:13:0",
                           "typeDescriptions": {
@@ -2202,9 +2108,7 @@
                           "id": 160,
                           "name": "termsAndConditionsHash",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 126,
                           "src": "2692:22:0",
                           "typeDescriptions": {
@@ -2217,9 +2121,7 @@
                           "id": 161,
                           "name": "buyerUrl",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 128,
                           "src": "2722:8:0",
                           "typeDescriptions": {
@@ -2235,9 +2137,7 @@
                               "id": 163,
                               "name": "now",
                               "nodeType": "Identifier",
-                              "overloadedDeclarations": [
-                                
-                              ],
+                              "overloadedDeclarations": [],
                               "referencedDeclaration": 900,
                               "src": "2745:3:0",
                               "typeDescriptions": {
@@ -2272,9 +2172,7 @@
                           "isPure": false,
                           "kind": "typeConversion",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "2738:11:0",
                           "typeDescriptions": {
@@ -2330,9 +2228,7 @@
                           "isPure": true,
                           "kind": "typeConversion",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "2757:9:0",
                           "typeDescriptions": {
@@ -2379,9 +2275,7 @@
                         "id": 154,
                         "name": "DataOrder",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 42,
                         "src": "2607:9:0",
                         "typeDescriptions": {
@@ -2395,9 +2289,7 @@
                       "isPure": false,
                       "kind": "structConstructorCall",
                       "lValueRequested": false,
-                      "names": [
-                        
-                      ],
+                      "names": [],
                       "nodeType": "FunctionCall",
                       "src": "2607:165:0",
                       "typeDescriptions": {
@@ -2424,9 +2316,7 @@
                         "id": 172,
                         "name": "orderId",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 131,
                         "src": "2801:7:0",
                         "typeDescriptions": {
@@ -2441,9 +2331,7 @@
                           "id": 173,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "2810:3:0",
                           "typeDescriptions": {
@@ -2480,9 +2368,7 @@
                       "id": 171,
                       "name": "DataOrderCreated",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 19,
                       "src": "2784:16:0",
                       "typeDescriptions": {
@@ -2496,9 +2382,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "2784:37:0",
                     "typeDescriptions": {
@@ -2516,9 +2400,7 @@
                     "id": 177,
                     "name": "orderId",
                     "nodeType": "Identifier",
-                    "overloadedDeclarations": [
-                      
-                    ],
+                    "overloadedDeclarations": [],
                     "referencedDeclaration": 131,
                     "src": "2834:7:0",
                     "typeDescriptions": {
@@ -2538,9 +2420,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "createDataOrder",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -2746,9 +2626,7 @@
                           "id": 188,
                           "name": "orderId",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 182,
                           "src": "3169:7:0",
                           "typeDescriptions": {
@@ -2765,9 +2643,7 @@
                             "id": 189,
                             "name": "dataOrders",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 45,
                             "src": "3179:10:0",
                             "typeDescriptions": {
@@ -2845,9 +2721,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3161:59:0",
                     "typeDescriptions": {
@@ -2901,9 +2775,7 @@
                       "id": 197,
                       "name": "dataOrders",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 45,
                       "src": "3255:10:0",
                       "typeDescriptions": {
@@ -2917,9 +2789,7 @@
                       "id": 198,
                       "name": "orderId",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 182,
                       "src": "3266:7:0",
                       "typeDescriptions": {
@@ -2963,9 +2833,7 @@
                             "id": 202,
                             "name": "dataOrder",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 196,
                             "src": "3288:9:0",
                             "typeDescriptions": {
@@ -2996,9 +2864,7 @@
                             "id": 204,
                             "name": "msg",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 898,
                             "src": "3307:3:0",
                             "typeDescriptions": {
@@ -3076,9 +2942,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3280:70:0",
                     "typeDescriptions": {
@@ -3112,9 +2976,7 @@
                             "id": 211,
                             "name": "dataOrder",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 196,
                             "src": "3364:9:0",
                             "typeDescriptions": {
@@ -3212,9 +3074,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3356:56:0",
                     "typeDescriptions": {
@@ -3243,9 +3103,7 @@
                           "id": 218,
                           "name": "dataOrders",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 45,
                           "src": "3418:10:0",
                           "typeDescriptions": {
@@ -3259,9 +3117,7 @@
                           "id": 219,
                           "name": "orderId",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 182,
                           "src": "3429:7:0",
                           "typeDescriptions": {
@@ -3304,9 +3160,7 @@
                           "id": 223,
                           "name": "now",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 900,
                           "src": "3456:3:0",
                           "typeDescriptions": {
@@ -3341,9 +3195,7 @@
                       "isPure": false,
                       "kind": "typeConversion",
                       "lValueRequested": false,
-                      "names": [
-                        
-                      ],
+                      "names": [],
                       "nodeType": "FunctionCall",
                       "src": "3449:11:0",
                       "typeDescriptions": {
@@ -3370,9 +3222,7 @@
                         "id": 228,
                         "name": "orderId",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 182,
                         "src": "3488:7:0",
                         "typeDescriptions": {
@@ -3387,9 +3237,7 @@
                           "id": 229,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "3497:3:0",
                           "typeDescriptions": {
@@ -3426,9 +3274,7 @@
                       "id": 227,
                       "name": "DataOrderClosed",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 25,
                       "src": "3472:15:0",
                       "typeDescriptions": {
@@ -3442,9 +3288,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3472:36:0",
                     "typeDescriptions": {
@@ -3487,9 +3331,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "closeDataOrder",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -3582,9 +3424,7 @@
                           "id": 242,
                           "name": "notaryUrls",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 49,
                           "src": "3612:10:0",
                           "typeDescriptions": {
@@ -3600,9 +3440,7 @@
                             "id": 243,
                             "name": "msg",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 898,
                             "src": "3623:3:0",
                             "typeDescriptions": {
@@ -3646,9 +3484,7 @@
                       "id": 241,
                       "name": "isNotEmpty",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 264,
                       "src": "3601:10:0",
                       "typeDescriptions": {
@@ -3662,9 +3498,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3601:34:0",
                     "typeDescriptions": {
@@ -3684,17 +3518,13 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "isSenderNotary",
             "nodeType": "FunctionDefinition",
             "parameters": {
               "id": 237,
               "nodeType": "ParameterList",
-              "parameters": [
-                
-              ],
+              "parameters": [],
               "src": "3557:2:0"
             },
             "payable": false,
@@ -3765,9 +3595,7 @@
                             "id": 257,
                             "name": "s",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 251,
                             "src": "3721:1:0",
                             "typeDescriptions": {
@@ -3802,9 +3630,7 @@
                         "isPure": false,
                         "kind": "typeConversion",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "3715:8:0",
                         "typeDescriptions": {
@@ -3864,9 +3690,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "isNotEmpty",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -3971,12 +3795,8 @@
         "src": "0:24:0"
       },
       {
-        "baseContracts": [
-          
-        ],
-        "contractDependencies": [
-          
-        ],
+        "baseContracts": [],
+        "contractDependencies": [],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
@@ -4571,9 +4391,7 @@
                             "id": 58,
                             "name": "publicUrl",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 51,
                             "src": "1007:9:0",
                             "typeDescriptions": {
@@ -4592,9 +4410,7 @@
                           "id": 57,
                           "name": "isNotEmpty",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 264,
                           "src": "996:10:0",
                           "typeDescriptions": {
@@ -4608,9 +4424,7 @@
                         "isPure": false,
                         "kind": "functionCall",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "996:21:0",
                         "typeDescriptions": {
@@ -4668,9 +4482,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "988:61:0",
                     "typeDescriptions": {
@@ -4717,19 +4529,13 @@
                   "id": 67,
                   "initialValue": {
                     "argumentTypes": null,
-                    "arguments": [
-                      
-                    ],
+                    "arguments": [],
                     "expression": {
-                      "argumentTypes": [
-                        
-                      ],
+                      "argumentTypes": [],
                       "id": 65,
                       "name": "isSenderNotary",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 249,
                       "src": "1071:14:0",
                       "typeDescriptions": {
@@ -4743,9 +4549,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "1071:16:0",
                     "typeDescriptions": {
@@ -4771,9 +4575,7 @@
                         "id": 68,
                         "name": "notaryUrls",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 49,
                         "src": "1093:10:0",
                         "typeDescriptions": {
@@ -4789,9 +4591,7 @@
                           "id": 69,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "1104:3:0",
                           "typeDescriptions": {
@@ -4831,9 +4631,7 @@
                       "id": 72,
                       "name": "publicUrl",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 51,
                       "src": "1118:9:0",
                       "typeDescriptions": {
@@ -4857,9 +4655,7 @@
                     "id": 75,
                     "name": "isUpdate",
                     "nodeType": "Identifier",
-                    "overloadedDeclarations": [
-                      
-                    ],
+                    "overloadedDeclarations": [],
                     "referencedDeclaration": 64,
                     "src": "1137:8:0",
                     "typeDescriptions": {
@@ -4883,9 +4679,7 @@
                                 "id": 83,
                                 "name": "msg",
                                 "nodeType": "Identifier",
-                                "overloadedDeclarations": [
-                                  
-                                ],
+                                "overloadedDeclarations": [],
                                 "referencedDeclaration": 898,
                                 "src": "1228:3:0",
                                 "typeDescriptions": {
@@ -4918,9 +4712,7 @@
                             "id": 82,
                             "name": "NotaryRegistered",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 5,
                             "src": "1211:16:0",
                             "typeDescriptions": {
@@ -4934,9 +4726,7 @@
                           "isPure": false,
                           "kind": "functionCall",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "1211:28:0",
                           "typeDescriptions": {
@@ -4969,9 +4759,7 @@
                                 "id": 77,
                                 "name": "msg",
                                 "nodeType": "Identifier",
-                                "overloadedDeclarations": [
-                                  
-                                ],
+                                "overloadedDeclarations": [],
                                 "referencedDeclaration": 898,
                                 "src": "1174:3:0",
                                 "typeDescriptions": {
@@ -5004,9 +4792,7 @@
                             "id": 76,
                             "name": "NotaryUpdated",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 9,
                             "src": "1160:13:0",
                             "typeDescriptions": {
@@ -5020,9 +4806,7 @@
                           "isPure": false,
                           "kind": "functionCall",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "1160:25:0",
                           "typeDescriptions": {
@@ -5068,9 +4852,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "registerNotary",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -5158,19 +4940,13 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "arguments": [
-                          
-                        ],
+                        "arguments": [],
                         "expression": {
-                          "argumentTypes": [
-                            
-                          ],
+                          "argumentTypes": [],
                           "id": 98,
                           "name": "isSenderNotary",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 249,
                           "src": "1475:14:0",
                           "typeDescriptions": {
@@ -5184,9 +4960,7 @@
                         "isPure": false,
                         "kind": "functionCall",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "1475:16:0",
                         "typeDescriptions": {
@@ -5244,9 +5018,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "1467:54:0",
                     "typeDescriptions": {
@@ -5273,9 +5045,7 @@
                         "id": 103,
                         "name": "notaryUrls",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 49,
                         "src": "1527:10:0",
                         "typeDescriptions": {
@@ -5291,9 +5061,7 @@
                           "id": 104,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "1538:3:0",
                           "typeDescriptions": {
@@ -5367,9 +5135,7 @@
                           "id": 111,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "1584:3:0",
                           "typeDescriptions": {
@@ -5402,9 +5168,7 @@
                       "id": 110,
                       "name": "NotaryUnregistered",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 13,
                       "src": "1565:18:0",
                       "typeDescriptions": {
@@ -5418,9 +5182,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "1565:30:0",
                     "typeDescriptions": {
@@ -5463,17 +5225,13 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "unregisterNotary",
             "nodeType": "FunctionDefinition",
             "parameters": {
               "id": 93,
               "nodeType": "ParameterList",
-              "parameters": [
-                
-              ],
+              "parameters": [],
               "src": "1433:5:0"
             },
             "payable": false,
@@ -5534,9 +5292,7 @@
                             "id": 135,
                             "name": "buyerUrl",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 128,
                             "src": "2477:8:0",
                             "typeDescriptions": {
@@ -5555,9 +5311,7 @@
                           "id": 134,
                           "name": "isNotEmpty",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 264,
                           "src": "2466:10:0",
                           "typeDescriptions": {
@@ -5571,9 +5325,7 @@
                         "isPure": false,
                         "kind": "functionCall",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "2466:20:0",
                         "typeDescriptions": {
@@ -5631,9 +5383,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "2458:59:0",
                     "typeDescriptions": {
@@ -5658,9 +5408,7 @@
                       "id": 140,
                       "name": "orderId",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 131,
                       "src": "2524:7:0",
                       "typeDescriptions": {
@@ -5677,9 +5425,7 @@
                         "id": 141,
                         "name": "dataOrders",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 45,
                         "src": "2534:10:0",
                         "typeDescriptions": {
@@ -5726,9 +5472,7 @@
                         "id": 145,
                         "name": "dataOrders",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 45,
                         "src": "2557:10:0",
                         "typeDescriptions": {
@@ -5795,9 +5539,7 @@
                         "id": 151,
                         "name": "dataOrders",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 45,
                         "src": "2585:10:0",
                         "typeDescriptions": {
@@ -5811,9 +5553,7 @@
                         "id": 152,
                         "name": "orderId",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 131,
                         "src": "2596:7:0",
                         "typeDescriptions": {
@@ -5844,9 +5584,7 @@
                             "id": 155,
                             "name": "msg",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 898,
                             "src": "2624:3:0",
                             "typeDescriptions": {
@@ -5873,9 +5611,7 @@
                           "id": 157,
                           "name": "audience",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 120,
                           "src": "2642:8:0",
                           "typeDescriptions": {
@@ -5888,9 +5624,7 @@
                           "id": 158,
                           "name": "price",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 122,
                           "src": "2658:5:0",
                           "typeDescriptions": {
@@ -5903,9 +5637,7 @@
                           "id": 159,
                           "name": "requestedData",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 124,
                           "src": "2671:13:0",
                           "typeDescriptions": {
@@ -5918,9 +5650,7 @@
                           "id": 160,
                           "name": "termsAndConditionsHash",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 126,
                           "src": "2692:22:0",
                           "typeDescriptions": {
@@ -5933,9 +5663,7 @@
                           "id": 161,
                           "name": "buyerUrl",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 128,
                           "src": "2722:8:0",
                           "typeDescriptions": {
@@ -5951,9 +5679,7 @@
                               "id": 163,
                               "name": "now",
                               "nodeType": "Identifier",
-                              "overloadedDeclarations": [
-                                
-                              ],
+                              "overloadedDeclarations": [],
                               "referencedDeclaration": 900,
                               "src": "2745:3:0",
                               "typeDescriptions": {
@@ -5988,9 +5714,7 @@
                           "isPure": false,
                           "kind": "typeConversion",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "2738:11:0",
                           "typeDescriptions": {
@@ -6046,9 +5770,7 @@
                           "isPure": true,
                           "kind": "typeConversion",
                           "lValueRequested": false,
-                          "names": [
-                            
-                          ],
+                          "names": [],
                           "nodeType": "FunctionCall",
                           "src": "2757:9:0",
                           "typeDescriptions": {
@@ -6095,9 +5817,7 @@
                         "id": 154,
                         "name": "DataOrder",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 42,
                         "src": "2607:9:0",
                         "typeDescriptions": {
@@ -6111,9 +5831,7 @@
                       "isPure": false,
                       "kind": "structConstructorCall",
                       "lValueRequested": false,
-                      "names": [
-                        
-                      ],
+                      "names": [],
                       "nodeType": "FunctionCall",
                       "src": "2607:165:0",
                       "typeDescriptions": {
@@ -6140,9 +5858,7 @@
                         "id": 172,
                         "name": "orderId",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 131,
                         "src": "2801:7:0",
                         "typeDescriptions": {
@@ -6157,9 +5873,7 @@
                           "id": 173,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "2810:3:0",
                           "typeDescriptions": {
@@ -6196,9 +5910,7 @@
                       "id": 171,
                       "name": "DataOrderCreated",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 19,
                       "src": "2784:16:0",
                       "typeDescriptions": {
@@ -6212,9 +5924,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "2784:37:0",
                     "typeDescriptions": {
@@ -6232,9 +5942,7 @@
                     "id": 177,
                     "name": "orderId",
                     "nodeType": "Identifier",
-                    "overloadedDeclarations": [
-                      
-                    ],
+                    "overloadedDeclarations": [],
                     "referencedDeclaration": 131,
                     "src": "2834:7:0",
                     "typeDescriptions": {
@@ -6254,9 +5962,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "createDataOrder",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -6462,9 +6168,7 @@
                           "id": 188,
                           "name": "orderId",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 182,
                           "src": "3169:7:0",
                           "typeDescriptions": {
@@ -6481,9 +6185,7 @@
                             "id": 189,
                             "name": "dataOrders",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 45,
                             "src": "3179:10:0",
                             "typeDescriptions": {
@@ -6561,9 +6263,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3161:59:0",
                     "typeDescriptions": {
@@ -6617,9 +6317,7 @@
                       "id": 197,
                       "name": "dataOrders",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 45,
                       "src": "3255:10:0",
                       "typeDescriptions": {
@@ -6633,9 +6331,7 @@
                       "id": 198,
                       "name": "orderId",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 182,
                       "src": "3266:7:0",
                       "typeDescriptions": {
@@ -6679,9 +6375,7 @@
                             "id": 202,
                             "name": "dataOrder",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 196,
                             "src": "3288:9:0",
                             "typeDescriptions": {
@@ -6712,9 +6406,7 @@
                             "id": 204,
                             "name": "msg",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 898,
                             "src": "3307:3:0",
                             "typeDescriptions": {
@@ -6792,9 +6484,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3280:70:0",
                     "typeDescriptions": {
@@ -6828,9 +6518,7 @@
                             "id": 211,
                             "name": "dataOrder",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 196,
                             "src": "3364:9:0",
                             "typeDescriptions": {
@@ -6928,9 +6616,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3356:56:0",
                     "typeDescriptions": {
@@ -6959,9 +6645,7 @@
                           "id": 218,
                           "name": "dataOrders",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 45,
                           "src": "3418:10:0",
                           "typeDescriptions": {
@@ -6975,9 +6659,7 @@
                           "id": 219,
                           "name": "orderId",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 182,
                           "src": "3429:7:0",
                           "typeDescriptions": {
@@ -7020,9 +6702,7 @@
                           "id": 223,
                           "name": "now",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 900,
                           "src": "3456:3:0",
                           "typeDescriptions": {
@@ -7057,9 +6737,7 @@
                       "isPure": false,
                       "kind": "typeConversion",
                       "lValueRequested": false,
-                      "names": [
-                        
-                      ],
+                      "names": [],
                       "nodeType": "FunctionCall",
                       "src": "3449:11:0",
                       "typeDescriptions": {
@@ -7086,9 +6764,7 @@
                         "id": 228,
                         "name": "orderId",
                         "nodeType": "Identifier",
-                        "overloadedDeclarations": [
-                          
-                        ],
+                        "overloadedDeclarations": [],
                         "referencedDeclaration": 182,
                         "src": "3488:7:0",
                         "typeDescriptions": {
@@ -7103,9 +6779,7 @@
                           "id": 229,
                           "name": "msg",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 898,
                           "src": "3497:3:0",
                           "typeDescriptions": {
@@ -7142,9 +6816,7 @@
                       "id": 227,
                       "name": "DataOrderClosed",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 25,
                       "src": "3472:15:0",
                       "typeDescriptions": {
@@ -7158,9 +6830,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3472:36:0",
                     "typeDescriptions": {
@@ -7203,9 +6873,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "closeDataOrder",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -7298,9 +6966,7 @@
                           "id": 242,
                           "name": "notaryUrls",
                           "nodeType": "Identifier",
-                          "overloadedDeclarations": [
-                            
-                          ],
+                          "overloadedDeclarations": [],
                           "referencedDeclaration": 49,
                           "src": "3612:10:0",
                           "typeDescriptions": {
@@ -7316,9 +6982,7 @@
                             "id": 243,
                             "name": "msg",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 898,
                             "src": "3623:3:0",
                             "typeDescriptions": {
@@ -7362,9 +7026,7 @@
                       "id": 241,
                       "name": "isNotEmpty",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        
-                      ],
+                      "overloadedDeclarations": [],
                       "referencedDeclaration": 264,
                       "src": "3601:10:0",
                       "typeDescriptions": {
@@ -7378,9 +7040,7 @@
                     "isPure": false,
                     "kind": "functionCall",
                     "lValueRequested": false,
-                    "names": [
-                      
-                    ],
+                    "names": [],
                     "nodeType": "FunctionCall",
                     "src": "3601:34:0",
                     "typeDescriptions": {
@@ -7400,17 +7060,13 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "isSenderNotary",
             "nodeType": "FunctionDefinition",
             "parameters": {
               "id": 237,
               "nodeType": "ParameterList",
-              "parameters": [
-                
-              ],
+              "parameters": [],
               "src": "3557:2:0"
             },
             "payable": false,
@@ -7481,9 +7137,7 @@
                             "id": 257,
                             "name": "s",
                             "nodeType": "Identifier",
-                            "overloadedDeclarations": [
-                              
-                            ],
+                            "overloadedDeclarations": [],
                             "referencedDeclaration": 251,
                             "src": "3721:1:0",
                             "typeDescriptions": {
@@ -7518,9 +7172,7 @@
                         "isPure": false,
                         "kind": "typeConversion",
                         "lValueRequested": false,
-                        "names": [
-                          
-                        ],
+                        "names": [],
                         "nodeType": "FunctionCall",
                         "src": "3715:8:0",
                         "typeDescriptions": {
@@ -7580,9 +7232,7 @@
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
-            "modifiers": [
-              
-            ],
+            "modifiers": [],
             "name": "isNotEmpty",
             "nodeType": "FunctionDefinition",
             "parameters": {
@@ -7671,42 +7321,26 @@
   },
   "networks": {
     "1548183458114": {
-      "events": {
-        
-      },
-      "links": {
-        
-      },
+      "events": {},
+      "links": {},
       "address": "0x90f1a9ca5cc69a9b05336ea75394f68c4cbf37db",
       "transactionHash": "0x86e69f2a6ad6d1f91ed55855c6f9b540a113183f06a54b15faff1db4da5e4424"
     },
     "1548258466252": {
-      "events": {
-        
-      },
-      "links": {
-        
-      },
+      "events": {},
+      "links": {},
       "address": "0xc79181c66015fee61349d23b1e30e912d636d9fe",
       "transactionHash": "0xbb7c6c25e04636e870babbedd10acc2147a500ef69ed03e1ae320745a61c508a"
     },
     "1548269711944": {
-      "events": {
-        
-      },
-      "links": {
-        
-      },
+      "events": {},
+      "links": {},
       "address": "0x4c75816d9e90b964cdfe9c06e73404900cb2c387",
       "transactionHash": "0xd7e32ff09c4ce4559ed62e580d7889a35cde4c43ddd1911ed6580c896868b25f"
     },
     "1548440085159": {
-      "events": {
-        
-      },
-      "links": {
-        
-      },
+      "events": {},
+      "links": {},
       "address": "0xb8f206eff0504e51dc1e865974805e3b151ab305",
       "transactionHash": "0x873aebc660b89d0a9df4ab2c3452c74e9db1ee5107dd1d679e124260c584722f"
     }

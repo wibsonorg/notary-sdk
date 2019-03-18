@@ -1,19 +1,20 @@
 import axios from 'axios';
-import { fetchOrderMaxAttempts } from '../../config';
+import config from '../../config';
 import { createQueue } from './createQueue';
 import { getAccount } from '../services/signingService';
 import { notarizationResults } from '../utils/stores';
 
 const queueName = 'NotarizationQueue';
-const defaultJobOptions =
-  { priority: 3, attempts: fetchOrderMaxAttempts, backoff: { type: 'linear' } };
+const defaultJobOptions = {
+  priority: 3,
+  attempts: config.notarizeJobMaxAttempts,
+  backoff: { type: 'linear' },
+};
 const notarizationQueue = createQueue(queueName, defaultJobOptions);
 
-export const notarize = async ({
-  lock,
-}) => {
-  const notarization = notarizationResults.safeFetch(lock);
-  if (!notarization) return;
+export const notarize = async (lock) => {
+  const notarization = await notarizationResults.safeFetch(lock);
+  if (!notarization) return false;
 
   const { address: notaryAddress } = await getAccount();
 
@@ -29,29 +30,27 @@ export const notarize = async ({
     payDataHash,
   } = notarization;
 
-  notarization.result.sellers = notarization.result.sellers.map(s => ({
+  const sellers = notarization.request.sellers.map(s => ({
     ...s,
     result: 'ignored',
+    // TODO: fetch decryptionKey and encrypt it with masterKey
     decryptionKeyEncryptedWithMasterKey: '',
   }));
 
-  const notarizationResponse = {
+  const result = {
     orderId,
     notaryAddress,
     notarizationPercentage,
     notarizationFee,
     payDataHash, // TODO: Buyer shouldn't need this anymore
     lock,
-    sellers: notarization.result.sellers,
+    sellers,
   };
 
-  await axios.post(
-    callbackUrl,
-    notarizationResponse,
-  );
-  notarizationResults.store(lock, { ...notarization, status: 'responded' });
+  await axios.post(callbackUrl, result);
+  await notarizationResults.store(lock, { ...notarization, result, status: 'responded' });
+  return true;
 };
 
-notarizationQueue.process(notarize);
-
-export const addNotarizationJob = lock => notarizationQueue.add(lock);
+notarizationQueue.process('notarize', ({ data }) => notarize(data));
+export const addNotarizationJob = lock => notarizationQueue.add('notarize', lock);
