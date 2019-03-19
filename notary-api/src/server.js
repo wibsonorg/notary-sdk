@@ -34,7 +34,7 @@ const server = () => {
   const { port, host, env } = config;
 
   app.listen({ port, host }, () =>
-    logger.info(`Wibson API listening on port ${port} and host ${host} in ${env} mode`));
+    logger.info(`Notary API listening on port ${port} and host ${host} in ${env} mode`));
 
   refreshOpenOrders();
 
