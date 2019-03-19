@@ -1,5 +1,5 @@
 import uuidv4 from 'uuid/v4';
-import { batPayId } from '../../config';
+import config from '../../config';
 import { addNotarizationJob } from '../queues/notarizationsQueue';
 import { notarizationResults } from '../utils/stores';
 import { packMessage, sha3 } from '../utils/wibson-lib/cryptography/hashing';
@@ -13,7 +13,7 @@ const createNotarization = async ({
   notarizationFee = 0,
 }) => {
   const masterKey = uuidv4();
-  const lock = packMessage(batPayId, masterKey);
+  const lock = packMessage(config.batPayId, masterKey);
   await notarizationResults.store(lock, {
     masterKey,
     status: 'accepted',

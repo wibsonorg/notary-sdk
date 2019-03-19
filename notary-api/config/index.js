@@ -28,6 +28,7 @@ const config = {
   responsesPercentage: env.RESPONSES_PERCENTAGE,
   notarizationFeePercentage: env.NOTARIZATION_FEE_PERCENTAGE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVICE,
+  notarizeJobMaxAttempts: env.NOTARIZE_JOB_MAX_ATTEMPTS,
   takeDataFromStorage: env.TAKE_DATA_FROM_STORAGE === 'true',
   cache: {
     enabled: env.CACHE === 'enabled',

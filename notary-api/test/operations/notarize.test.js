@@ -25,7 +25,7 @@ it('Stores notarization object and enqueues job if proper parameters', async (as
   await notarize(params);
   assert.snapshot(notarizationResults.store.lastCall.args, { id: 'notarizationResults.store().args' });
   const lock = notarizationResults.store.lastCall.args[0];
-  assert.is(notarizationsQueue.add.lastCall.args[0], lock);
+  assert.is(notarizationsQueue.add.lastCall.args[1], lock);
 });
 
 it('Doesn\'t store notarization object nor enqueues jobs if wrong parameters', async (assert) => {
