@@ -18,7 +18,7 @@ const getHealth = async () => {
   return data;
 };
 
-export const getAccount = async () => {
+const getAccount = async () => {
   const { data } = await client.get('/account');
   return data;
 };

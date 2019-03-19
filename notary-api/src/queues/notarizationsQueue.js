@@ -1,9 +1,10 @@
 import axios from 'axios';
 import config from '../../config';
 import { createQueue } from './createQueue';
-import { getAccount } from '../services/signingService';
+import signingService from '../services/signingService';
 import { notarizationResults } from '../utils/stores';
 
+const { getAccount } = signingService;
 const queueName = 'NotarizationQueue';
 const defaultJobOptions = {
   priority: 3,
