@@ -12,7 +12,6 @@ const createNotarization = async ({
   notarizationPercentage = 0,
   notarizationFee = 0,
 }) => {
-  console.log('[createNotarization] start', { orderId });
   const masterKey = uuidv4();
   const lock = packMessage(config.batPayId, masterKey);
   await notarizationResults.store(lock, {
@@ -22,12 +21,12 @@ const createNotarization = async ({
     request: {
       orderId,
       callbackUrl,
-      sellers,
     },
     result: {
       orderId,
       notarizationPercentage,
       notarizationFee,
+      sellers,
     },
   });
   return lock;
@@ -50,8 +49,7 @@ export const notarize = async (params) => {
     const lock = await createNotarization(params);
     addNotarizationJob(lock);
     return true;
-  } catch (error) {
-    console.log(error);
+  } catch (Error) {
     return false;
   }
 };

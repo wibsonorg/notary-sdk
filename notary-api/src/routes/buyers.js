@@ -240,7 +240,6 @@ router.post(
 router.post(
   '/notarization-request',
   asyncError(async (req, res) => {
-    console.log(req.body);
     try {
       const ok = await notarize({ ...req.body });
       return ok ? res.sendStatus(202) : res.boom.badData('Invalid parameters');
