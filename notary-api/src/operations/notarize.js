@@ -23,10 +23,10 @@ const createNotarization = async ({
       callbackUrl,
     },
     result: {
+      sellers,
       orderId,
       notarizationPercentage,
       notarizationFee,
-      sellers,
     },
   });
   return lock;

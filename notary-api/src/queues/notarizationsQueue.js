@@ -30,7 +30,7 @@ export const notarize = async (lock) => {
     payDataHash,
   } = notarization;
 
-  const sellers = notarization.request.sellers.map(s => ({
+  const sellers = notarization.result.sellers.map(s => ({
     ...s,
     result: 'ignored',
     // TODO: fetch decryptionKey and encrypt it with masterKey
