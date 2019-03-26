@@ -1,6 +1,6 @@
 {
   "name": "notary-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Wibson Notary API",
   "author": "Wibson Development Team",
   "main": "src/index.js",
