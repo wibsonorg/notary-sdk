@@ -21,25 +21,21 @@ const httpsAgent = new https.Agent({
  *                   'failure': when data validator call failed
  */
 export const validateData = async (orderAddress, sellerAddress, payload) => {
-  const { msisdn } = payload || {};
-
-  const nonce = uuidv4();
-
   try {
     const status = 'in-progress';
 
+    const nonce = uuidv4();
     await dataValidationResults.put(nonce, JSON.stringify({
       status,
       orderAddress,
       sellerAddress,
     }));
 
-    axios.get(`${config.notaryValidatorUri}/validate/${msisdn}`, {
-      params: {
-        nonce,
-      },
-      httpsAgent,
-    });
+    axios.post(
+      `${config.notaryValidatorUri}/validate`,
+      { nonce, payload, payloadID: orderAddress },
+      { httpsAgent },
+    );
 
     return status;
   } catch (error) {
@@ -48,7 +44,6 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
     } else {
       logger.error(`Data Validation error: ${error.message}`);
     }
-
     return 'failure';
   }
 };
@@ -67,7 +62,7 @@ export const resultFromValidation = (validation) => {
   if (error || errorDescription) {
     logger.error(`Validation Error: ${error}::${errorDescription}`);
   }
-  return identified === 'true' ? 'success' : 'failure';
+  return identified === true || identified === 'true' ? 'success' : 'failure';
 };
 
 /**
