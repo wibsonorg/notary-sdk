@@ -40,26 +40,33 @@ const getData = async (orderAddress, sellerAddress) => {
  * @param {String} orderAddress Order address
  * @param {String} sellerAddress Seller address whose data is being audited
  * @param {Boolean} randomize whether to check percentage or not
+ * @param {Boolean} freeRide If true, data response is not required to be on-chain
  * @returns {Object} object with notarization result or with an error
  */
-export const notarize = async (orderAddress, sellerAddress, randomize = true) => {
-  const canNotarize = await canNotarizeDataFromSeller(orderAddress, sellerAddress);
+export const notarize = async (orderAddress, sellerAddress, randomize = true, freeRide) => {
+  const canNotarize = freeRide || await canNotarizeDataFromSeller(orderAddress, sellerAddress);
   if (!canNotarize) {
     const error = `Can't or should not notarize data from seller '${sellerAddress}' in order '${orderAddress}'`;
     logger.error(error);
     return { error };
   }
 
-  const payload = { result: 'na' };
+  const oldResponse = await fetchNotarizationResult(orderAddress, sellerAddress);
 
-  if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
-    const sellerData = config.takeDataFromStorage && await getData(orderAddress, sellerAddress);
-    payload.result = await validateData(orderAddress, sellerAddress, sellerData);
+  if (oldResponse.result === 'na' || (freeRide && oldResponse.unknown)) {
+    const payload = { result: 'na' };
+
+    if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
+      const sellerData = config.takeDataFromStorage && await getData(orderAddress, sellerAddress);
+      payload.result = await validateData(orderAddress, sellerAddress, sellerData);
+    }
+
+    await storeNotarizationResult(orderAddress, sellerAddress, payload);
+
+    return payload;
   }
 
-  await storeNotarizationResult(orderAddress, sellerAddress, payload);
-
-  return payload;
+  return oldResponse;
 };
 
 /**
@@ -77,18 +84,4 @@ export const updateNotarizationResultFromValidation = async (
 ) => {
   const notarizationResult = { result: resultFromValidation(validation) };
   await storeNotarizationResult(orderAddress, sellerAddress, notarizationResult);
-};
-
-/**
- * @param {String} orderAddress Order address
- * @param {String} sellerAddress Seller address whose data is being audited
- * @returns {Object} object with notarization result or with an error
- */
-export const notarizeOnDemand = async (orderAddress, sellerAddress) => {
-  let response = await fetchNotarizationResult(orderAddress, sellerAddress);
-
-  if (!response || response.result === 'na') {
-    response = await notarize(orderAddress, sellerAddress, false);
-  }
-  return response;
 };

@@ -1,7 +1,6 @@
 export {
   notarize,
   updateNotarizationResultFromValidation,
-  notarizeOnDemand,
 } from './notarize';
 export {
   fetchNotarizationResult,

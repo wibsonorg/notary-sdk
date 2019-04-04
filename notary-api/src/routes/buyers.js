@@ -2,7 +2,7 @@ import express from 'express';
 import axios from 'axios';
 import { asyncError } from '../utils';
 import {
-  notarizeOnDemand,
+  notarize,
   fetchNotarizationResult,
 } from '../facade/notarizeFacade';
 import { getNotarizationFee } from '../facade/ordersFacade';
@@ -175,9 +175,11 @@ router.post(
       // eslint-disable-next-line no-restricted-syntax
       for (const { seller } of req.body.dataResponses) {
         // eslint-disable-next-line no-await-in-loop
-        const { error, result } = await notarizeOnDemand(
+        const { error, result } = await notarize(
           orderAddress,
           seller,
+          false,
+          req.body.freeRide,
         );
 
         let sig;

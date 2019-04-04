@@ -31,7 +31,7 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
       sellerAddress,
     }));
 
-    axios.post(
+    await axios.post(
       `${config.notaryValidatorUri}/validate`,
       { nonce, payload, payloadID: orderAddress },
       { httpsAgent },
