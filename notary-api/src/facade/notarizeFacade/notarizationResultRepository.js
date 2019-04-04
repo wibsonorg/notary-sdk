@@ -3,7 +3,7 @@ import { notarizationResults } from '../../utils/stores';
 export const fetchNotarizationResult = async (
   orderAddress,
   sellerAddress,
-  defaultResult = { error: 'Unknown notarization' },
+  defaultResult = { error: 'Unknown notarization', unknown: true },
 ) => {
   try {
     const key = `${orderAddress.toLowerCase()}/${sellerAddress.toLowerCase()}`;
