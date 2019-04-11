@@ -11,22 +11,12 @@ const httpsAgent = new https.Agent({
 });
 
 /**
- * TODO: The implementation of this call is coupled to Telefonica's
- * implementation. NAPI should know nothing about Seller's data and how
- * validators work.
- *
  * @param {Object} payload Seller's data
- * @returns {String} 'in-progress': when data validator is called successfully
- *                                  and validation process started.
- *                   'failure': when data validator call failed
  */
 export const validateData = async (orderAddress, sellerAddress, payload) => {
   try {
-    const status = 'in-progress';
-
     const nonce = uuidv4();
     await dataValidationResults.put(nonce, JSON.stringify({
-      status,
       orderAddress,
       sellerAddress,
     }));
@@ -36,15 +26,12 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
       { nonce, payload, payloadID: orderAddress },
       { httpsAgent },
     );
-
-    return status;
   } catch (error) {
     if (error.response) {
       logger.error(`Data Validation failed: ${JSON.stringify(error.response.data)}`);
     } else {
       logger.error(`Data Validation error: ${error.message}`);
     }
-    return 'failure';
   }
 };
 

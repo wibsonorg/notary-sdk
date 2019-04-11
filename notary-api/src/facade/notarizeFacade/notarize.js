@@ -54,15 +54,17 @@ export const notarize = async (orderAddress, sellerAddress, randomize = true, fr
   const oldResponse = await fetchNotarizationResult(orderAddress, sellerAddress);
 
   if (oldResponse.result === 'na' || (freeRide && oldResponse.unknown)) {
-    const payload = { result: 'na' };
+    const willValidate = (!randomize || randomInt(1, 100) <= config.responsesPercentage);
 
-    if (!randomize || randomInt(1, 100) <= config.responsesPercentage) {
-      const sellerData = config.takeDataFromStorage && await getData(orderAddress, sellerAddress);
-      payload.result = await validateData(orderAddress, sellerAddress, sellerData);
-    }
-
+    const payload = {
+      result: willValidate ? 'in-progress' : 'na',
+    };
     await storeNotarizationResult(orderAddress, sellerAddress, payload);
 
+    if (willValidate) {
+      const sellerData = config.takeDataFromStorage && await getData(orderAddress, sellerAddress);
+      validateData(orderAddress, sellerAddress, sellerData);
+    }
     return payload;
   }
 
