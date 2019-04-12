@@ -53,7 +53,7 @@ export const notarize = async (orderAddress, sellerAddress, randomize = true, fr
 
   const oldResponse = await fetchNotarizationResult(orderAddress, sellerAddress);
 
-  if (oldResponse.result === 'na' || (freeRide && oldResponse.unknown)) {
+  if (oldResponse.unknown || oldResponse.result === 'na') {
     const willValidate = (!randomize || randomInt(1, 100) <= config.responsesPercentage);
 
     const payload = {
