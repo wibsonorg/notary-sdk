@@ -9,7 +9,7 @@ import { DataExchange, toDate, getElements } from './contracts';
  * @returns {Promise} Promise which resolves to the Data Order.
  */
 export const fetchDataOrder = async (orderId) => {
-  const {
+  const [
     buyer,
     audience,
     price,
@@ -18,7 +18,7 @@ export const fetchDataOrder = async (orderId) => {
     buyerUrl,
     createdAt,
     closedAt,
-  } = await DataExchange.methods.dataOrders(orderId).call();
+  ] = Object.values(await DataExchange.methods.getDataOrder(orderId).call());
 
   const offchainData = await axios.get(buyerUrl, { timeout: 5000 });
 
@@ -39,7 +39,7 @@ export const fetchDataOrder = async (orderId) => {
 export const fetchDataOrders = async () => {
   const openOrders = [];
   const closedOrders = [];
-  const orders = await getElements(DataExchange, 'dataOrders');
+  const orders = await getElements(DataExchange, 'getDataOrder');
 
   orders.forEach((order, orderId) => {
     if (toDate(order.closedAt)) {
