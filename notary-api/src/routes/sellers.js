@@ -11,16 +11,20 @@ const router = express.Router();
  *     description: |
  *       Endpoint where the sellers registrerer will send the information regarding a new seller.
  *     parameters:
- *       - name: sellerAddress
- *         description: Seller's ethereum address.
+ *       - in: body
+ *         name: seller
  *         required: true
- *         type: string
- *         in: body
- *       - name: sellerId
- *         description: Seller's unique ID.
- *         required: true
- *         type: number
- *         in: body
+ *         schema:
+ *           required:
+ *             - sellerId
+ *             - sellerAddress
+ *           properties:
+ *             sellerId:
+ *               type: number
+ *               description: Seller's unique ID
+ *             sellerAddress:
+ *               type: string
+ *               description: Seller's ethereum address
  *     produces:
  *       - application/json
  *     responses:

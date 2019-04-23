@@ -1,4 +1,5 @@
 import express from 'express';
+// TODO: remove axios import (DEPRECATED)
 import axios from 'axios';
 import { asyncError } from '../utils';
 import {
@@ -10,20 +11,17 @@ import signingService from '../services/signingService';
 import config from '../../config';
 import { notarize } from '../operations/notarize';
 
+// TODO: remove (DEPRECATED)
 const https = require('https');
 
+// TODO: remove (DEPRECATED)
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  res.status(200).json({
-    message: 'Wibson Notary SDK Official - Buyers API',
-  });
-});
-
+// TODO: remove this function (DEPRECATED)
 function isValidOrderAddress(buyerAddress, orderAddress) {
   // Para testear con ganache probar con:
   // orderAddress: 0x3a7c35082fe02bf39a35412ad0dc295089902aa1
@@ -32,7 +30,7 @@ function isValidOrderAddress(buyerAddress, orderAddress) {
 }
 
 /**
- * @swagger
+ * TODO: remove this endpoint (DEPRECATED)
  * /buyers/audit/consent/{buyerAddress}/{orderAddress}:
  *   get:
  *     description: |
@@ -74,7 +72,7 @@ router.get(
     const { buyerAddress } = req.params;
 
     if (!isValidOrderAddress(buyerAddress, orderAddress)) {
-      res.status(400).json({});
+      res.boom.notFound();
     } else {
       try {
         const {
@@ -111,7 +109,7 @@ router.get(
 );
 
 /**
- * @swagger
+ * TODO: remove this endpoint (DEPRECATED)
  * /buyers/audit/result/{buyerAddress}/{orderAddress}:
  *   post:
  *     description: |
@@ -152,13 +150,13 @@ router.post(
 
       res.status(200).json({ dataResponses });
     } else {
-      res.status(400).json({});
+      res.boom.notFound();
     }
   }),
 );
 
 /**
- * @swagger
+ * TODO: remove this endpoint (DEPRECATED)
  * /buyers/audit/on-demand/{buyerAddress}/{orderAddress}:
  *   post:
  *     description: |
@@ -203,7 +201,7 @@ router.post(
 
       res.status(200).json({ dataResponses });
     } else {
-      res.status(400).json({});
+      res.boom.notFound();
     }
   }),
 );
@@ -212,23 +210,28 @@ router.post(
  * @swagger
  * /notarization-request:
  *   post:
- *     parameters:
- *       - name: orderId
- *         description: The unique identifier for the order.
- *         required: true
- *         type: number
- *         in: body
- *       - name: sellers
- *         description: List of sellers send to notarize.
- *         required: true
- *         type: array
- *         in: body
- *       - name: callbackUrl
- *         description: Buyer's URL to call after notarization.
- *         required: true
- *         type: string
- *         in: body
  *     description: Receives a batch of sellers to notarize
+ *     parameters:
+ *       - in: body
+ *         name: notarizationRequest
+ *         required: true
+ *         schema:
+ *           required:
+ *             - orderId
+ *             - sellers
+ *             - callbackUrl
+ *           properties:
+ *             orderId:
+ *               type: integer
+ *               description: The unique identifier for the order
+ *             sellers:
+ *               type: array
+ *               description: List of sellers send to notarize
+ *               items:
+ *                 type: string
+ *             callbackUrl:
+ *               type: string
+ *               description: Buyer's URL to call after notarization
  *     produces:
  *       - application/json
  *     responses:
@@ -241,7 +244,7 @@ router.post(
   '/notarization-request',
   asyncError(async (req, res) => {
     try {
-      const ok = await notarize({ ...req.body });
+      const ok = await notarize(req.body);
       return ok ? res.sendStatus(202) : res.boom.badData('Invalid parameters');
     } catch (error) {
       return res.sendStatus(500);
