@@ -28,6 +28,7 @@ swagger.initializeMiddleware(schema, ({ swaggerMetadata, swaggerValidator, swagg
   app.use(cors());
   app.use(boom());
   app.use(swaggerValidator());
+  app.use(swaggerUi({ swaggerUi: '/api-docs', apiDocs: '/api-docs.json' }));
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => { throw error; });
 
@@ -36,8 +37,6 @@ swagger.initializeMiddleware(schema, ({ swaggerMetadata, swaggerValidator, swagg
   app.use('/data', data);
   app.use('/sellers', sellers);
   app.use('/data-responses', dataResponses);
-  app.get('/api-docs', swaggerUi());
-  app.get('/api-docs.json', (_req, res) => res.json(schema));
 
   app.use(errorHandler); // This MUST always go after any other app.use(...)
 });
