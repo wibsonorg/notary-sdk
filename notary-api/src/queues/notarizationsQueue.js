@@ -13,21 +13,15 @@ const defaultJobOptions = {
 };
 const notarizationQueue = createQueue(queueName, defaultJobOptions);
 
-export const notarize = async (lock) => {
-  const notarization = await notarizationResults.safeFetch(lock);
+export const notarize = async (lockingKeyHash) => {
+  const notarization = await notarizationResults.safeFetch(lockingKeyHash);
   if (!notarization) return false;
 
   const { address: notaryAddress } = await getAccount();
 
   const {
-    request: {
-      orderId,
-      callbackUrl,
-    },
-    result: {
-      notarizationPercentage,
-      notarizationFee,
-    },
+    request: { orderId, callbackUrl },
+    result: { notarizationPercentage, notarizationFee },
     payDataHash,
   } = notarization;
 
@@ -44,14 +38,15 @@ export const notarize = async (lock) => {
     notarizationPercentage,
     notarizationFee,
     payDataHash, // TODO: Buyer shouldn't need this anymore
-    lock,
+    lockingKeyHash,
     sellers,
   };
 
   await axios.post(callbackUrl, result);
-  await notarizationResults.store(lock, { ...notarization, result, status: 'responded' });
+  await notarizationResults.store(lockingKeyHash, { ...notarization, result, status: 'responded' });
   return true;
 };
 
 notarizationQueue.process('notarize', ({ data }) => notarize(data));
-export const addNotarizationJob = lock => notarizationQueue.add('notarize', lock);
+export const addNotarizationJob = lockingKeyHash =>
+  notarizationQueue.add('notarize', lockingKeyHash);
