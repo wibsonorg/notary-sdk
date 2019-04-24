@@ -39,23 +39,23 @@ const router = express.Router();
  *       orderId:
  *         type: number
  *         description: Order ID in the DataExchange contract
- *         example: '42'
+ *         example: 42
  *       sellerId:
  *         type: number
  *         description: Seller's ID in the BatPay contract
- *         example: '1085'
+ *         example: 1085
  *       sellerAddress:
  *         type: string
  *         description: Seller's Ethereum address
- *         example: '"0xa42df59C5e17df255CaDfF9F52a004221f774f36"'
+ *         example: '0xa42df59C5e17df255CaDfF9F52a004221f774f36'
  *       encryptedData:
  *         type: string
  *         description: Data encrypted with symmetric-key algorithm
- *         example: '"tZ4MsEnfbcDOwqau68aOrQ=="'
+ *         example: 'tZ4MsEnfbcDOwqau68aOrQ=='
  *       decryptionKey:
  *         type: string
  *         description: Key used to encrypt the data
- *         example: '"07855b46a623a8ecabac76ed697aa4e13631e3b6718c8a0d342860c13c30d2fc"'
+ *         example: '07855b46a623a8ecabac76ed697aa4e13631e3b6718c8a0d342860c13c30d2fc'
  */
 router.post('/', asyncError(async (req, res) => {
   const { error, ...result } = await addDataResponse(req.body);

@@ -48,12 +48,12 @@ function isValidOrderAddress(buyerAddress, orderAddress) {
  *               type: string
  *               description: Ethereum address of the Order
  *             responsesPercentage:
- *               type: integer
+ *               type: number
  *               description: Percentage of responses to notarize
  *             notarizationFee:
- *               type: string
+ *               type: number
  *               description: Amount of WIB as fee for notarization
- *               example: '4'
+ *               example: 4
  *             notarizationTermsOfService:
  *               type: string
  *               description: Terms for notarization service
