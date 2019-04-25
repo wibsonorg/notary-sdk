@@ -7,7 +7,7 @@ import { getDataOrder } from '../operations/dataExchange';
 import { notarizationResults } from '../utils/stores';
 
 /**
- * BatPay.Transfer handler: TODO: addUnlockJob
+ * BatPay.registerPayment handler: TODO: addUnlockJob
  * @param {number} payIndex Payment index on BatPay
  * @param {string} transferHash Transfer transaction hash
  */
