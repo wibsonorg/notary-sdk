@@ -48,7 +48,7 @@ export async function sendUnlock(payIndex, transferHash) {
   );
   await axios.post(`${brokerUrl}/unlock`, {
     payIndex,
-    unlockerId: batPayId,
+    unlockerAccountId: batPayId,
     key: masterKey,
   }, { timeout: 5000 });
 }
