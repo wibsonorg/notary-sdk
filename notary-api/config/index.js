@@ -46,6 +46,7 @@ const config = {
   redis: {
     url: env.REDIS_URL,
     prefix: env.REDIS_PREFIX,
+    jobs: { concurrency: env.REDIS_JOBS_CONCURRENCY },
   },
   contractEventListener: {
     interval: Number(env.CONTRACT_EVENT_LISTENER_INTERVAL),

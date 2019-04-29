@@ -19,9 +19,7 @@ export const fetchDataOrder = async (orderId) => {
     createdAt,
     closedAt,
   ] = Object.values(await DataExchange.methods.getDataOrder(orderId).call());
-
-  const offchainData = await axios.get(buyerUrl, { timeout: 5000 });
-
+  const { data } = await axios.get(buyerUrl, { timeout: 5000 });
   return {
     orderId,
     buyer,
@@ -32,7 +30,7 @@ export const fetchDataOrder = async (orderId) => {
     createdAt: toDate(createdAt),
     closedAt: toDate(closedAt),
     buyerUrl,
-    ...offchainData,
+    ...data,
   };
 };
 
@@ -40,7 +38,6 @@ export const fetchDataOrders = async () => {
   const openOrders = [];
   const closedOrders = [];
   const orders = await getElements(DataExchange, 'getDataOrder');
-
   orders.forEach((order, orderId) => {
     if (toDate(order.closedAt)) {
       closedOrders.push({ orderId, order });

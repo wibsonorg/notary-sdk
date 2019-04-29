@@ -6,7 +6,9 @@ import { sendUnlockJob } from '../jobs/payments';
 export { contractEventListener };
 contractEventListener
   .addContract(DataExchange)
-  .on('DataOrderCreated', ({ orderId }) => dataOrdersQueue.enqueue('notifyNew', { orderId }))
-  .on('DataOrderClosed', ({ orderId }) => dataOrdersQueue.enqueue('fetchAndSave', { orderId }))
+  .on('DataOrderCreated', ({ orderId }) =>
+    dataOrdersQueue.enqueue('fetchAndSave', { orderId: Number(orderId) }))
+  .on('DataOrderClosed', ({ orderId }) =>
+    dataOrdersQueue.enqueue('fetchAndSave', { orderId: Number(orderId) }))
   .addContract(BatPay)
-  .on('Transfer', ({ payIndex: i }, { transactionHash: tx }) => sendUnlockJob(i, tx));
+  .on('PaymentRegistered', ({ payIndex: i }, { transactionHash: tx }) => sendUnlockJob(i, tx));
