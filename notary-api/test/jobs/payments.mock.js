@@ -21,8 +21,8 @@ export const { notarizationResults } = td.replace('../../src/utils/stores', {
   notarizationResults: { safeFetch: sinon.stub() },
 });
 
-export const transfer = {
-  lock: 'SomeLock',
+export const registerPayment = {
+  lockingKeyHash: 'SomeLock',
   payData: packPayData(sellers),
   metadata: 'SomeCreationHash',
   amount: 250,
@@ -31,7 +31,7 @@ export const transfer = {
 export const orderId = 33;
 
 test.beforeEach(() => {
-  fetchTxData.resolves(transfer);
+  fetchTxData.resolves(registerPayment);
   fetchTxLogs.resolves({ orderId });
   getDataOrder.resolves({ price: 250 });
   notarizationResults.safeFetch.resolves({

@@ -13,8 +13,8 @@ const createNotarization = async ({
   notarizationFee = 0,
 }) => {
   const masterKey = uuidv4();
-  const lock = packMessage(config.batPayId, masterKey);
-  await notarizationResults.store(lock, {
+  const lockingKeyHash = packMessage(config.batPayId, masterKey);
+  await notarizationResults.store(lockingKeyHash, {
     masterKey,
     status: 'accepted',
     payDataHash: sha3(packPayData(sellers)), // TODO: this should not be necessary
@@ -29,7 +29,7 @@ const createNotarization = async ({
       notarizationFee,
     },
   });
-  return lock;
+  return lockingKeyHash;
 };
 
 /**
@@ -46,8 +46,8 @@ const createNotarization = async ({
  */
 export const notarize = async (params) => {
   try {
-    const lock = await createNotarization(params);
-    addNotarizationJob(lock);
+    const lockingKeyHash = await createNotarization(params);
+    addNotarizationJob(lockingKeyHash);
     return true;
   } catch (Error) {
     return false;
