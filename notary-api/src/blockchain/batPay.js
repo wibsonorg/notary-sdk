@@ -1,5 +1,5 @@
 /**
- * Builds payData for BatPay.Transfer
+ * Builds payData for BatPay.registerPayment
  * [1, 3, 5, 7] -> '0xff04...'
  * first byte should be ff, second is element length in bytes
  * the rest are the id deltas in hex format

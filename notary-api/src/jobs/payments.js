@@ -49,5 +49,14 @@ export async function sendUnlock(payIndex, registerPaymentHash) {
     },
     { timeout: 5000 },
   );
+  await axios.post(
+    `${brokerUrl}/unlock`,
+    {
+      payIndex,
+      unlockerAccountId: batPayId,
+      key: masterKey,
+    },
+    { timeout: 5000 },
+  );
 }
 export const sendUnlockJob = jobify(sendUnlock);
