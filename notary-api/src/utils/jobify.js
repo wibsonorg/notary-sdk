@@ -59,7 +59,7 @@ const jobsQ = createQueue('Job', { concurrency });
 
 /**
  * Turns a function in a job
- * @param {F & Function} fn A function to be used as handler for the job
+ * @param {F & Function} fn An async function to be used as handler for the job
  * @param {Object} [options] Job options
  * @param {string} [options.name=fn.name] Name of the job [required] (default: [fn.name])
  * @param {import('bull').Queue} [options.queue=] Name of the queue
@@ -70,5 +70,5 @@ const jobsQ = createQueue('Job', { concurrency });
 export function jobify(fn, { name = fn.name, queue = jobsQ, priority } = {}) {
   // eslint-disable-next-line no-param-reassign
   queue.jobHandlers[name] = fn;
-  return (...args) => queue.add(name, args, { priority }).finished();
+  return async (...args) => (await queue.add(name, args, { priority })).finished();
 }

@@ -5,6 +5,7 @@ import { fetchTxData, fetchTxLogs } from '../blockchain/contracts';
 import { packPayData } from '../blockchain/batPay';
 import { getDataOrder } from '../operations/dataExchange';
 import { notarizationResults } from '../utils/stores';
+import { fromWib } from '../utils/wibson-lib/coin';
 
 const { brokerUrl, batPayId } = config;
 
@@ -30,13 +31,13 @@ export async function sendUnlock(payIndex, registerPaymentHash) {
     result: { notarizationFee, notarizationPercentage, sellers },
   } = notarization;
   validateOrThrow(
-    registerPayment.payData === packPayData(sellers),
+    registerPayment.payData === packPayData(sellers.map(({ id }) => id)),
     'payData did not match sellerIds',
   );
   const { orderId } = await fetchTxLogs(registerPayment.metadata);
   validateOrThrow(Number(orderId) === request.orderId, 'metadata did not match order');
   const { price } = await getDataOrder(orderId);
-  validateOrThrow(registerPayment.amount === price, 'amount did not match price');
+  validateOrThrow(registerPayment.amount === fromWib(price), 'amount did not match price');
   const fee = (price * (sellers.length * (notarizationPercentage / 100))) + notarizationFee;
   validateOrThrow(Number(registerPayment.fee) === fee, 'fee did not match requested fee');
   await axios.post(
