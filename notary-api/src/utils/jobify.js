@@ -2,7 +2,11 @@ import Queue from 'bull';
 import config from '../../config';
 import logger from './logger';
 
-const { url, prefix } = config.redis;
+const {
+  url,
+  prefix,
+  jobs: { concurrency },
+} = config.redis;
 
 const logEvent = (q, event) => ({ id = '', name, failedReason: err }) => {
   const job = q !== name ? `:${name}` : '';
@@ -46,12 +50,12 @@ export function createQueue(name, options = {}, settings = {}) {
   q.on('paused', logEvent(name, 'paused'));
   q.on('completed', logEvent(name, 'completed'));
   q.jobHandlers = {};
-  q.process('*', options.concurrency || 1, job => q
-    .jobHandlers[job.name]
-    .apply(job, job.data));
+  q.process('*', options.concurrency || 1, job => q.jobHandlers[job.name].apply(job, job.data));
   queues[name] = q;
   return q;
 }
+
+const jobsQ = createQueue('Job', { concurrency });
 
 /**
  * Turns a function in a job
@@ -63,8 +67,8 @@ export function createQueue(name, options = {}, settings = {}) {
  * @returns {F} A function with the same signature as [fn]
  * @template F
  */
-export function jobify(fn, { name = fn.name, queue, priority } = {}) {
-  const q = queue || queues[name] || createQueue(name);
-  q.jobHandlers[name] = fn;
-  return (...args) => q.add(name, args, { priority }).finished();
+export function jobify(fn, { name = fn.name, queue = jobsQ, priority } = {}) {
+  // eslint-disable-next-line no-param-reassign
+  queue.jobHandlers[name] = fn;
+  return (...args) => queue.add(name, args, { priority }).finished();
 }
