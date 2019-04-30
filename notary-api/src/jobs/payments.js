@@ -20,7 +20,7 @@ export async function sendUnlock(payIndex, transferHash) {
     }
   };
   const transfer = await fetchTxData(transferHash);
-  const notarization = await notarizationResults.safeFetch(transfer.lock);
+  const notarization = await notarizationResults.safeFetch(transfer.lockingKeyHash);
   validateOrThrow(notarization, 'notarization not found');
   const {
     masterKey, request,
