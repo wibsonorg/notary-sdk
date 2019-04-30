@@ -11,4 +11,4 @@ contractEventListener
   .on('DataOrderClosed', ({ orderId }) =>
     dataOrdersQueue.enqueue('fetchAndSave', { orderId: Number(orderId) }))
   .addContract(BatPay)
-  .on('PaymentRegistered', ({ payIndex: i }, { transactionHash: tx }) => sendUnlockJob(i, tx));
+  .on('PaymentRegistered', ({ payIndex: i }, { transactionHash: tx }) => sendUnlockJob(Number(i), tx));

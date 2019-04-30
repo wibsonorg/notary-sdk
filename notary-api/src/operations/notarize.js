@@ -4,6 +4,7 @@ import { addNotarizationJob } from '../queues/notarizationsQueue';
 import { notarizationResults } from '../utils/stores';
 import { packMessage, sha3 } from '../utils/wibson-lib/cryptography/hashing';
 import { packPayData } from '../blockchain/batPay';
+import { castToBytes } from '../utils/web3';
 
 const createNotarization = async ({
   orderId,
@@ -12,7 +13,7 @@ const createNotarization = async ({
   notarizationPercentage = 0,
   notarizationFee = 0,
 }) => {
-  const masterKey = uuidv4();
+  const masterKey = castToBytes(uuidv4());
   const lockingKeyHash = packMessage(config.batPayId, masterKey);
   await notarizationResults.store(lockingKeyHash, {
     masterKey,
