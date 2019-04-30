@@ -25,7 +25,7 @@ export const registerPayment = {
   lockingKeyHash: 'SomeLock',
   payData: packPayData(sellers),
   metadata: 'SomeCreationHash',
-  amount: 250,
+  amount: '250000000000',
   fee: 142,
 };
 export const orderId = 33;
