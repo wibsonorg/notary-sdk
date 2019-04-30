@@ -31,7 +31,7 @@ export async function sendUnlock(payIndex, registerPaymentHash) {
     result: { notarizationFee, notarizationPercentage, sellers },
   } = notarization;
   validateOrThrow(
-    registerPayment.payData === packPayData(sellers),
+    registerPayment.payData === packPayData(sellers.map(({ id }) => id)),
     'payData did not match sellerIds',
   );
   const { orderId } = await fetchTxLogs(registerPayment.metadata);

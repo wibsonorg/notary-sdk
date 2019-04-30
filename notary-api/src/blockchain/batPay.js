@@ -7,7 +7,6 @@
  */
 export const packPayData = sellers =>
   `0xff04${sellers
-    .map(s => s.id)
     .sort((a, b) => a - b)
     .map((id, i, l) => id - (l[i - 1] || 0))
     .map(d => d % (256 ** 4))
