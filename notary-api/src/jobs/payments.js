@@ -36,19 +36,9 @@ export async function sendUnlock(payIndex, registerPaymentHash) {
   const { orderId } = await fetchTxLogs(registerPayment.metadata);
   validateOrThrow(Number(orderId) === request.orderId, 'metadata did not match order');
   const { price } = await getDataOrder(orderId);
-  validateOrThrow(registerPayment.amount === '10000', 'amount did not match price');
-  // eslint-disable-next-line no-mixed-operators
+  validateOrThrow(registerPayment.amount === price, 'amount did not match price');
   const fee = price * sellers.length * (notarizationPercentage / 100) + notarizationFee;
   validateOrThrow(Number(registerPayment.fee) === fee, 'fee did not match requested fee');
-  await axios.post(
-    `${brokerUrl}/unlock`,
-    {
-      payIndex,
-      unlockerId: batPayId,
-      key: masterKey,
-    },
-    { timeout: 5000 },
-  );
   await axios.post(
     `${brokerUrl}/unlock`,
     {
