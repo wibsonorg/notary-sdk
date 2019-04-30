@@ -38,8 +38,8 @@ export async function sendUnlock(payIndex, registerPaymentHash) {
   const { price } = await getDataOrder(orderId);
   validateOrThrow(registerPayment.amount === '10000', 'amount did not match price');
   // eslint-disable-next-line no-mixed-operators
-  const fee = price * request.sellers.length * (notarizationPercentage / 100) + notarizationFee;
-  validateOrThrow(registerPayment.fee === fee, 'fee did not match requested fee');
+  const fee = price * sellers.length * (notarizationPercentage / 100) + notarizationFee;
+  validateOrThrow(Number(registerPayment.fee) === fee, 'fee did not match requested fee');
   await axios.post(
     `${brokerUrl}/unlock`,
     {
