@@ -10,7 +10,7 @@ export const packPayData = sellers =>
     .map(s => s.id)
     .sort((a, b) => a - b)
     .map((id, i, l) => id - (l[i - 1] || 0))
-    .map(d => d % 256 ** 4)
+    .map(d => d % (256 ** 4))
     .map(d => d.toString(16).padStart(8, '0'))
     .join('')}`;
 
