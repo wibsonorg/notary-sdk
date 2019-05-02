@@ -2,7 +2,8 @@ import td from 'testdouble';
 import sinon from 'sinon';
 import test from 'ava';
 
-td.replace('uuid/v4', () => '3ec12ec7-b8ce-4e21-agus-e05e1ac010d9');
+export const uuidv4 = sinon.stub().returns('3ec12ec7-b8ce-4e21-agus-e05e1ac010d9');
+td.replace('uuid/v4', uuidv4);
 td.replace('../../config', { batPayId: 1634170227 });
 
 export const notarizationResults = { safeFetch: sinon.stub(), store: sinon.spy() };

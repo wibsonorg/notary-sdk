@@ -1,5 +1,5 @@
 import test from 'ava';
-import { notarizationResults, notarizationsQueue, hashing } from './notarize.mock';
+import { notarizationResults, notarizationsQueue, uuidv4 } from './notarize.mock';
 import { notarize } from '../../src/operations/notarize';
 
 const it = test.serial;
@@ -29,7 +29,7 @@ it('Stores notarization object and enqueues job if proper parameters', async (as
 });
 
 it('Doesn\'t store notarization object nor enqueues jobs if wrong parameters', async (assert) => {
-  hashing.sha3.throws(); // Simulates an error with master key / payData
+  uuidv4.throws(); // Simulates an error with master key / payData
   await notarize(params);
   assert.false(notarizationResults.store.called);
   assert.false(notarizationsQueue.add.called);
