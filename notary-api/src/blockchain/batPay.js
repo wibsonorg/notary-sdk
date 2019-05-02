@@ -1,3 +1,4 @@
+import abi from 'ethereumjs-abi';
 /**
  * Builds payData for BatPay.registerPayment
  * [1, 3, 5, 7] -> '0xff04...'
@@ -25,3 +26,12 @@ export const unpackPayData = payData =>
     .match(/.{8}/img)
     .map(hex => parseInt(hex, 16))
     .reduce((arr, d) => [...arr, d + Number(arr.slice(-1))], []);
+
+/**
+ * Creates solidity-shaped keccak256(abi.encodePacked) key
+ * @param  {number} unlocker BatPay ID of unlocker
+ * @param  {string} key      master key to use on unlock
+ * @return {string}          solidity-shaped keccak256(abi.encodePacked) key
+ */
+export const hashLock = (unlocker, key) =>
+  `0x${abi.soliditySHA3(['uint32', 'bytes'], [unlocker, Buffer.from(key, 'utf8')]).toString('hex')}`;
