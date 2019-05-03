@@ -34,7 +34,7 @@ export const validateData = async (orderAddress, sellerAddress, payload) => {
       sellerAddress,
     }));
 
-    axios.get(`${config.notaryValidatorUri}/validate/${msisdn}`, {
+    axios.get(`${config.notaryValidatorUrl}/validate/${msisdn}`, {
       params: {
         nonce,
       },

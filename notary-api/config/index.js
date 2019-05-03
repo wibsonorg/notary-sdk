@@ -15,9 +15,12 @@ const config = {
   port: env.PORT,
   host: env.HOST,
   batPayId: env.BATPAY_ID,
+  notaryName: env.NOTARY_NAME,
+  notaryPublicBaseUrl: env.NOTARY_PUBLIC_BASE_URL,
+  notarySigningServiceUrl: env.NOTARY_SIGNING_SERVICE_URL,
+  notaryValidatorUrl: env.NOTARY_VALIDATOR_URL,
+  requestTimeout: env.REQUEST_TIMEOUT,
   brokerUrl: env.BROKER_URL,
-  notarySigningServiceUri: env.NOTARY_SIGNING_SERVICE_URI,
-  notaryValidatorUri: env.NOTARY_VALIDATOR_URI,
   contracts: {
     addresses: {
       wibcoin: env.WIBCOIN_ADDRESS,
