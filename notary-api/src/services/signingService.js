@@ -8,43 +8,37 @@ const httpsAgent = new https.Agent({
 });
 
 const client = axios.create({
-  baseURL: `${config.notarySigningServiceUri}/`,
-  timeout: 1000,
+  baseURL: `${config.notarySigningServiceUrl}/`,
+  timeout: config.requestTimeout,
   httpsAgent,
 });
 
-const getHealth = async () => {
-  const { data } = await client.get('/health');
+const get = async (path) => {
+  const { data } = await client.get(path);
   return data;
 };
 
-const getAccount = async () => {
-  const { data } = await client.get('/account');
+const post = async (path, payload) => {
+  const { data } = await client.post(path, payload);
   return data;
 };
 
-const signNotarization = async (payload) => {
-  const { data } = await client.post(
-    '/buyers/audit/result',
-    payload,
-  );
+const getHealth = () => get('/health');
+const getAccount = () => get('/account');
 
-  return data;
-};
+const signNotarization = payload => post('/buyers/audit/result', payload);
+const signNotaryInfo = payload => post('/account/info', payload);
 
 const decryptData = async (payload) => {
-  const { data } = await client.post(
-    '/data/decrypt',
-    payload,
-  );
-
-  return data.message;
+  const { message } = await post('/data/decrypt', payload);
+  return message;
 };
 
 const signinService = {
   getHealth,
   getAccount,
   signNotarization,
+  signNotaryInfo,
   decryptData,
 };
 
