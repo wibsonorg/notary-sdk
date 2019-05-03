@@ -14,7 +14,7 @@ const config = {
   env: env.NODE_ENV,
   port: env.PORT,
   host: env.HOST,
-  batPayId: env.BATPAY_ID,
+  batPayId: Number(env.BATPAY_ID),
   notaryName: env.NOTARY_NAME,
   notaryPublicBaseUrl: env.NOTARY_PUBLIC_BASE_URL,
   notarySigningServiceUrl: env.NOTARY_SIGNING_SERVICE_URL,
@@ -49,6 +49,7 @@ const config = {
   redis: {
     url: env.REDIS_URL,
     prefix: env.REDIS_PREFIX,
+    jobs: { concurrency: env.REDIS_JOBS_CONCURRENCY },
   },
   contractEventListener: {
     interval: Number(env.CONTRACT_EVENT_LISTENER_INTERVAL),

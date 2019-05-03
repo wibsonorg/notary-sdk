@@ -25,7 +25,7 @@ export const registerPayment = {
   lockingKeyHash: 'SomeLock',
   payData: packPayData(sellers),
   metadata: 'SomeCreationHash',
-  amount: 250,
+  amount: '250000000000',
   fee: 142,
 };
 export const orderId = 33;
@@ -36,8 +36,8 @@ test.beforeEach(() => {
   getDataOrder.resolves({ price: 250 });
   notarizationResults.safeFetch.resolves({
     masterKey: 'SomeMasterKey',
-    result: { notarizationFee: 42, notarizationPercentage: 10 },
-    request: { orderId: 33, sellers },
+    result: { notarizationFee: 42, notarizationPercentage: 10, sellers },
+    request: { orderId: 33 },
   });
 });
 test.afterEach(sinon.resetHistory);
