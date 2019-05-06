@@ -1,28 +1,28 @@
 import express from 'express';
-import { asyncError } from '../utils';
+import { asyncError, cache } from '../utils';
 import { getSignedNotaryInfo } from '../operations/notaryInfo';
 
 const router = express.Router();
 
 /**
  * @swagger
- * /health:
+ * /notary-info:
  *   get:
  *     description: |
- *       The main use case of this endpoint is to check if the app is
- *       responding.
+ *       The main use case of this endpoint is get notary signed information
  *     produces:
  *       - application/json
  *     responses:
  *       200:
  *         description: When the app is OK
  */
-router.get('/', asyncError(async (req, res) => {
+router.get('/', cache('1 day'), asyncError(async (req, res) => {
   const { error, ...result } = await getSignedNotaryInfo();
   if (error) {
     res.boom.badData('Operation failed', { error });
   } else {
     res.json(result);
+    req.apicacheGroup = '/notary-info';
   }
 }));
 
