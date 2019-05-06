@@ -34,7 +34,7 @@ const decryptData = async (payload) => {
   return message;
 };
 
-const signinService = {
+const signingService = {
   getHealth,
   getAccount,
   signNotarization,
@@ -42,4 +42,4 @@ const signinService = {
   decryptData,
 };
 
-export default signinService;
+export default signingService;
