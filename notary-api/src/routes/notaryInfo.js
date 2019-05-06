@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /health:
+ * /notary-info:
  *   get:
  *     description: |
  *       The main use case of this endpoint is to check if the app is
