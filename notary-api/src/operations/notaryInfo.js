@@ -11,7 +11,8 @@ export const getSignedNotaryInfo = async () => {
       headsUpUrl: `${notaryPublicBaseUrl}/sellers/heads-up`,
     };
 
-    return signingService.signNotaryInfo(info);
+    const response = await signingService.signNotaryInfo(info);
+    return response;
   } catch (error) {
     return { error };
   }
