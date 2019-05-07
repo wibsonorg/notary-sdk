@@ -13,6 +13,7 @@ import {
   data,
   sellers,
   dataResponses,
+  notaryInfo,
 } from './routes';
 import schema from './schema';
 
@@ -37,6 +38,7 @@ swagger.initializeMiddleware(schema, ({ swaggerMetadata, swaggerValidator, swagg
   app.use('/data', data);
   app.use('/sellers', sellers);
   app.use('/data-responses', dataResponses);
+  app.use('/notary-info', notaryInfo);
 
   app.use(errorHandler); // This MUST always go after any other app.use(...)
 });
