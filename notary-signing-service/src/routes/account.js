@@ -34,8 +34,8 @@ router.get('/', async (_req, res) => {
  *         description: When the notary info could be correctly signed
  */
 router.post('/info', async (req, res) => {
-  const address = account.getAddress();
-  const publicKey = account.getPublicKey();
+  const address = account.getAddress().toLowerCase();
+  const publicKey = account.getPublicKey().toLowerCase();
   const {
     name, notarizationUrl, dataResponsesUrl, headsUpUrl,
   } = req.body;
