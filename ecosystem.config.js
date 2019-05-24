@@ -48,7 +48,7 @@ module.exports = {
       user: 'ubuntu',
       host: 'staging',
       ref: 'origin/na-test-deployments',
-      repo: 'git@github.com:wibsonorg/buyer-sdk.git',
+      repo: 'git@github.com:wibsonorg/notary-sdk.git',
       path: '/opt/test/notary-sdk',
       'post-deploy': 'pm2 reload ecosystem.config.js --env production'
     }
