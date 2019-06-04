@@ -1,9 +1,9 @@
 import config from '../../config';
 import { createQueue } from './createQueue';
 import { notarizationResults, dataResponses } from '../utils/stores';
-import { decryptData } from '../services/signingService';
 import { validateDataBatch } from '../services/validatorService';
 import { completeNotarizationJob } from '../operations/completeNotarization';
+import { decryptWithPrivateKey } from '../utils/wibson-lib/cryptography';
 
 const queueName = 'NotarizationQueue';
 const defaultJobOptions = {
@@ -22,11 +22,9 @@ const fetchData = async (orderId, seller) => {
   const { address } = seller;
 
   // TODO: fetch data from S3
-  const { encryptedData } = await dataResponses.fetch(`${orderId}:${address}`);
-  return decryptData({
-    encryptedData,
-    senderAddress: address,
-  });
+  const { encryptedData, decryptionKey } = await dataResponses.fetch(`${orderId}:${address}`);
+  const decryptedData = decryptWithPrivateKey(decryptionKey, encryptedData);
+  return JSON.parse(decryptedData);
 };
 
 /**

@@ -19,10 +19,12 @@ export const {
     fetch: sinon.stub(),
   },
 });
-
-const signingService = td.replace('../../src/services/signingService', {
-  decryptData: sinon.stub(),
+const {
+  decryptWithPrivateKey,
+} = td.replace('../../src/utils/wibson-lib/cryptography', {
+  decryptWithPrivateKey: sinon.stub(),
 });
+
 export const {
   validateDataBatch,
 } = td.replace('../../src/services/validatorService', {
@@ -42,9 +44,12 @@ export const completeNotarizationJob = sinon.spy();
 td.replace('../../src/operations/completeNotarization', { completeNotarizationJob });
 
 test.beforeEach(() => {
-  signingService.decryptData.resolves({ geolocalization: 'Geo Localization Data', device: 'Device Data' });
+  decryptWithPrivateKey.returns(JSON.stringify({
+    geolocalization: 'Geo Localization Data',
+    device: 'Device Data',
+  }));
 
-  dataResponses.fetch.returns({ encryptedData: 'Encrypted Data' });
+  dataResponses.fetch.returns({ encryptedData: 'Encrypted Data', decryptionKey: 'Decryption Key' });
   notarizationResults.safeFetch.returns({
     request: {
       orderId: 42,

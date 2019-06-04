@@ -12,13 +12,11 @@ const httpsAgent = new https.Agent({
  * @param {object[]} payload Information to validate
  */
 export const validateDataBatch = async (payloadID, payload) =>
-  axios.post(`${config.notaryValidatorUrl}/validate`, {
-    params: {
-      nonce: payloadID,
-      payload,
-    },
-    httpsAgent,
-  });
+  axios.post(
+    `${config.notaryValidatorUrl}/validate`,
+    { nonce: payloadID, payload },
+    { httpsAgent },
+  );
 
 const truthy = value => value === true || value === 'true';
 
