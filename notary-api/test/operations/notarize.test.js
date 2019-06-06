@@ -1,8 +1,10 @@
-import test from 'ava';
-import { notarizationResults, notarizationsQueue, uuidv4 } from './notarize.mock';
+import { serial as it } from 'ava';
+import {
+  notarizationResults,
+  addNotarizationJob,
+  uuidv4,
+} from './notarize.mock';
 import { notarize } from '../../src/operations/notarize';
-
-const it = test.serial;
 
 const params = {
   orderId: 123,
@@ -24,13 +26,12 @@ const params = {
 it('Stores notarization object and enqueues job if proper parameters', async (assert) => {
   await notarize(params);
   assert.snapshot(notarizationResults.store.lastCall.args, { id: 'notarizationResults.store().args' });
-  const lock = notarizationResults.store.lastCall.args[0];
-  assert.is(notarizationsQueue.add.lastCall.args[1], lock);
+  assert.true(addNotarizationJob.called);
 });
 
 it('Doesn\'t store notarization object nor enqueues jobs if wrong parameters', async (assert) => {
   uuidv4.throws(); // Simulates an error with master key / payData
-  await notarize(params);
+  await assert.throwsAsync(notarize(params));
   assert.false(notarizationResults.store.called);
-  assert.false(notarizationsQueue.add.called);
+  assert.false(addNotarizationJob.called);
 });

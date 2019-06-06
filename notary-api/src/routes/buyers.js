@@ -261,16 +261,9 @@ router.post(
  *         type: string
  *         description: Hash of the key that decrypts the information
  */
-router.post(
-  '/notarization-request',
-  asyncError(async (req, res) => {
-    try {
-      const ok = await notarize(req.body);
-      return ok ? res.sendStatus(202) : res.boom.badData('Invalid parameters');
-    } catch (error) {
-      return res.sendStatus(500);
-    }
-  }),
-);
+router.post('/notarization-request', asyncError(async (req, res) => {
+  await notarize(req.body);
+  res.sendStatus(202);
+}));
 
 export default router;

@@ -28,7 +28,7 @@ const config = {
       batPay: env.BATPAY_ADDRESS,
     },
   },
-  responsesPercentage: env.RESPONSES_PERCENTAGE,
+  responsesPercentage: Number(env.RESPONSES_PERCENTAGE),
   notarizationFeePercentage: env.NOTARIZATION_FEE_PERCENTAGE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVICE,
   notarizeJobMaxAttempts: env.NOTARIZE_JOB_MAX_ATTEMPTS,

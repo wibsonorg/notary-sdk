@@ -24,12 +24,12 @@ const post = async (path, payload) => {
 };
 
 const getHealth = () => get('/health');
-const getAccount = () => get('/account');
+export const getAccount = () => get('/account');
 
 const signNotarization = payload => post('/buyers/audit/result', payload);
 const signNotaryInfo = payload => post('/account/info', payload);
 
-const decryptData = async (payload) => {
+export const decryptData = async (payload) => {
   const { message } = await post('/data/decrypt', payload);
   return message;
 };
