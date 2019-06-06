@@ -32,17 +32,11 @@ const fetchData = async (orderId, seller) => {
  * @param {number} orderId
  * @param {object[]} sellers
  */
-const prepareDataBatchForValidation = async (orderId, sellers) => {
-  const batch = await Promise.all(sellers
-    .map(async seller => ({
-      address: seller.address,
-      data: await fetchData(orderId, seller),
-    })));
-  return batch.reduce(
-    (accumulator, { address, data }) => ({ ...accumulator, [address]: data }),
-    {},
-  );
-};
+const prepareDataBatchForValidation = async (orderId, sellers) =>
+  Promise.all(sellers.map(async seller => ({
+    id: seller.id,
+    data: await fetchData(orderId, seller),
+  })));
 
 const randomInt = (low, high) => Math.floor((Math.random() * (high - low)) + low);
 const inAgreement = () => randomInt(1, 100) <= config.responsesPercentage;

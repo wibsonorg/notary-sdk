@@ -7,8 +7,7 @@ import { respondNotarizationJob } from '../jobs/respondNotarization';
 import { jobify } from '../utils/jobify';
 
 const buildResult = (seller, validatorResult) => {
-  const { address } = seller;
-  const validation = validatorResult[address];
+  const validation = validatorResult.find(({ id }) => id === seller.id);
 
   return {
     ...seller,
