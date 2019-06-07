@@ -11,8 +11,14 @@ const result = [
   { id: 20, identified: 'true' },
 ];
 
-it('Updates notarization and enqueues job for response', async (assert) => {
+it('Updates notarization and enqueues job to respond when result is present', async (assert) => {
   await completeNotarization(lock, result);
+  assert.snapshot(notarizationResults.update.lastCall.args, { id: 'notarizationResults.update().args with result' });
+  assert.true(respondNotarizationJob.called);
+});
+
+it('Updates notarization and enqueues job to respond with ignored results', async (assert) => {
+  await completeNotarization(lock);
   assert.snapshot(notarizationResults.update.lastCall.args, { id: 'notarizationResults.update().args' });
   assert.true(respondNotarizationJob.called);
 });
