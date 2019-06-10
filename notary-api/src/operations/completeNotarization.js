@@ -19,10 +19,12 @@ const buildResult = (seller, validatorResult) => {
 
 /**
  * @function completeNotarization
+ *  Sets the result for each seller and enqueues a job to respond the
+ *  NotarizationResult to the Buyer.
  * @param {string} lockingKeyHash
- * @param {object?} validatorResult
+ * @param {object[]?} validatorResult
  */
-export const completeNotarization = async (lockingKeyHash, validatorResult = {}) => {
+export const completeNotarization = async (lockingKeyHash, validatorResult = []) => {
   const notarization = await notarizationResults.fetch(lockingKeyHash);
   const {
     request: { orderId },
