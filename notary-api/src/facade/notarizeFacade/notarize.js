@@ -6,7 +6,7 @@ import { fetchSellerInfo } from './sellerInfoRepository';
 import { validateData, resultFromValidation } from './validateData';
 import { logger } from '../../utils';
 import { storage } from '../../utils/wibson-lib';
-import signingService from '../../services/signingService';
+import { getAccount, decryptData } from '../../services/signingService';
 import config from '../../../config';
 
 const randomInt = (low, high) =>
@@ -17,7 +17,7 @@ const canNotarizeDataFromSeller = async (orderAddress, sellerAddress) => {
     notaryAddress,
     closedAt,
   } = await fetchSellerInfo(orderAddress, sellerAddress);
-  const { address } = await signingService.getAccount();
+  const { address } = await getAccount();
 
   return notaryAddress === address && !closedAt;
 };
@@ -27,7 +27,7 @@ const getData = async (orderAddress, sellerAddress) => {
     orderAddress,
     sellerAddress,
   );
-  const decryptedMessage = await signingService.decryptData({
+  const decryptedMessage = await decryptData({
     encryptedData,
     senderAddress: sellerAddress,
   });
