@@ -2,8 +2,7 @@ import uuidv4 from 'uuid/v4';
 import config from '../../config';
 import { addNotarizationJob } from '../queues/notarizationsQueue';
 import { notarizationResults } from '../utils/stores';
-import { sha3 } from '../utils/wibson-lib/cryptography/hashing';
-import { packPayData, hashLock } from '../blockchain/batPay';
+import { hashLock } from '../blockchain/batPay';
 import { castToBytes } from '../utils/web3';
 
 const createNotarization = async ({
@@ -19,7 +18,6 @@ const createNotarization = async ({
   await notarizationResults.store(lockingKeyHash, {
     masterKey,
     status: 'accepted',
-    payDataHash: sha3(packPayData(sellers)), // TODO: this should not be necessary
     request: {
       orderId,
       callbackUrl,
@@ -29,6 +27,9 @@ const createNotarization = async ({
       orderId,
       notarizationPercentage,
       notarizationFee,
+      lockingKeyHash,
+      // payDataHash and sellers are updated once the
+      // "Complete notarization" flow is triggered.
     },
   });
   return lockingKeyHash;
@@ -47,11 +48,6 @@ const createNotarization = async ({
  * @param {Number} params.sellers.decryptionKeyHash Hash of seller's decryption key
  */
 export const notarize = async (params) => {
-  try {
-    const lockingKeyHash = await createNotarization(params);
-    addNotarizationJob(lockingKeyHash);
-    return true;
-  } catch (Error) {
-    return false;
-  }
+  const lockingKeyHash = await createNotarization(params);
+  await addNotarizationJob(lockingKeyHash);
 };
