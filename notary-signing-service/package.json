@@ -1,6 +1,6 @@
 {
   "name": "notary-signing-service",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Wibson Notary Signing Service",
   "author": "Wibson Development Team",
   "main": "src/index.js",

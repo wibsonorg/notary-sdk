@@ -29,7 +29,7 @@ const processEvents = async () => {
     eventBlocks.put('last_processed_block', lastBlock);
     logger.info(`Contract Events :: Last processed block :: ${lastBlock}`);
   } else {
-    logger.info('Contract Events :: No events to process');
+    logger.debug('Contract Events :: No events to process');
   }
 };
 

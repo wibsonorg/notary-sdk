@@ -31,12 +31,12 @@ const config = {
   responsesPercentage: Number(env.RESPONSES_PERCENTAGE),
   notarizationFeePercentage: env.NOTARIZATION_FEE_PERCENTAGE,
   notarizationTermsOfService: env.NOTARIZATION_TERMS_OF_SERVICE,
-  notarizeJobMaxAttempts: env.NOTARIZE_JOB_MAX_ATTEMPTS,
+  notarizeJobMaxAttempts: Number(env.NOTARIZE_JOB_MAX_ATTEMPTS),
+  fetchOrderMaxAttempts: Number(env.FETCH_ORDER_MAX_ATTEMPTS),
   takeDataFromStorage: env.TAKE_DATA_FROM_STORAGE === 'true',
   cache: {
     enabled: env.CACHE === 'enabled',
     adapter: env.CACHE_ADAPTER,
-    ordersTTL: Number(env.CONTRACTS_CACHE_ORDERS_TTL),
   },
   logType: env.LOG_TYPE,
   log: {
