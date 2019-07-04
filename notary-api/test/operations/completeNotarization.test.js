@@ -13,12 +13,14 @@ const result = [
 
 it('Updates notarization and enqueues job to respond when result is present', async (assert) => {
   await completeNotarization(lock, result);
-  assert.snapshot(notarizationResults.update.lastCall.args, { id: 'notarizationResults.update().args with result' });
+  const returnValue = await notarizationResults.update.lastCall.returnValue;
+  assert.snapshot(returnValue, { id: 'notarizationResults.update().returns with result' });
   assert.true(respondNotarizationJob.called);
 });
 
-it('Updates notarization and enqueues job to respond with ignored results', async (assert) => {
+it('Updates notarization and enqueues job to respond without results', async (assert) => {
   await completeNotarization(lock);
-  assert.snapshot(notarizationResults.update.lastCall.args, { id: 'notarizationResults.update().args' });
+  const returnValue = await notarizationResults.update.lastCall.returnValue;
+  assert.snapshot(returnValue, { id: 'notarizationResults.update().returns without results' });
   assert.true(respondNotarizationJob.called);
 });
