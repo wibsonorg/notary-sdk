@@ -19,11 +19,10 @@ export const packPayData = sellers =>
  * '0xff04...' -> [1, 3, 5, 7]
  * @param {Buffer} payData pack of seller ids
  */
-export const unpackPayData = payData =>
-  payData
-    .toString('hex') // TODO: if abi-decoder already parses the buffer remove this line
+export const unpackPayData = bytes =>
+  ((bytes.startsWith('0x') ? bytes.slice(2) : bytes)
     .slice(4)
-    .match(/.{8}/img)
+    .match(/.{8}/img) || [])
     .map(hex => parseInt(hex, 16))
     .reduce((arr, d) => [...arr, d + Number(arr.slice(-1))], []);
 
