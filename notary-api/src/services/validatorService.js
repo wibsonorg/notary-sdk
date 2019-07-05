@@ -22,18 +22,13 @@ const truthy = value => value === true || value === 'true';
 
 /**
  * @param {object} validation Object with information regarding the validation result
- * @return {string} `verified` or `rejected`
+ * @return {'ignored'|'verified'|'rejected'} Validation result
  */
-export const resultFromValidation = (validation) => {
-  const {
-    identified,
-    error,
-    error_description: errorDescription,
-  } = validation;
-
+export const getResultFromValidation = (validation) => {
+  if (!validation) return 'ignored';
+  const { identified, error, error_description: errorDescription } = validation;
   if (error || errorDescription) {
     logger.error(`Validation Error: ${error}::${errorDescription}`);
   }
-
   return truthy(identified) ? 'verified' : 'rejected';
 };

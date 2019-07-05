@@ -1,21 +1,11 @@
-import { notarizationResults } from '../utils/stores';
+import { notarizationResults, dataResponses } from '../utils/stores';
 import { getAccount } from '../services/signingService';
-import { resultFromValidation } from '../services/validatorService';
+import { getResultFromValidation } from '../services/validatorService';
 import { sha3 } from '../utils/wibson-lib/cryptography/hashing';
+import { AESencrypt } from '../utils/wibson-lib/cryptography/encription';
 import { packPayData } from '../blockchain/batPay';
 import { respondNotarizationJob } from '../jobs/respondNotarization';
 import { jobify } from '../utils/jobify';
-
-const buildResult = (seller, validatorResult) => {
-  const validation = validatorResult.find(({ id }) => id === seller.id);
-
-  return {
-    ...seller,
-    result: validation ? resultFromValidation(validation) : 'ignored',
-    // TODO: fetch decryptionKey and encrypt it with masterKey
-    decryptionKeyEncryptedWithMasterKey: '',
-  };
-};
 
 /**
  * @function completeNotarization
@@ -25,30 +15,41 @@ const buildResult = (seller, validatorResult) => {
  * @param {object[]?} validatorResult
  */
 export const completeNotarization = async (lockingKeyHash, validatorResult = []) => {
-  const notarization = await notarizationResults.fetch(lockingKeyHash);
-  const {
+  const { address: notaryAddress } = await getAccount();
+
+  await notarizationResults.update(lockingKeyHash, async ({
+    masterKey,
     request: { orderId },
     result: { notarizationPercentage, notarizationFee, sellers },
-  } = notarization;
-
-  const filteredSellers = sellers
-    .map(seller => buildResult(seller, validatorResult))
-    .filter(({ result }) => result !== 'rejected');
-
-  const { address: notaryAddress } = await getAccount();
-  await notarizationResults.update(lockingKeyHash, {
-    status: 'validated',
-    result: {
-      sellers: filteredSellers,
-      orderId,
-      notaryAddress,
-      notarizationPercentage,
-      notarizationFee,
-      // TODO: is `payDataHash` still necessary?
-      payDataHash: sha3(packPayData(filteredSellers.map(({ id }) => id))),
-      lockingKeyHash,
-    },
+  }) => {
+    const filteredSellers = await Promise.all(sellers
+      .map(seller => ({
+        ...seller,
+        result: getResultFromValidation(validatorResult.find(({ id }) => id === seller.id)),
+      }))
+      .filter(v => v.result !== 'rejected')
+      .map(async (seller) => {
+        const { decryptionKey } = await dataResponses.fetch(`${orderId}:${seller.sellerAddress}`);
+        return {
+          ...seller,
+          decryptionKeyEncryptedWithMasterKey: AESencrypt(masterKey, decryptionKey),
+        };
+      }));
+    return {
+      status: 'validated',
+      result: {
+        sellers: filteredSellers,
+        orderId,
+        notaryAddress,
+        notarizationPercentage,
+        notarizationFee,
+        // TODO: is `payDataHash` still necessary?
+        payDataHash: sha3(packPayData(filteredSellers.map(({ id }) => id))),
+        lockingKeyHash,
+      },
+    };
   });
+
   respondNotarizationJob(lockingKeyHash);
 };
 export const completeNotarizationJob = jobify(completeNotarization);
