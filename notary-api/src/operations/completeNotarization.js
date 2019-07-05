@@ -29,7 +29,7 @@ export const completeNotarization = async (lockingKeyHash, validatorResult = [])
       }))
       .filter(v => v.result !== 'rejected')
       .map(async (seller) => {
-        const { decryptionKey } = await dataResponses.fetch(`${orderId}:${seller.sellerAddress}`);
+        const { decryptionKey } = await dataResponses.fetch(`${orderId}:${seller.address}`);
         return {
           ...seller,
           decryptionKeyEncryptedWithMasterKey: AESencrypt(masterKey, decryptionKey),
