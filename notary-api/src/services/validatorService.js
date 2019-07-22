@@ -11,10 +11,10 @@ const httpsAgent = new https.Agent({
  * @param {number} payloadID DataOrder ID in DataExchange
  * @param {object[]} payload Information to validate
  */
-export const validateDataBatch = async (payloadID, payload) =>
+export const validateDataBatch = async (nonce, payloadID, payload) =>
   axios.post(
     `${config.notaryValidatorUrl}/validate`,
-    { nonce: payloadID, payload },
+    { nonce, payloadID, payload },
     { httpsAgent },
   );
 
