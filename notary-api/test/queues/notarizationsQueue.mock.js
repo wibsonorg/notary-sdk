@@ -40,8 +40,13 @@ td.replace('../../src/queues/createQueue', {
   createQueue: sinon.stub().returns(notarizationsQueue),
 });
 
-export const completeNotarizationJob = sinon.spy();
-td.replace('../../src/operations/completeNotarization', { completeNotarizationJob });
+export const { completeNotarizationJob } = td.replace('../../src/operations/completeNotarization', {
+  completeNotarizationJob: sinon.spy(),
+});
+
+export const { getDataOrder } = td.replace('../../src/operations/dataExchange', {
+  getDataOrder: sinon.spy(dxid => ({ id: `some-uuid-for-order-${dxid}` })),
+});
 
 test.beforeEach(() => {
   decryptWithPrivateKey.returns(JSON.stringify({
