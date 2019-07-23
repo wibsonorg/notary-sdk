@@ -57,11 +57,10 @@ const config = {
   },
   levelDirectory: env.LEVEL_DIRECTORY,
   storage: {
-    url: env.STORAGE_URL,
+    bucket: env.STORAGE_BUCKET,
     region: env.STORAGE_REGION,
     user: env.STORAGE_USER,
     password: env.STORAGE_PASSWORD,
-    bucket: env.STORAGE_BUCKET,
   },
 };
 
