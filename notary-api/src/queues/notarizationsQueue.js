@@ -4,6 +4,7 @@ import { notarizationResults, dataResponses } from '../utils/stores';
 import { validateDataBatch } from '../services/validatorService';
 import { completeNotarizationJob } from '../operations/completeNotarization';
 import { decryptWithPrivateKey } from '../utils/wibson-lib/cryptography';
+import { getDataOrder } from '../operations/dataExchange';
 
 const queueName = 'NotarizationQueue';
 const defaultJobOptions = {
@@ -52,8 +53,9 @@ export const notarize = async (lockingKeyHash) => {
 
   const sellersToValidate = sellers.filter(inAgreement);
   if (sellersToValidate.length > 0) {
+    const { id } = await getDataOrder(orderId);
     const dataBatch = await prepareDataBatchForValidation(orderId, sellersToValidate);
-    await validateDataBatch(lockingKeyHash, dataBatch);
+    await validateDataBatch(id, lockingKeyHash, dataBatch);
     await notarizationResults.update(lockingKeyHash, { status: 'validating' });
   } else {
     completeNotarizationJob(lockingKeyHash);
