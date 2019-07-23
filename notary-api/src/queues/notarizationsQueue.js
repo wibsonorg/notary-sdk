@@ -53,9 +53,9 @@ export const notarize = async (lockingKeyHash) => {
 
   const sellersToValidate = sellers.filter(inAgreement);
   if (sellersToValidate.length > 0) {
-    const dataBatch = await prepareDataBatchForValidation(orderId, sellersToValidate);
     const { id } = await getDataOrder(orderId);
-    await validateDataBatch(lockingKeyHash, id, dataBatch);
+    const dataBatch = await prepareDataBatchForValidation(orderId, sellersToValidate);
+    await validateDataBatch(id, lockingKeyHash, dataBatch);
     await notarizationResults.update(lockingKeyHash, { status: 'validating' });
   } else {
     completeNotarizationJob(lockingKeyHash);
