@@ -9,6 +9,7 @@ export const getSignedNotaryInfo = async () => {
       notarizationUrl: `${notaryPublicBaseUrl}/buyers/notarization-request`,
       dataResponsesUrl: `${notaryPublicBaseUrl}/data-responses`,
       headsUpUrl: `${notaryPublicBaseUrl}/sellers/heads-up`,
+      paymentUrl: `${notaryPublicBaseUrl}/sellers/payment`,
     };
 
     const response = await signingService.signNotaryInfo(info);

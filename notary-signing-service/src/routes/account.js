@@ -37,7 +37,7 @@ router.post('/info', async (req, res) => {
   const address = account.getAddress().toLowerCase();
   const publicKey = account.getPublicKey().toLowerCase();
   const {
-    name, notarizationUrl, dataResponsesUrl, headsUpUrl,
+    name, notarizationUrl, dataResponsesUrl, headsUpUrl, paymentUrl,
   } = req.body;
 
   const privateKey = account.getPrivateKey();
@@ -50,6 +50,7 @@ router.post('/info', async (req, res) => {
     notarizationUrl,
     dataResponsesUrl,
     headsUpUrl,
+    paymentUrl,
     publicKey,
   );
 
@@ -60,6 +61,7 @@ router.post('/info', async (req, res) => {
     dataResponsesUrl,
     headsUpUrl,
     publicKey,
+    paymentUrl,
     signature,
   });
 });

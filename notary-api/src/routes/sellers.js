@@ -1,6 +1,7 @@
 import express from 'express';
 import { asyncError } from '../utils';
 import { saveSeller } from '../operations/saveSeller';
+import { sellersByPayIndex } from '../utils/stores';
 
 const router = express.Router();
 
@@ -40,6 +41,42 @@ router.post('/heads-up', asyncError(async (req, res) => {
   } else {
     res.boom.badData('Seller has already been registered');
   }
+}));
+
+/**
+ * @swagger
+ * /sellers/payment:
+ *   get:
+ *     description: |
+ *       Exposes the addresses that receive a specific payment in a specific BatPay ID
+ *     parameters:
+ *       - in: query
+ *         name: payIndex
+ *         type: number
+ *         description: Payment index on BatPay
+ *         required: true
+ *       - in: query
+ *         name: batPayId
+ *         type: number
+ *         description: The register id in BatPay.
+ *         required: true
+ *       - in: query
+ *         name: signature
+ *         type: string
+ *         description: The signed of the owner of the BatPay ID.
+ *         required: true
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: When the app is OK
+ */
+router.get('/payment', asyncError(async (req, res) => {
+  const {
+    query: { payIndex, batPayId, signature },
+  } = req;
+  const addresses = await sellersByPayIndex.safeFetch(payIndex);
+  res.json(Object.keys(addresses).filter(bpId => bpId === batPayId && addresses[bpId]));
 }));
 
 export default router;
