@@ -60,11 +60,6 @@ router.post('/heads-up', asyncError(async (req, res) => {
  *         type: number
  *         description: The register id in BatPay.
  *         required: true
- *       - in: query
- *         name: signature
- *         type: string
- *         description: The signed of the owner of the BatPay ID.
- *         required: true
  *     produces:
  *       - application/json
  *     responses:
@@ -73,10 +68,10 @@ router.post('/heads-up', asyncError(async (req, res) => {
  */
 router.get('/payment', asyncError(async (req, res) => {
   const {
-    query: { payIndex, batPayId, signature },
+    query: { payIndex, batPayId },
   } = req;
   const addresses = await sellersByPayIndex.safeFetch(payIndex);
-  res.json(Object.keys(addresses).filter(bpId => bpId === batPayId && addresses[bpId]));
+  res.json(addresses[batPayId]);
 }));
 
 export default router;
