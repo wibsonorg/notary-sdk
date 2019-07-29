@@ -1,7 +1,7 @@
 import express from 'express';
 import { asyncError } from '../utils';
 import { saveSeller } from '../operations/saveSeller';
-import { sellersByPayIndex } from '../utils/stores';
+import { getAddressesByBatPayId } from '../operations/getAddressesByBatPayId';
 
 const router = express.Router();
 
@@ -60,6 +60,16 @@ router.post('/heads-up', asyncError(async (req, res) => {
  *         type: number
  *         description: The register id in BatPay.
  *         required: true
+ *       - in: query
+ *         name: signature
+ *         type: string
+ *         description: The signed of the owner of the BatPay ID.
+ *         required: true
+ *       - in: query
+ *         name: publicKey
+ *         type: string
+ *         description: The publicKey of the owner of the BatPay ID.
+ *         required: true
  *     produces:
  *       - application/json
  *     responses:
@@ -68,10 +78,12 @@ router.post('/heads-up', asyncError(async (req, res) => {
  */
 router.get('/payment', asyncError(async (req, res) => {
   const {
-    query: { payIndex, batPayId },
+    query: {
+      payIndex, batPayId, signature, publicKey,
+    },
   } = req;
-  const addresses = await sellersByPayIndex.safeFetch(payIndex);
-  res.json(addresses[batPayId]);
+  const addresses = await getAddressesByBatPayId(payIndex, batPayId, signature, publicKey);
+  res.json(addresses);
 }));
 
 export default router;
