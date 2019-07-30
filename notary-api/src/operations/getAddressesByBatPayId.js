@@ -12,5 +12,5 @@ export const getAddressesByBatPayId = async ({
   if (decryptMessage === message) {
     addresses = await sellersByPayIndex.safeFetch(payIndex);
   }
-  return addresses;
+  return addresses[batPayId];
 };
