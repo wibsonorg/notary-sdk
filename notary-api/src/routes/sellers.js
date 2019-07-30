@@ -48,7 +48,7 @@ router.post('/heads-up', asyncError(async (req, res) => {
  * /sellers/payment:
  *   get:
  *     description: |
- *       Exposes the addresses that receive a specific payment in a specific BatPay ID
+ *       Endpoint that exposes the addresses that receive a specific payment in a specific BatPay ID
  *     parameters:
  *       - in: query
  *         name: payIndex
@@ -77,12 +77,7 @@ router.post('/heads-up', asyncError(async (req, res) => {
  *         description: When the app is OK
  */
 router.get('/payment', asyncError(async (req, res) => {
-  const {
-    query: {
-      payIndex, batPayId, signature, publicKey,
-    },
-  } = req;
-  const addresses = await getAddressesByBatPayId(payIndex, batPayId, signature, publicKey);
+  const addresses = await getAddressesByBatPayId(req.query);
   res.json(addresses);
 }));
 
