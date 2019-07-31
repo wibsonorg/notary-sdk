@@ -47,7 +47,8 @@ router.post('/heads-up', asyncError(async (req, res) => {
  * @swagger
  * /sellers/payment:
  *   get:
- *     description: Endpoint that exposes the addresses that receive a specific payment in a specific BatPay ID
+ *   description: Endpoint that exposes the addresses that receive a specific
+ *   payment in a specific BatPay ID
  *     parameters:
  *       - in: query
  *         name: payIndex
