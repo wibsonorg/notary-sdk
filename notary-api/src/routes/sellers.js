@@ -82,8 +82,11 @@ router.post('/heads-up', asyncError(async (req, res) => {
  */
 router.get('/payment', asyncError(async (req, res) => {
   const { addresses, error } = await getAddressesByBatPayId(req.query);
-  if (!error) res.json(addresses);
-  res.boom.badData(error.message);
+  if (!error) {
+    res.json(addresses);
+  } else {
+    res.boom.badData(error.message);
+  }
 }));
 
 export default router;

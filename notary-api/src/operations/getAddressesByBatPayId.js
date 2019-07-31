@@ -42,20 +42,13 @@ const checkSignature = async ({
  */
 export const getAddressesByBatPayId = async (params) => {
   const { payIndex, batPayId } = params;
-  let addresses = {};
   try {
     const [batPayAddress] = Object.values(await BatPay.methods.accounts(batPayId).call());
-    if (batPayAddress && !(/^0x0+$/.test(batPayAddress))) {
-      if (await checkSignature(params)) {
-        addresses = await sellersByPayIndex.safeFetch(payIndex);
-      } else {
-        return { error: ERROR_INVALID_SIGNATURE };
-      }
-    } else {
-      return { error: ERROR_REGISTRATION_INCOMPLETED };
-    }
+    if (batPayAddress && (/^0x0+$/.test(batPayAddress))) return { error: ERROR_REGISTRATION_INCOMPLETED };
+    if (!(await checkSignature(params))) return { error: ERROR_INVALID_SIGNATURE };
   } catch (e) {
     return { error: ERROR_INVALID_BATPAY_ID };
   }
-  return addresses[batPayId];
+  const addresses = (await sellersByPayIndex.safeFetch(payIndex))[batPayId];
+  return { addresses };
 };

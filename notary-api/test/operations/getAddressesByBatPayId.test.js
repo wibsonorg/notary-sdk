@@ -12,7 +12,7 @@ const params = {
 it('Exposes an array of addresses that receive a specific payment in a specific BatPay ID', async (assert) => {
   const result = await getAddressesByBatPayId(params);
   assert.is(await decryptSignedMessage(), hashMessage());
-  assert.deepEqual(result, ['0x075a22bc34b55322cabb0aa87d9e590e01b942c4']);
+  assert.deepEqual(result.addresses, ['0x075a22bc34b55322cabb0aa87d9e590e01b942c4']);
 });
 
 it('Invalid Id', async (assert) => {
