@@ -17,11 +17,12 @@ const ERROR_INVALID_SIGNATURE = {
   code: 'invalidSignature',
 };
 
-const checkSignature = async ({
-  batPayAddress, publicKey, signature, payIndex,
-}) => {
+const checkSignature = async (
+  batPayAddress, {
+    publicKey, signature, payIndex, batPayId,
+  }) => {
   let decryptMessage;
-  const message = hashMessage(packMessage(batPayAddress + payIndex));
+  const message = hashMessage(packMessage(batPayId, payIndex));
   try {
     decryptMessage = await decryptSignedMessage(batPayAddress, publicKey, signature);
   } catch (_e) {
@@ -45,10 +46,10 @@ export const getAddressesByBatPayId = async (params) => {
   try {
     const [batPayAddress] = Object.values(await BatPay.methods.accounts(batPayId).call());
     if (batPayAddress && (/^0x0+$/.test(batPayAddress))) return { error: ERROR_REGISTRATION_INCOMPLETED };
-    if (!(await checkSignature(params))) return { error: ERROR_INVALID_SIGNATURE };
+    if (!(await checkSignature(batPayAddress, params))) return { error: ERROR_INVALID_SIGNATURE };
   } catch (e) {
     return { error: ERROR_INVALID_BATPAY_ID };
   }
-  const addresses = (await sellersByPayIndex.safeFetch(payIndex))[batPayId];
+  const addresses = (await sellersByPayIndex.safeFetch(payIndex, {}))[batPayId];
   return { addresses };
 };
