@@ -47,13 +47,13 @@ router.post('/heads-up', asyncError(async (req, res) => {
  * @swagger
  * /sellers/payment:
  *   get:
- *     description: |
- *       Endpoint that exposes the addresses that receive a specific payment in a specific BatPay ID
+ *     description: Endpoint that exposes the addresses that
+ * receive a specific payment in a specific BatPay ID
  *     parameters:
  *       - in: query
  *         name: payIndex
  *         type: number
- *         description: Payment index on BatPay
+ *         description: Payment index in BatPay
  *         required: true
  *       - in: query
  *         name: batPayId
@@ -68,17 +68,22 @@ router.post('/heads-up', asyncError(async (req, res) => {
  *       - in: query
  *         name: publicKey
  *         type: string
- *         description: The publicKey of the owner of the BatPay ID.
+ *         description: The public key of the owner of the BatPay ID.
  *         required: true
  *     produces:
  *       - application/json
  *     responses:
  *       200:
  *         description: When the app is OK
+ *       422:
+ *         description: Problem on our side
+ *       500:
+ *         description: Problem on our side
  */
 router.get('/payment', asyncError(async (req, res) => {
-  const addresses = await getAddressesByBatPayId(req.query);
-  res.json(addresses);
+  const { addresses, error } = await getAddressesByBatPayId(req.query);
+  if (!error) res.json(addresses);
+  res.boom.badData(error.message);
 }));
 
 export default router;

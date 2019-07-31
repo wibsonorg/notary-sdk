@@ -1,16 +1,61 @@
 import { sellersByPayIndex } from '../utils/stores';
 import { BatPay } from '../blockchain/contracts';
-import { decryptSignedMessage, hashMessage } from '../utils/wibson-lib/cryptography';
+import { decryptSignedMessage, hashMessage, packMessage } from '../utils/wibson-lib/cryptography';
 
-export const getAddressesByBatPayId = async ({
-  payIndex, batPayId, signature, publicKey,
+const ERROR_REGISTRATION_INCOMPLETED = {
+  message: 'The registration for this id is not completed still',
+  code: 'registrationImcompleted',
+};
+
+const ERROR_INVALID_BATPAY_ID = {
+  message: 'Try with a valid id',
+  code: 'invalidId',
+};
+
+const ERROR_INVALID_SIGNATURE = {
+  message: 'The signature is invalid or don\'t correspond to this batPayId',
+  code: 'invalidSignature',
+};
+
+const checkSignature = async ({
+  batPayAddress, publicKey, signature, payIndex,
 }) => {
-  let addresses = [];
-  const [batPayAddress] = Object.values(await BatPay.methods.accounts(batPayId).call());
-  const message = hashMessage(batPayAddress + payIndex);
-  const decryptMessage = await decryptSignedMessage(batPayAddress, publicKey, signature);
-  if (decryptMessage === message) {
-    addresses = await sellersByPayIndex.safeFetch(payIndex);
+  let decryptMessage;
+  const message = hashMessage(packMessage(batPayAddress + payIndex));
+  try {
+    decryptMessage = await decryptSignedMessage(batPayAddress, publicKey, signature);
+  } catch (_e) {
+    return false;
   }
-  return addresses;
+  return (decryptMessage === message);
+};
+
+/**
+ * @async
+ * @function getAddressesByBatPayId
+ * @param {Object} [params] data payload needed in the operation.
+ * @param {number} [params.batPayId] ID in BatPay.
+ * @param {number} [params.payIndex] Payment index in BatPay.
+ * @param {string} [params.signature] The signed of the owner of the BatPay ID.
+ * @param {string} [params.publicKey] The publicKey of the owner of the BatPay ID.
+ * @returns {Array} An array of the addresses.
+ */
+export const getAddressesByBatPayId = async (params) => {
+  const { payIndex, batPayId } = params;
+  let addresses = {};
+  try {
+    const [batPayAddress] = Object.values(await BatPay.methods.accounts(batPayId).call());
+    if (batPayAddress && !(/^0x0+$/.test(batPayAddress))) {
+      if (await checkSignature(params)) {
+        addresses = await sellersByPayIndex.safeFetch(payIndex);
+      } else {
+        return { error: ERROR_INVALID_SIGNATURE };
+      }
+    } else {
+      return { error: ERROR_REGISTRATION_INCOMPLETED };
+    }
+  } catch (e) {
+    return { error: ERROR_INVALID_BATPAY_ID };
+  }
+  return addresses[batPayId];
 };
