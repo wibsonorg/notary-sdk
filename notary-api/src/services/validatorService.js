@@ -8,7 +8,7 @@ const httpsAgent = new https.Agent({
 });
 
 /**
- * @param {string} dataGroupId The unique identifier for the validation data group
+ * @param {number} dataGroupId The unique identifier for the validation data group
  * @param {string} dataBatchId The unique identifier for the validation batch
  * @param {object[]} payload Information to validate
  */

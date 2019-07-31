@@ -33,7 +33,7 @@ const router = express.Router();
  *       - result
  *     properties:
  *       dataGroupId:
- *        type: string
+ *        type: number
  *        description: The unique identifier for the validation batch.
  *       dataBatchId:
  *        type: string
