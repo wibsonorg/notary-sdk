@@ -72,4 +72,4 @@ const decryptSignedMessage = async (senderAddress, targetPrivateKey, encrypted) 
   return decryptedPayload.message;
 };
 
-export { decryptSignedMessage };
+export { decryptSignedMessage, decryptWithPrivateKey };
