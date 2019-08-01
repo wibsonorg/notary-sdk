@@ -25,7 +25,7 @@ export const completeNotarization = async (lockingKeyHash, validatorResult = [])
     const filteredSellers = await Promise.all(sellers
       .map(seller => ({
         ...seller,
-        result: getResultFromValidation(validatorResult.find(({ id }) => id === seller.id)),
+        result: getResultFromValidation(validatorResult.find(({ id }) => id === seller.address)),
       }))
       .filter(v => v.result !== 'rejected')
       .map(async (seller) => {
