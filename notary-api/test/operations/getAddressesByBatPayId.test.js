@@ -1,5 +1,5 @@
 import { serial as it } from 'ava';
-import { decryptSignedMessage, hashMessage, BatPay } from './getAddressesByBatPayId.mock';
+import { decryptData, packMessage, BatPay } from './getAddressesByBatPayId.mock';
 import { getAddressesByBatPayId } from '../../src/operations/getAddressesByBatPayId';
 
 const params = {
@@ -11,7 +11,7 @@ const params = {
 
 it('Exposes an array of addresses that receive a specific payment in a specific BatPay ID', async (assert) => {
   const result = await getAddressesByBatPayId(params);
-  assert.is(await decryptSignedMessage(), hashMessage());
+  assert.is(await decryptData(), packMessage());
   assert.deepEqual(result.addresses, ['0x075a22bc34b55322cabb0aa87d9e590e01b942c4']);
 });
 
@@ -22,13 +22,13 @@ it('Invalid Id', async (assert) => {
 });
 
 it('When the resgistration id is not completed', async (assert) => {
-  BatPay.methods.accounts().call.resolves(['0x000000000000000000000000000000000000000']);
+  BatPay.methods.accounts().call.resolves({ owner: '0x0000000000000000000000000000000000000000' });
   const { error } = await getAddressesByBatPayId(params);
   assert.is(error.code, 'registrationImcompleted');
 });
 
 it('When the signature is invalid or don\'t correspond to this batPayId', async (assert) => {
-  decryptSignedMessage.resolves('otherMessage');
+  decryptData.resolves('otherMessage');
   const { error } = await getAddressesByBatPayId(params);
   assert.is(error.code, 'invalidSignature');
 });

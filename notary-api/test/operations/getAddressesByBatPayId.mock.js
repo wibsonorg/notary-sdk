@@ -14,14 +14,16 @@ export const { BatPay } = td.replace('../../src/blockchain/contracts', {
   },
 });
 
-export const { hashMessage, decryptSignedMessage, packMessage } = td.replace(
+export const { packMessage } = td.replace(
   '../../src/utils/wibson-lib/cryptography',
   {
-    hashMessage: sinon.stub().returns('someMessage'),
-    decryptSignedMessage: sinon.stub().resolves('someMessage'),
-    packMessage: sinon.stub(),
+    packMessage: sinon.stub().returns('someMessage'),
   },
 );
+
+export const { decryptData } = td.replace('../../src/services/signingService', {
+  decryptData: sinon.stub().resolves('someMessage'),
+});
 
 export const { sellersByPayIndex } = td.replace('../../src/utils/stores', {
   sellersByPayIndex: {
@@ -36,7 +38,7 @@ export const { sellersByPayIndex } = td.replace('../../src/utils/stores', {
 });
 
 test.beforeEach(() => {
-  BatPay.methods.accounts().call.resolves(['0x051027180c70923729e8f090bba0d378bc949ce5']);
+  BatPay.methods.accounts().call.resolves({ owner: '0x051027180c70923729e8f090bba0d378bc949ce5' });
 });
 
 test.afterEach(sinon.resetHistory);
