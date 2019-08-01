@@ -65,11 +65,6 @@ router.post('/heads-up', asyncError(async (req, res) => {
  *         type: string
  *         description: The signed of the owner of the BatPay ID.
  *         required: true
- *       - in: query
- *         name: publicKey
- *         type: string
- *         description: The public key of the owner of the BatPay ID.
- *         required: true
  *     produces:
  *       - application/json
  *     responses:

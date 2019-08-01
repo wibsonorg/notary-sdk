@@ -1,8 +1,11 @@
 import { sellersByPayIndex } from '../utils/stores';
 import { BatPay } from '../blockchain/contracts';
-import { decryptSignedMessage, hashMessage, packMessage } from '../utils/wibson-lib/cryptography';
+import { packMessage } from '../utils/wibson-lib/cryptography';
+import { decryptData } from '../services/signingService';
 
-const ERROR_REGISTRATION_INCOMPLETED = {
+const ZERO_ACCOUNT = '0x0000000000000000000000000000000000000000';
+
+const ERROR_INCOMPLETE_REGISTRATION = {
   message: 'The registration for this id is not completed still',
   code: 'registrationImcompleted',
 };
@@ -17,20 +20,6 @@ const ERROR_INVALID_SIGNATURE = {
   code: 'invalidSignature',
 };
 
-const checkSignature = async (
-  batPayAddress, {
-    publicKey, signature, payIndex, batPayId,
-  }) => {
-  let decryptMessage;
-  const message = hashMessage(packMessage(batPayId, payIndex));
-  try {
-    decryptMessage = await decryptSignedMessage(batPayAddress, publicKey, signature);
-  } catch (_e) {
-    return false;
-  }
-  return (decryptMessage === message);
-};
-
 /**
  * @async
  * @function getAddressesByBatPayId
@@ -38,18 +27,25 @@ const checkSignature = async (
  * @param {number} [params.batPayId] ID in BatPay.
  * @param {number} [params.payIndex] Payment index in BatPay.
  * @param {string} [params.signature] The signed of the owner of the BatPay ID.
- * @param {string} [params.publicKey] The publicKey of the owner of the BatPay ID.
  * @returns {Array} An array of the addresses.
  */
-export const getAddressesByBatPayId = async (params) => {
-  const { payIndex, batPayId } = params;
+export const getAddressesByBatPayId = async ({ payIndex, batPayId, signature }) => {
   try {
-    const [batPayAddress] = Object.values(await BatPay.methods.accounts(batPayId).call());
-    if (batPayAddress && (/^0x0+$/.test(batPayAddress))) return { error: ERROR_REGISTRATION_INCOMPLETED };
-    if (!(await checkSignature(batPayAddress, params))) return { error: ERROR_INVALID_SIGNATURE };
+    const { owner } = await BatPay.methods.accounts(batPayId).call();
+    if (owner === ZERO_ACCOUNT) {
+      return { error: ERROR_INCOMPLETE_REGISTRATION };
+    }
+    try {
+      const decrypted = await decryptData({ senderAddress: owner, encryptedData: signature });
+      if (decrypted !== packMessage(batPayId, payIndex)) {
+        return { error: ERROR_INVALID_SIGNATURE };
+      }
+    } catch (_e) {
+      return { error: ERROR_INVALID_SIGNATURE };
+    }
   } catch (e) {
     return { error: ERROR_INVALID_BATPAY_ID };
   }
-  const addresses = (await sellersByPayIndex.safeFetch(payIndex, {}))[batPayId];
-  return { addresses };
+  const sellers = await sellersByPayIndex.safeFetch(payIndex, {});
+  return { addresses: sellers[batPayId] || [] };
 };

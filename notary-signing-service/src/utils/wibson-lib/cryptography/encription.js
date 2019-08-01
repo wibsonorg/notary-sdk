@@ -50,20 +50,24 @@ const decryptWithPrivateKey = async (targetPrivateKey, encrypted) => {
  * @public
  */
 const decryptSignedMessage = async (senderAddress, targetPrivateKey, encrypted) => {
-  assert(senderAddress && targetPrivateKey, 'Keys must exist');
+  if (!senderAddress || !targetPrivateKey) {
+    throw new Error('Sender address and target private key must exist');
+  }
 
-  // 1. we decrypt the payload
-  const decrypted = await decryptWithPrivateKey(targetPrivateKey, encrypted);
+  // 1. we deserialize the encrypted payload
+  const encryptedObject = ethCrypto.cipher.parse(encrypted);
+
+  // 2. we decrypt the payload
+  const decrypted = await ethCrypto.decryptWithPrivateKey(targetPrivateKey, encryptedObject);
   const decryptedPayload = JSON.parse(decrypted);
 
   // 3. we check the signature is from the expected sender
   const messageHash = ethCrypto.hash.keccak256(decryptedPayload.message);
   const recoveredAddress = ethCrypto.recover(decryptedPayload.signature, messageHash);
 
-  assert(
-    recoveredAddress.toLowerCase() === senderAddress.toLowerCase(),
-    'The message is not from the expected address',
-  );
+  if (recoveredAddress.toLowerCase() !== senderAddress.toLowerCase()) {
+    throw new Error('The message is not from the expected address');
+  }
 
   return decryptedPayload.message;
 };
