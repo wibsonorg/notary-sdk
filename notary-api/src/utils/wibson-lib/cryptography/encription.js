@@ -35,7 +35,7 @@ export async function encryptSignedMessage(senderPrivateKey, targetPublicKey, me
 /**
  * It decrypts a signed message, checking it is from the expected sender.
  * @param {string} senderAddress Sender's ethereum address.
- * @param {string} targetPublicKey Ethereum public key of the target account.
+ * @param {string} targetPrivateKey Ethereum public key of the target account.
  * @param {string} encrypted the signed message to decrypt.
  * @public
  */

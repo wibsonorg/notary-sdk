@@ -9,8 +9,8 @@ export function errorHandler(err, req, res, next) {
   if (err.failedValidation) {
     res.boom.badData('Validation error', err.results);
     logger.error(`${err.message
-    }\nerrors\n${err.results.errors.map(e => `  ${e.message}`)
-    }\nwarnings\n${err.results.warnings.map(e => `  ${e.message}`)
+    }\nerrors\n${err.results.errors || err.results.errors.map(e => `  ${e.message}`)
+    }\nwarnings\n${err.results.warnings || err.results.warnings.map(e => `  ${e.message}`)
     }`);
   } else {
     res.boom.badImplementation();

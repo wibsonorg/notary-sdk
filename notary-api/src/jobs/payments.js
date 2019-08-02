@@ -4,7 +4,7 @@ import { jobify } from '../utils/jobify';
 import { fetchTxData, fetchTxLogs } from '../blockchain/contracts';
 import { packPayData } from '../blockchain/batPay';
 import { getDataOrder } from '../operations/dataExchange';
-import { notarizationResults } from '../utils/stores';
+import { notarizationResults, sellersByPayIndex } from '../utils/stores';
 import { fromWib } from '../utils/wibson-lib/coin';
 
 const { brokerUrl, batPayId } = config;
@@ -40,6 +40,14 @@ export async function sendUnlock(payIndex, registerPaymentHash) {
   validateOrThrow(registerPayment.amount === fromWib(price), 'amount did not match price');
   const fee = (price * (sellers.length * (notarizationPercentage / 100))) + notarizationFee;
   validateOrThrow(Number(registerPayment.fee) === fee, 'fee did not match requested fee');
+
+  const addressesByBatPayId = sellers.reduce((acc, seller) => (
+    {
+      ...acc, [seller.id]: acc[seller.id] ? [...acc[seller.id], seller.address] : [seller.address],
+    }), {});
+
+  await sellersByPayIndex.store(payIndex, addressesByBatPayId);
+
   await axios.post(
     `${brokerUrl}/unlock`,
     {

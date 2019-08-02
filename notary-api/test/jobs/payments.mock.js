@@ -17,8 +17,9 @@ export const { fetchTxData, fetchTxLogs } = td.replace('../../src/blockchain/con
 export const { getDataOrder } = td.replace('../../src/operations/dataExchange', {
   getDataOrder: sinon.stub(),
 });
-export const { notarizationResults } = td.replace('../../src/utils/stores', {
+export const { notarizationResults, sellersByPayIndex } = td.replace('../../src/utils/stores', {
   notarizationResults: { safeFetch: sinon.stub() },
+  sellersByPayIndex: { store: sinon.stub() },
 });
 
 export const registerPayment = {

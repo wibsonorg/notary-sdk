@@ -44,10 +44,6 @@ export const { completeNotarizationJob } = td.replace('../../src/operations/comp
   completeNotarizationJob: sinon.spy(),
 });
 
-export const { getDataOrder } = td.replace('../../src/operations/dataExchange', {
-  getDataOrder: sinon.spy(dxid => ({ id: `some-uuid-for-order-${dxid}` })),
-});
-
 test.beforeEach(() => {
   decryptWithPrivateKey.returns(JSON.stringify({
     geolocalization: 'Geo Localization Data',
