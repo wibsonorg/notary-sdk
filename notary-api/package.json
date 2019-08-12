@@ -15,7 +15,8 @@
     "test:performance": "ava -t **/*.test.js | faucet",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "publish": "scripts/publish.sh $npm_package_name-v$npm_package_version"
+    "publish": "scripts/publish.sh $npm_package_name-v$npm_package_version",
+    "console": "babel-node src/console.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
