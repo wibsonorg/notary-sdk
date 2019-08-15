@@ -19,17 +19,17 @@ import schema from './schema';
 
 const app = express();
 swagger.initializeMiddleware(schema, ({ swaggerMetadata, swaggerValidator, swaggerUi }) => {
+  app.use(boom());
   app.use(swaggerMetadata());
   app.use(helmet());
-  app.use(bodyParser.json());
   app.use(morgan('combined', {
     stream: logger.stream,
     skip: () => config.env === 'test',
   }));
   app.use(cors());
-  app.use(boom());
   app.use(swaggerValidator());
   app.use(swaggerUi({ swaggerUi: '/api-docs', apiDocs: '/api-docs.json' }));
+  app.use(bodyParser.json({ limit: config.bodySizeLimit }));
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => { throw error; });
 

@@ -14,6 +14,7 @@ const config = {
   env: env.NODE_ENV,
   port: env.PORT,
   host: env.HOST,
+  bodySizeLimit: env.BODY_SIZE_LIMIT,
   batPayId: Number(env.BATPAY_ID),
   notaryName: env.NOTARY_NAME,
   notaryPublicBaseUrl: env.NOTARY_PUBLIC_BASE_URL,
