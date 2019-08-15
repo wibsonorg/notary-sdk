@@ -1,4 +1,8 @@
-import {
+const loadEnv = require('../src/utils/wibson-lib/loadEnv').default;
+
+loadEnv();
+
+const {
   // REMOVE
   //   dataValidationResults, // UNUSED
   // IGNORE (not related)
@@ -10,8 +14,8 @@ import {
   // CLEAR
   sellers, // new BatPay == new ids
   sellersByPayIndex, // payIndex is the key
-} from '../src/utils/stores';
-import logger from '../src/utils/logger';
+} = require('../src/utils/stores');
+const logger = require('../src/utils/logger');
 
 const celarDB = async db => db.deleteList(await db.listKeys());
 const isEmpty = async db => (await db.listKeys()).length === 0;
@@ -29,4 +33,4 @@ async function migrate() {
   logger.info('END.');
 }
 
-migrate();
+migrate().then(() => process.exit());
