@@ -18,16 +18,14 @@ const {
 } = require('../src/utils/stores');
 const logger = require('../src/utils/logger');
 
-const celarDB = async db => db.deleteList(await db.listKeys());
-const isEmpty = async db => (await db.listKeys()).length === 0;
-
 async function migrate() {
   logger.info('UPDATE NOTARIZATION RESULTS...');
-  await Promise.all((await notarizationResults.list())
+  const updatedNotarizationResults = (await Promise.all((await notarizationResults.list())
     .filter(r => ['accepted', 'validating'].includes(r.status))
     .map(r => notarizationResults.update(r.id, {
       status: 'responded', statusReason: 'Status set in migration to BatPay v2.1',
-    })));
+    })))).length;
+  logger.info(`UPDATED NOTARIZATION RESULTS ${updatedNotarizationResults}`);
   logger.info('VERIFYING NOTARIZATION RESULTS...');
   const results = await notarizationResults.list();
   const respondedResults = results.filter(a => a.status === 'responded').length;
@@ -37,9 +35,10 @@ async function migrate() {
     sellers,
     sellersByPayIndex,
   ];
-  await Promise.all(dbsToClear.map(celarDB));
-  const clearCount = (await Promise.all(dbsToClear.map(isEmpty)))
-    .filter(x => x).length;
+  const clearDB = async db => db.deleteList(await db.listKeys());
+  await Promise.all(dbsToClear.map(clearDB));
+  const isEmpty = async db => (await db.listKeys()).length === 0;
+  const clearCount = (await Promise.all(dbsToClear.map(isEmpty))).filter(x => x).length;
   logger.info(`DBS CLEARED: ${clearCount}/${dbsToClear.length}`);
   logger.info('END.');
 }
