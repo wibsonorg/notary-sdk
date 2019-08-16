@@ -14,9 +14,10 @@ export const createRedisStore = ns =>
  * @property {(id: K) => Promise<V>} fetch Retrieves the value parsed from LevelDB
  * @property {(id: K) => Promise<V>} safeFetch As fetch but retrives null if missing
  * @property {(id: K, obj: V) => Promise<V>} store Stores the value stringified on LevelDB
- * @property {(id: K) => Promise<V>} Removes data from the store.
+ * @property {(id: K) => Promise<V>} delete Removes data from the store.
  * @property {(list: [K, V][]) => Promise<{Object<string, V>}>} storeList
  *    Stores a list of [key, value]
+ * @property {(list: K[]) => Promise} deleteList Deletes a list of keys
  * @property {(id: K, obj: V) => Promise<boolean>} storeNonExistant
  *    Stores the value stringified on LevelDB, only if it doesnt exists returns true if stored
  * @property {(id: K, obj: V) => Promise<V>} update Updates the value stringified on LevelDB
@@ -42,6 +43,7 @@ export const createLevelStore = (dir) => {
   });
   store.fetch = async (id) => {
     try {
+      logger.debug(`STORAGE[${dir}].fetch(${id})`);
       return JSON.parse(await store.get(id));
     } catch (e) {
       throw new Error(`${dir} :: ${e.message}`);
@@ -56,7 +58,9 @@ export const createLevelStore = (dir) => {
   };
   store.store = async (id, obj) => {
     try {
-      await store.put(id, JSON.stringify(obj));
+      const value = JSON.stringify(obj);
+      logger.debug(`STORAGE[${dir}].store(${id}, ${value})`);
+      await store.put(id, value);
       return obj;
     } catch (e) {
       logger.error(`${dir} :: Can't store value ${JSON.stringify(obj)} for key ${id}`);
@@ -77,21 +81,23 @@ export const createLevelStore = (dir) => {
       return store.store(
         id,
         typeof newValue === 'object' || newValue === undefined
-          ? {
-            ...oldValue,
-            ...newValue,
-          }
-          : newValue,
+          ? { ...oldValue, ...newValue } : newValue,
       );
     });
   store.storeGreatest = (id, newValue, defaultOldValue = 0) =>
     store.update(id, oldValue => Math.max(oldValue, newValue), defaultOldValue);
   store.storeList = async (list) => {
+    logger.debug(`STORAGE[${dir}].storeList(${JSON.stringify(list)})`);
     await list.reduce((batch, [k, v]) => batch.put(k, JSON.stringify(v)), store.batch()).write();
     return list.reduce((obj, [k, v]) => ({ ...obj, [k]: v }), {});
   };
+  store.deleteList = async (list) => {
+    logger.debug(`STORAGE[${dir}].deleteList(${JSON.stringify(list)})`);
+    await list.reduce((batch, k) => batch.del(k), store.batch()).write();
+  };
   store.delete = async (id) => {
     try {
+      logger.debug(`STORAGE[${dir}].delete(${id})`);
       await store.del(id);
       return true;
     } catch (e) {
@@ -99,14 +105,16 @@ export const createLevelStore = (dir) => {
       throw e;
     }
   };
-  const createListFunction = mode => group =>
+  const createListFunction = mode => (group = {}) =>
     new Promise((res, rej) => {
       const result = [];
       store
         .createReadStream({
           keys: mode !== 'values',
           values: mode !== 'keys',
-          ...(group ? { gte: group, lte: `${group}∞` } : {}),
+          ...(typeof group === 'object' ? group : {
+            gte: group, lte: `${group}∞`,
+          }),
         })
         .on('data', data => result.push(data))
         .on('error', rej)
