@@ -1,4 +1,4 @@
-const loadEnv = require('../src/utils/wibson-lib/loadEnv').default;
+const loadEnv = require('../utils/wibson-lib/loadEnv').default;
 
 loadEnv();
 
@@ -15,8 +15,8 @@ const {
   sellersByPayIndex, // payIndex is the key
   // UPDATE
   notarizationResults, // ['accepted', 'validating'].includes(r.status) -> { status: 'responded' }
-} = require('../src/utils/stores');
-const logger = require('../src/utils/logger');
+} = require('../utils/stores');
+const logger = require('../utils/logger');
 
 async function migrate() {
   logger.info('UPDATE NOTARIZATION RESULTS...');

@@ -36,15 +36,15 @@ export const createRedisStore = ns =>
  */
 export const createLevelStore = (dir) => {
   const store = level(`${config.levelDirectory}/${dir}`, (err, db) => {
-    if (err) {
-      throw new Error(err);
-    }
+    if (err) { throw new Error(err); }
     return db;
   });
   store.fetch = async (id) => {
     try {
+      const value = JSON.parse(await store.get(id));
       logger.debug(`STORAGE[${dir}].fetch(${id})`);
-      return JSON.parse(await store.get(id));
+      return !Array.isArray(value) && typeof value === 'object'
+        ? { id, ...value } : value;
     } catch (e) {
       throw new Error(`${dir} :: ${e.message}`);
     }
@@ -78,11 +78,13 @@ export const createLevelStore = (dir) => {
     lock([[store, id]], async () => {
       const oldValue = await store.safeFetch(id, defaultValue);
       const newValue = typeof mutations === 'function' ? await mutations(oldValue) : mutations;
-      return store.store(
-        id,
-        typeof newValue === 'object' || newValue === undefined
-          ? { ...oldValue, ...newValue } : newValue,
-      );
+      let updatedValue = newValue;
+      if (Array.isArray(newValue)) {
+        updatedValue = [...oldValue, ...newValue];
+      } else if (typeof newValue === 'object' || newValue === undefined) {
+        updatedValue = { ...oldValue, ...newValue };
+      }
+      return store.store(id, updatedValue);
     });
   store.storeGreatest = (id, newValue, defaultOldValue = 0) =>
     store.update(id, oldValue => Math.max(oldValue, newValue), defaultOldValue);
@@ -112,21 +114,16 @@ export const createLevelStore = (dir) => {
         .createReadStream({
           keys: mode !== 'values',
           values: mode !== 'keys',
-          ...(typeof group === 'object' ? group : {
-            gte: group, lte: `${group}∞`,
-          }),
+          ...(typeof group === 'object' ? group : { gte: group, lte: `${group}∞` }),
         })
         .on('data', data => result.push(data))
         .on('error', rej)
         .on('end', () => res(result));
     }).then((list) => {
       switch (mode) {
-        case 'keys':
-          return list;
-        case 'values':
-          return list.map(value => JSON.parse(value));
-        default:
-          return list.map(({ key, value }) => ({ id: key, ...JSON.parse(value) }));
+        case 'keys': return list;
+        case 'values': return list.map(value => JSON.parse(value));
+        default: return list.map(({ key, value }) => ({ id: key, ...JSON.parse(value) }));
       }
     });
   store.list = createListFunction('all');
