@@ -21,7 +21,7 @@ const logger = require('../utils/logger');
 async function migrate() {
   logger.info('UPDATE NOTARIZATION RESULTS...');
   const updatedNotarizationResults = (await Promise.all((await notarizationResults.list())
-    .filter(r => ['accepted', 'validating'].includes(r.status))
+    .filter(r => ['accepted', 'validating', 'validated'].includes(r.status))
     .map(r => notarizationResults.update(r.id, {
       status: 'responded', statusReason: 'Status set in migration to BatPay v2.1',
     })))).length;
