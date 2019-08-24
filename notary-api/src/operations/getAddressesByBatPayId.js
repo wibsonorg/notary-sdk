@@ -47,5 +47,5 @@ export const getAddressesByBatPayId = async ({ payIndex, batPayId, signature }) 
     return { error: ERROR_INVALID_BATPAY_ID };
   }
   const sellers = await sellersByPayIndex.safeFetch(payIndex, {});
-  return { addresses: sellers[batPayId] || [] };
+  return sellers[batPayId] || { completed: [], rejected: [] };
 };
