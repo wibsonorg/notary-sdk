@@ -7,6 +7,8 @@ import { getDataOrder } from '../operations/dataExchange';
 import { notarizationResults, sellersByPayIndex } from '../utils/stores';
 import { fromWib } from '../utils/wibson-lib/coin';
 
+import { getResultsByBatPayId } from './paymentsHelpers';
+
 const { brokerUrl, batPayId } = config;
 
 /**
@@ -28,24 +30,23 @@ export async function sendUnlock(payIndex, registerPaymentHash) {
   const {
     masterKey,
     request,
-    result: { notarizationFee, notarizationPercentage, sellers },
+    result: {
+      notarizationFee, notarizationPercentage, sellers: paidSellers, rejectedSellers,
+    },
   } = notarization;
+
   validateOrThrow(
-    registerPayment.payData === packPayData(sellers.map(({ id }) => id)),
+    registerPayment.payData === packPayData(paidSellers.map(({ id }) => id)),
     'payData did not match sellerIds',
   );
   const { orderId } = await fetchTxLogs(registerPayment.metadata);
   validateOrThrow(Number(orderId) === request.orderId, 'metadata did not match order');
   const { price } = await getDataOrder(orderId);
   validateOrThrow(registerPayment.amount === fromWib(price), 'amount did not match price');
-  const fee = (price * (sellers.length * (notarizationPercentage / 100))) + notarizationFee;
+  const fee = (price * (paidSellers.length * (notarizationPercentage / 100))) + notarizationFee;
   validateOrThrow(Number(registerPayment.fee) === fee, 'fee did not match requested fee');
 
-  const addressesByBatPayId = sellers.reduce((acc, seller) => (
-    {
-      ...acc, [seller.id]: acc[seller.id] ? [...acc[seller.id], seller.address] : [seller.address],
-    }), {});
-
+  const addressesByBatPayId = getResultsByBatPayId(paidSellers, rejectedSellers);
   await sellersByPayIndex.store(payIndex, addressesByBatPayId);
 
   await axios.post(
