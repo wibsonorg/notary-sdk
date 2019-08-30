@@ -30,9 +30,9 @@ export const { sellersByPayIndex } = td.replace('../../src/utils/stores', {
     safeFetch: sinon
       .stub()
       .resolves({
-        8: ['0x075a22bc34b55322cabb0aa87d9e590e01b942c4'],
-        9: ['0x075a22bc34b55322cabb0aa87d9e590e01b942c5'],
-        10: ['0x075a22bc34b55322cabb0aa87d9e590e01b942c6'],
+        8: { completed: ['0x075a22bc34b55322cabb0aa87d9e590e01b942c4'] },
+        9: { completed: ['0x075a22bc34b55322cabb0aa87d9e590e01b942c5'] },
+        10: { completed: ['0x075a22bc34b55322cabb0aa87d9e590e01b942c6'] },
       }),
   },
 });
