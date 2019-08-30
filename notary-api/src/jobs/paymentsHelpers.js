@@ -1,12 +1,15 @@
 import R from 'ramda';
 
-const reformatNotarizations = result =>
-  R.pipe(
+const reformatNotarizations = (result) => {
+  const reformat = R.pipe(
     R.groupBy(R.prop('id')), // Object<BatPayId, Array<Pair<BatPayId,Address>>>
     R.map(R.pluck('address')), // Object<BatPayId, Array<Address>>
     R.mapObjIndexed(addresses => ({ [result]: addresses })),
     // Object<BatPayId, Object<result,Array<Address>>>
   );
+
+  return sellers => (sellers ? reformat(sellers) : {});
+};
 
 const mergeByBatPayId = (id, left, right) => ({ ...left, ...right });
 
