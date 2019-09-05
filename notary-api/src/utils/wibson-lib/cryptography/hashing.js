@@ -73,6 +73,8 @@ const signPayload = (privateKey, ...args) => {
   return signMessage(privateKey, messageHash);
 };
 
+const sha3 = message => web3.utils.sha3(message);
+
 export {
   hashData,
   checkDataHash,
@@ -80,4 +82,5 @@ export {
   hashMessage,
   signMessage,
   signPayload,
+  sha3,
 };

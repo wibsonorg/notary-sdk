@@ -1,4 +1,8 @@
 import ethCrypto from 'eth-crypto';
+import { AES, enc } from 'crypto-js';
+
+export const AESencrypt = (key, msg) => AES.encrypt(msg, key).toString();
+export const AESdecrypt = (key, msg) => AES.decrypt(msg, key).toString(enc.Utf8);
 
 /**
  * It creates a signed and encrypted message.
@@ -7,7 +11,7 @@ import ethCrypto from 'eth-crypto';
  * @param {string} message the message to encrypt.
  * @public
  */
-const encryptSignedMessage = async (senderPrivateKey, targetPublicKey, message) => {
+export async function encryptSignedMessage(senderPrivateKey, targetPublicKey, message) {
   if (!senderPrivateKey || !targetPublicKey) throw new Error('Keys must exist');
 
   // 1. we sign the message
@@ -26,16 +30,16 @@ const encryptSignedMessage = async (senderPrivateKey, targetPublicKey, message) 
 
   // 4. we serialize it
   return ethCrypto.cipher.stringify(encrypted);
-};
+}
 
 /**
  * It decrypts a signed message, checking it is from the expected sender.
  * @param {string} senderAddress Sender's ethereum address.
- * @param {string} targetPublicKey Ethereum public key of the target account.
+ * @param {string} targetPrivateKey Ethereum public key of the target account.
  * @param {string} encrypted the signed message to decrypt.
  * @public
  */
-const decryptSignedMessage = async (senderAddress, targetPrivateKey, encrypted) => {
+export async function decryptSignedMessage(senderAddress, targetPrivateKey, encrypted) {
   if (!senderAddress || !targetPrivateKey) {
     throw new Error('Sender address and target private key must exist');
   }
@@ -56,6 +60,4 @@ const decryptSignedMessage = async (senderAddress, targetPrivateKey, encrypted) 
   }
 
   return decryptedPayload.message;
-};
-
-export { encryptSignedMessage, decryptSignedMessage };
+}

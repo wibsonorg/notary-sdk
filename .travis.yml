@@ -1,12 +1,12 @@
 dist: xenial
 language: node_js
-
+if: type = pull_request OR tag IS present
 node_js:
 - '8'
 
 env:
-- WORKING_DIR=notary-api SKIP_AUDIT=true SKIP_TESTS=true
-- WORKING_DIR=notary-signing-service SKIP_AUDIT=true SKIP_TESTS=true
+- WORKING_DIR=notary-api
+- WORKING_DIR=notary-signing-service
 
 cache:
   directories:
@@ -16,6 +16,7 @@ before_install: npm i -g npm@6.1.0
 
 install:
 - cd $WORKING_DIR
+- npm prune
 - npm install
 
 before_script:
