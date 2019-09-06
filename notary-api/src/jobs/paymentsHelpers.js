@@ -41,5 +41,9 @@ const mergeByBatPayId = (id, completed, rejected) => ({ completed, rejected });
  * the notarization done by the notary.
  * @returns {Object<BatPayID, ValidationResult>} All validated sellers grouped by BatPayID
  * */
-export const getResultsByBatPayId = (completedSellers, rejectedSellers) =>
-  R.mergeWithKey(mergeByBatPayId, reformat(completedSellers), reformat(rejectedSellers));
+export const getResultsByBatPayId = (completedSellers, rejectedSellers) => {
+  const completed = reformat(completedSellers || []);
+  const rejected = reformat(rejectedSellers || []);
+
+  return R.mergeWithKey(mergeByBatPayId, completed, rejected);
+};
