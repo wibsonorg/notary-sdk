@@ -7,7 +7,7 @@ const ZERO_ACCOUNT = '0x0000000000000000000000000000000000000000';
 
 const ERROR_INCOMPLETE_REGISTRATION = {
   message: 'The registration for this id is not completed still',
-  code: 'registrationIncompleted',
+  code: 'incompleteRegistration',
 };
 
 const ERROR_INVALID_BATPAY_ID = {
