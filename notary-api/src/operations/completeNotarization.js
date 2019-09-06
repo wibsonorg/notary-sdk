@@ -35,7 +35,7 @@ export const completeNotarization = async (lockingKeyHash, validatorResult = [])
         validatedSellers,
       );
 
-      const sellersPaid = await Promise.all(goodSellers.map(async (seller) => {
+      const sellersToBePaid = await Promise.all(goodSellers.map(async (seller) => {
         const { decryptionKey } = await dataResponses.fetch(`${orderId}:${seller.address}`);
         return {
           ...seller,
@@ -46,14 +46,14 @@ export const completeNotarization = async (lockingKeyHash, validatorResult = [])
       return {
         status: 'validated',
         result: {
-          sellers: sellersPaid,
+          sellers: sellersToBePaid,
           rejectedSellers,
           orderId,
           notaryAddress,
           notarizationPercentage,
           notarizationFee,
           // TODO: is `payDataHash` still necessary?
-          payDataHash: sha3(packPayData(sellersPaid.map(({ id }) => id))),
+          payDataHash: sha3(packPayData(sellersToBePaid.map(({ id }) => id))),
           lockingKeyHash,
         },
       };
