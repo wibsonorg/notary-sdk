@@ -24,7 +24,7 @@ it('Invalid Id', async (assert) => {
 it('When the resgistration id is not completed', async (assert) => {
   BatPay.methods.accounts().call.resolves({ owner: '0x0000000000000000000000000000000000000000' });
   const { error } = await getAddressesByBatPayId(params);
-  assert.is(error.code, 'registrationIncompleted');
+  assert.is(error.code, 'incompleteRegistration');
 });
 
 it('When the signature is invalid or don\'t correspond to this batPayId', async (assert) => {
