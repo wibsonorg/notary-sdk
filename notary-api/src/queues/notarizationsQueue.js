@@ -4,6 +4,7 @@ import { notarizationResults, dataResponses } from '../utils/stores';
 import { validateDataBatch } from '../services/validatorService';
 import { completeNotarizationJob } from '../operations/completeNotarization';
 import { decryptWithPrivateKey } from '../utils/wibson-lib/cryptography';
+import logger from '../utils/logger';
 
 const queueName = 'NotarizationQueue';
 const defaultJobOptions = {
@@ -57,5 +58,14 @@ export const notarize = async (lockingKeyHash) => {
 };
 
 notarizationQueue.process('notarize', ({ data }) => notarize(data));
+notarizationQueue.on('failed', ({
+  id, name, failedReason, data, attemptsMade,
+}) => {
+  logger.crit('NotarizationQueue :: Could not notarize\n' +
+    `Error on '${name}' processor: ${failedReason}\n` +
+    `Job ID: ${id} | Attemps made: ${attemptsMade}\n` +
+    `Data: ${JSON.stringify(data)}`);
+});
+
 export const addNotarizationJob = lockingKeyHash =>
   notarizationQueue.add('notarize', lockingKeyHash);
