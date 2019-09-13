@@ -6,7 +6,6 @@ import bodyParser from 'body-parser';
 import boom from 'express-boom';
 import swagger from 'swagger-tools';
 import config from '../config';
-import { logger, errorHandler } from './utils';
 import {
   health,
   buyers,
@@ -16,20 +15,25 @@ import {
   notaryInfo,
 } from './routes';
 import schema from './schema';
+import { errorHandler } from './utils/routes';
+import { stream } from './utils/logger';
 
 const app = express();
 swagger.initializeMiddleware(schema, ({ swaggerMetadata, swaggerValidator, swaggerUi }) => {
-  app.use(boom());
-  app.use(swaggerMetadata());
-  app.use(helmet());
-  app.use(morgan('combined', {
-    stream: logger.stream,
+  app.use(boom()); // response helpers for errors
+  app.use(helmet()); // protection against common attacks
+  app.use(cors()); // control over which sites can make requests and what verbs
+  // Parsers
+  app.use(bodyParser.json({ limit: config.bodySizeLimit }));
+  // Access log
+  app.use(morgan(config.logType || 'combined', {
+    stream,
     skip: () => config.env === 'test',
   }));
-  app.use(cors());
+
+  app.use(swaggerMetadata());
   app.use(swaggerValidator());
   app.use(swaggerUi({ swaggerUi: '/api-docs', apiDocs: '/api-docs.json' }));
-  app.use(bodyParser.json({ limit: config.bodySizeLimit }));
   // eslint-disable-next-line no-unused-vars
   app.use((error, req, res, next) => { throw error; });
 

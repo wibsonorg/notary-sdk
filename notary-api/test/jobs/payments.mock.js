@@ -3,7 +3,12 @@ import sinon from 'sinon';
 import test from 'ava';
 import { packPayData } from '../../src/blockchain/batPay';
 
-export const sellers = [{ sellerId: 7 }, { sellerId: 13 }, { sellerId: 33 }, { sellerId: 42 }];
+export const sellers = [
+  { id: 7, address: '0x075a22bc34b55322cabb0aa87d9e590e01b942c4' },
+  { id: 13, address: '0x075a22bc34b55322cabb0aa87d9e590e01b942c5' },
+  { id: 33, address: '0x075a22bc34b55322cabb0aa87d9e590e01b942c6' },
+  { id: 42, address: '0x075a22bc34b55322cabb0aa87d9e590e01b942c3' },
+];
 export const axios = td.replace('axios', { post: sinon.stub() });
 export const { brokerUrl, batPayId } = td.replace('../../config', {
   brokerUrl: 'SomeBrokerUrl',
@@ -24,7 +29,7 @@ export const { notarizationResults, sellersByPayIndex } = td.replace('../../src/
 
 export const registerPayment = {
   lockingKeyHash: 'SomeLock',
-  payData: packPayData(sellers),
+  payData: packPayData(sellers.map(({ id }) => id)),
   metadata: 'SomeCreationHash',
   amount: '250000000000',
   fee: 142,

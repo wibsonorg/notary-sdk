@@ -1,3 +1,4 @@
+import R from 'ramda';
 import { notarizationResults, dataResponses } from '../utils/stores';
 import { getAccount } from '../services/signingService';
 import { getResultFromValidation } from '../services/validatorService';
@@ -17,38 +18,47 @@ import { jobify } from '../utils/jobify';
 export const completeNotarization = async (lockingKeyHash, validatorResult = []) => {
   const { address: notaryAddress } = await getAccount();
 
-  await notarizationResults.update(lockingKeyHash, async ({
-    masterKey,
-    request: { orderId },
-    result: { notarizationPercentage, notarizationFee, sellers },
-  }) => {
-    const filteredSellers = await Promise.all(sellers
-      .map(seller => ({
+  await notarizationResults.update(
+    lockingKeyHash,
+    async ({
+      masterKey,
+      request: { orderId },
+      result: { notarizationPercentage, notarizationFee, sellers },
+    }) => {
+      const validatedSellers = sellers.map(seller => ({
         ...seller,
         result: getResultFromValidation(validatorResult.find(({ id }) => id === seller.address)),
-      }))
-      .filter(v => v.result !== 'rejected')
-      .map(async (seller) => {
+      }));
+
+      const [rejectedSellers, goodSellers] = R.partition(
+        R.propEq('result', 'rejected'),
+        validatedSellers,
+      );
+
+      const sellersToBePaid = await Promise.all(goodSellers.map(async (seller) => {
         const { decryptionKey } = await dataResponses.fetch(`${orderId}:${seller.address}`);
         return {
           ...seller,
           decryptionKeyEncryptedWithMasterKey: AESencrypt(masterKey, decryptionKey),
         };
       }));
-    return {
-      status: 'validated',
-      result: {
-        sellers: filteredSellers,
-        orderId,
-        notaryAddress,
-        notarizationPercentage,
-        notarizationFee,
-        // TODO: is `payDataHash` still necessary?
-        payDataHash: sha3(packPayData(filteredSellers.map(({ id }) => id))),
-        lockingKeyHash,
-      },
-    };
-  });
+
+      return {
+        status: 'validated',
+        result: {
+          sellers: sellersToBePaid,
+          rejectedSellers,
+          orderId,
+          notaryAddress,
+          notarizationPercentage,
+          notarizationFee,
+          // TODO: is `payDataHash` still necessary?
+          payDataHash: sha3(packPayData(sellersToBePaid.map(({ id }) => id))),
+          lockingKeyHash,
+        },
+      };
+    },
+  );
 
   respondNotarizationJob(lockingKeyHash);
 };

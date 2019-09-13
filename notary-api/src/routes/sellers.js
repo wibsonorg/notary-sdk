@@ -76,7 +76,7 @@ router.post('/heads-up', asyncError(async (req, res) => {
  *         description: Problem on our side
  */
 router.get('/payment', asyncError(async (req, res) => {
-  const { addresses, error } = await getAddressesByBatPayId(req.query);
+  const { error, ...addresses } = await getAddressesByBatPayId(req.query);
   if (!error) {
     res.json(addresses);
   } else {

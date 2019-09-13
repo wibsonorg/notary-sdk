@@ -35,7 +35,7 @@ export function createQueue(queueName, jobOpts = {}) {
   });
 
   queue.on('paused', () => {
-    logger.warn(`[${fullJobId(queueName)}] PAUSED.`);
+    logger.warning(`[${fullJobId(queueName)}] PAUSED.`);
   });
 
   queue.enqueue = (jobType, data, options) => {

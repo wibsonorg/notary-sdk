@@ -6,8 +6,8 @@ import { decryptData } from '../services/signingService';
 const ZERO_ACCOUNT = '0x0000000000000000000000000000000000000000';
 
 const ERROR_INCOMPLETE_REGISTRATION = {
-  message: 'The registration for this id is not completed still',
-  code: 'registrationImcompleted',
+  message: 'The registration for this id is still incomplete',
+  code: 'incompleteRegistration',
 };
 
 const ERROR_INVALID_BATPAY_ID = {
@@ -47,5 +47,5 @@ export const getAddressesByBatPayId = async ({ payIndex, batPayId, signature }) 
     return { error: ERROR_INVALID_BATPAY_ID };
   }
   const sellers = await sellersByPayIndex.safeFetch(payIndex, {});
-  return { addresses: sellers[batPayId] || [] };
+  return sellers[batPayId] || { completed: [], rejected: [] };
 };
