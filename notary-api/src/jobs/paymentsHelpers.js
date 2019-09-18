@@ -24,13 +24,12 @@ const reformat = R.pipe(
 );
 
 /**
- * @function mergeByBatPayId Merges two groups of sellers, creating a ValidationResult.
- * @param {BatPayID} id
+ * @function mergeGroups Merges two groups of sellers, creating a ValidationResult.
  * @param {Array<Seller>} completed All sellers that completed the notarization successfully
  * @param {Array<Seller>} rejected All sellers that failed the notarization done by the notary
  * @returns {ValidationResult} A group of validated sellers.
  * */
-const mergeByBatPayId = (id, completed, rejected) => ({ completed, rejected });
+const mergeGroups = (completed = [], rejected = []) => ({ completed, rejected });
 
 /**
  * @function getResultsByBatPayId Reorganizes the results between all completed and
@@ -44,6 +43,13 @@ const mergeByBatPayId = (id, completed, rejected) => ({ completed, rejected });
 export const getResultsByBatPayId = (completedSellers, rejectedSellers) => {
   const completed = reformat(completedSellers || []);
   const rejected = reformat(rejectedSellers || []);
+  const uniqueIds = R.union(Object.keys(completed), Object.keys(rejected));
 
-  return R.mergeWithKey(mergeByBatPayId, completed, rejected);
+  return uniqueIds.reduce(
+    (all, id) => ({
+      ...all,
+      [id]: mergeGroups(completed[id], rejected[id]),
+    }),
+    {},
+  );
 };
