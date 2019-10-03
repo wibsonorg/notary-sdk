@@ -6,6 +6,16 @@ import loadEnv from '../utils/wibson-lib/loadEnv';
 
 const getTaskName = (path, captureName) => path.replace(captureName, '$1').replace(/\//g, ':');
 
+const getPathTasks = (path, captureName) => {
+  const tasks = require(path).default;
+  if (typeof tasks === 'object') {
+    return tasks;
+  }
+  return {
+    [getTaskName(path, captureName)]: tasks,
+  };
+};
+
 const getTasks = () => {
   const paths = glob.sync(`${__dirname}/**/*.js`, { ignore: `${__dirname}/index.js` });
   const captureName = new RegExp(`${__dirname}/(.*).js`);
@@ -13,7 +23,7 @@ const getTasks = () => {
   return paths.reduce(
     (accumulator, path) => ({
       ...accumulator,
-      [getTaskName(path, captureName)]: require(path).default,
+      ...getPathTasks(path, captureName),
     }),
     {},
   );
