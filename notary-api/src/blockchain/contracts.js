@@ -35,12 +35,12 @@ export async function fetchTxLogs(e) {
  * @param {String} property The property name to get the list from.
  * @returns {Array} An array of elements stored in the property.
  */
-export async function getElements(contract, property, start = 0) {
+export async function getElements(contract, property, start = 24) {
   if (!contract) throw new Error('Contract must exist');
   const elements = [];
   const getElement = i => contract.methods[property](i).call();
   try {
-    let e = await getElement(0);
+    let e = await getElement(24);
     for (let i = start; e && e !== '0x'; i += 1) {
       /* eslint-disable no-await-in-loop */
       elements.push(e);
