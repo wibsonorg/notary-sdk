@@ -1,6 +1,5 @@
 import td from 'testdouble';
 import sinon from 'sinon';
-import test from 'ava';
 
 export const sellersByPayIndexOldFacade = [
   {
