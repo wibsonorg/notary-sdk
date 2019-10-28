@@ -1,6 +1,6 @@
 {
   "name": "notary-api",
-  "version": "2.0.8-rc-1",
+  "version": "2.0.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/wibsonorg/notary-sdk"
