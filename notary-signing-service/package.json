@@ -20,7 +20,7 @@
     "apicache": "^1.2.3",
     "async-redis": "^1.1.4",
     "aws-sdk": "^2.188.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "crypto-js": "^3.1.9-1",
