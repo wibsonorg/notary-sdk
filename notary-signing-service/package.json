@@ -33,7 +33,7 @@
     "level": "^4.0.0",
     "morgan": "1.9.1",
     "node-forge": "^0.7.1",
-    "openpgp": "3.1.0",
+    "openpgp": "4.3.0",
     "read": "1.0.7",
     "redis": "^2.8.0",
     "request": "^2.87.0",
