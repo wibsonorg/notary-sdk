@@ -33,7 +33,7 @@ const fetchData = async (orderId, seller) => {
  * @param {number} orderId
  * @param {object[]} sellers
  */
-const prepareDataBatchForValidation = (orderId, sellers) =>
+export const prepareDataBatchForValidation = (orderId, sellers) =>
   Promise.all(sellers.map(async seller => ({
     id: seller.address,
     data: await fetchData(orderId, seller),
